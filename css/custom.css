@@ -1,3 +1,6 @@
+/* CSS customizado do Medline
+Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente do Bootstrap*/
+
 .text-center {
     font-family: 'Varela Round', sans-serif;
     background:#73B7C0;
@@ -44,7 +47,7 @@ display: inline;
     margin: 30px 0 -15px;
 }
 .modal-login .form-control:focus {
-    border-color: #70c5c0;
+    border-color: #73B7C0;
 }
 .modal-login .form-control, .modal-login .btn {
     min-height: 40px;
@@ -56,8 +59,8 @@ display: inline;
     right: -5px;
 }	
 .modal-login .modal-footer {
-    background: #ecf0f1;
-    border-color: #dee4e7;
+    background: #bdbdbd;
+    border-color: #bdbdbd;
     text-align: center;
     justify-content: center;
     margin: 0 -20px -20px;
@@ -65,19 +68,19 @@ display: inline;
     font-size: 13px;
 }
 .modal-login .modal-footer a {
-    color: #999;
+    color: #757575;
 }		
 .modal-login .avatar {
     position: absolute;
     margin: 0 auto;
     left: 0;
     right: 0;
-    top: -70px;
+    top: -60px;
     width: 95px;
-    height: 95px;
+    height: 106px;
     border-radius: 50%;
     z-index: 9;
-    background: #60c7c1;
+    background: #73B7C0;
     padding: 15px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 }
@@ -90,7 +93,7 @@ display: inline;
 .modal-login .btn, .modal-login .btn:focus {
     color: #fff;
     border-radius: 4px;
-    background: #60c7c1;
+    background: #73B7C0;
     text-decoration: none;
     transition: all 0.4s;
     line-height: normal;
