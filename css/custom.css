@@ -1,6 +1,8 @@
 /* CSS customizado do Medline
 Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente do Bootstrap*/
 
+
+/* CSS index.html -----------------------------------------------------------------------------*/ 
 .text-center {
     font-family: 'Varela Round', sans-serif;
     background:#73B7C0;
@@ -25,7 +27,6 @@ display: inline;
    background: #BDBDBD;
    outline: none;
 }
-
 
 .modal-login {		
     color: #636363;
@@ -107,3 +108,6 @@ display: inline;
     display: inline-block;
     margin: 100px auto;
 }
+
+
+
