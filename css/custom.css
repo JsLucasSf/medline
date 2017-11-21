@@ -1,13 +1,9 @@
-.main {
-    background:#73B7C0;
-}
-
 .text-center {
     font-family: 'Varela Round', sans-serif;
     background:#73B7C0;
 }
 
-.text-center .btn {
+.text-center .btn,  .text-center .btn:focus {
     color: #fff;
     border-radius: 4px;
     background: #2E3E4E;
@@ -22,7 +18,7 @@
 display: inline;
 }
 
-.text-center .btn:hover, .btn:focus {
+.text-center .btn:hover {
    background: #BDBDBD;
    outline: none;
 }
@@ -91,7 +87,7 @@ display: inline;
 .modal-login.modal-dialog {
     margin-top: 80px;
 }
-.modal-login .btn {
+.modal-login .btn, .modal-login .btn:focus {
     color: #fff;
     border-radius: 4px;
     background: #60c7c1;
@@ -100,7 +96,7 @@ display: inline;
     line-height: normal;
     border: none;
 }
-.modal-login .btn:hover, .modal-login .btn:focus {
+.modal-login .btn:hover {
     background: #45aba6;
     outline: none;
 }
