@@ -114,9 +114,16 @@ display: inline;
 /*CSS home --------------------------------------------------------------------------------*/
 @import url(http://fonts.googleapis.com/css?family=Lato);
 
+.main {
+    background: #b3e4ea;
+    overflow: auto;
+}
+
 .container
 {
-    width:800px;
+    background: #b3e4ea;
+    width: 900px;
+    height: 100%;
     overflow:hidden;
     display:inline-block;
 }
@@ -204,8 +211,10 @@ display: inline;
 
 .content
 {
+    background:#b3e4ea;
     padding-top: 40px;
-    padding-left: 300px;
+    padding-left: 340px;
+    padding-right: -20px;
     transition: padding-left 0.5s;
 }
 
@@ -219,4 +228,9 @@ display: inline;
 {
     padding-left:70px;
     transition: padding-left 0.5s;
+}
+
+p {
+    text-align: justify;
+    text-indent: 4em;
 }
