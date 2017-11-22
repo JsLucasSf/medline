@@ -3,6 +3,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 
 
 /* CSS index.html -----------------------------------------------------------------------------*/ 
+
 .text-center {
     font-family: 'Varela Round', sans-serif;
     background:#73B7C0;
@@ -11,21 +12,44 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 .text-center .btn,  .text-center .btn:focus {
     color: #fff;
     border-radius: 4px;
-    background: #2E3E4E;
+    background: #D9853B;
     text-decoration: none;
     transition: all 0.4s;
     line-height: normal;
     border: none;
-
-}
-
-.text-center .btn-group {
-display: inline;
+    width: 175px;
 }
 
 .text-center .btn:hover {
    background: #BDBDBD;
    outline: none;
+}
+
+#cadastro {
+    background: #2E3E4E;
+    width: 1350px;
+    height: 75px;
+    font: 15pt 'Varela Round', sans-serif;
+    color: #fff;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
+}
+
+#cadastro .btn, .btn:focus {
+    color: #fff;
+    border-radius: 4px;
+    background: #D9853B;
+    text-decoration: none;
+    transition: all 0.4s;
+    line-height: normal;
+    border:none;
+    width: auto;
+}
+
+#cadastro .btn:hover {
+    background: #BDBDBD;
+    outline: none;
 }
 
 .modal-login {		
@@ -119,14 +143,15 @@ display: inline;
     overflow: auto;
 }
 
-.container
+#container-sidebar
 {
     background: #b3e4ea;
-    width: 900px;
+    width: 1200px;
     height: 100%;
     overflow:hidden;
     display:inline-block;
 }
+
 .side-bar
 {
     background:#2E3E4E;
@@ -182,7 +207,7 @@ display: inline;
     text-decoration:none;
     display:inline-table;
     width:100%;
-    font-size: 16pt;
+    font-size: 15pt;
     padding-left:20px;
     padding-right:20px;
     padding-top:20px;
@@ -226,7 +251,7 @@ display: inline;
 
 .active > .content
 {
-    padding-left:70px;
+    padding-left:100px;
     transition: padding-left 0.5s;
 }
 
