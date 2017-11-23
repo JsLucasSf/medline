@@ -60,11 +60,17 @@ app.get("/clinica/:nome", function(req, res){
 })
 */
 
+app.get('/doctors/', function(req, res) { 
+  doctorController.list(function(resp){
+    res.json(resp)
+  });
+});
+
 app.get('/doctors/:id', function(req, res) {
   
     var id = validator.trim(validator.escape(req.param('id')));
   
-    doctorController.user(id, function(resp) {
+    doctorController.doctor(id, function(resp) {
   
       res.json(resp);
     });

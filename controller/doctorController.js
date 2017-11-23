@@ -6,7 +6,7 @@ exports.list = function(callback){
 
 		if(error) {
 
-			callback({error: 'Não foi possivel retornar os usuarios'});
+			callback({error: 'Não foi possivel retornar os medicos'});
 		} else {
 
 			callback(doctors);
@@ -21,7 +21,7 @@ exports.doctor = function(id, callback) {
 
 		if(error) {
 
-			callback({error: 'Não foi possivel retornar o usuario'});
+			callback({error: 'Não foi possivel retornar o medico'});
 		} else {
 
 			callback(doctor);
@@ -42,7 +42,7 @@ exports.save = function(fullname, email, password, callback){
 
 		if(error) {
 
-			callback({error: 'Não foi possivel salvar o usuario'});
+			callback({error: 'Não foi possivel salvar o medico'});
 		} else {
 
 			callback(doctor);
@@ -74,7 +74,7 @@ exports.update = function(id, fullname, email, password, callback) {
 
 			if(error) {
 
-				callback({error: 'Não foi possivel salvar o usuario'});
+				callback({error: 'Não foi possivel salvar o medico'});
 			} else {
 
 				callback(doctor);
@@ -90,14 +90,14 @@ exports.delete = function(id, callback) {
 
 		if(error) {
 
-			callback({error: 'Não foi possivel retornar o usuario'});
+			callback({error: 'Não foi possivel retornar o médico'});
 		} else {
 
 			doctor.remove(function(error) {
 
 				if(!error) {
 
-					callback({response: 'Usuário excluido com sucesso'});
+					callback({response: 'Médico excluido com sucesso'});
 				}
 			});
 		}
