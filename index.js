@@ -1,13 +1,10 @@
-/* Modules */
-let express = require("express");
-let app = express();
-let bodyParser = require("body-parser");
+var app = require('./app_config.js');
 
-/* Config */
-const PORT = 5000;
-app.use(bodyParser.urlencoded({ extended: true }))
+var validator = require('validator');
 
-let clinics = [];
+var doctorController = require('./controller/doctorController.js');
+
+var clinics = [];
 
 /* Routes */
 app.get("/", function(req, res){
@@ -20,9 +17,9 @@ app.get("/clinica/nova", function(req, res){
 })
 
 app.post("/clinica/nova", function(req, res){
-  let clinicName = req.body.name;
-  let clinicAddress = req.body.address;
-  let clinicPassword = req.body.password;
+  var clinicName = req.body.name;
+  var clinicAddress = req.body.address;
+  var clinicPassword = req.body.password;
   // NEED TO PROPER DEFINE THE CLINIC ATTRIBUTES
 
   if(clinicName && clinicAddress && clinicPassword){
@@ -62,6 +59,49 @@ app.get("/clinica/:nome", function(req, res){
   }
 })
 */
-app.listen(PORT, function(){
-  console.log("Server running on port: " + PORT);
-})
+
+app.get('/doctors/:id', function(req, res) {
+  
+    var id = validator.trim(validator.escape(req.param('id')));
+  
+    doctorController.user(id, function(resp) {
+  
+      res.json(resp);
+    });
+  });
+  
+  app.post('/doctors', function(req, res) {
+  
+    var fullname = validator.trim(validator.escape(req.param('fullname')));
+    var email = validator.trim(validator.escape(req.param('email')));
+    var password = validator.trim(validator.escape(req.param('password')));
+  
+    doctorController.save(fullname, email, password, function(resp) {
+  
+      res.json(resp);
+    });
+  });
+  
+  app.put('/doctors', function(req, res) {
+  
+    var id = validator.trim(validator.escape(req.param('id')));
+    var fullname = validator.trim(validator.escape(req.param('fullname')));
+    var email = validator.trim(validator.escape(req.param('email')));
+    var password = validator.trim(validator.escape(req.param('password')));
+  
+    doctorController.update(id, fullname, email, password, function(resp) {
+  
+      res.json(resp);
+    });
+  });
+  
+  app.delete('/doctors/:id', function(req, res) {
+  
+    var id = validator.trim(validator.escape(req.param('id')));
+  
+    doctorController.delete(id, function(resp) {
+  
+      res.json(resp);
+    });
+  
+  });
