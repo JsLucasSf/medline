@@ -103,3 +103,14 @@ exports.delete = function(id, callback) {
 		}
 	});
 };
+
+exports.authenticate = function(email, password, callback){
+	de.Doctor.find(email, function(error, doctor){
+		
+		if(error) {
+			callback({error: 'Não foi possivel retornar o medico'});
+		} else {
+			callback(doctor);
+		}
+	});
+};
