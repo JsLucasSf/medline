@@ -1,10 +1,15 @@
 var app = require('./app_config.js');
 
+var db = require('./db_config.js');
+
 var validator = require('validator');
 
 var doctorController = require('./controller/doctorController.js');
 
 var clinics = [];
+
+var CPF = require("cpf_cnpj").CPF;
+var CNPJ = require("cpf_cnpj").CNPJ;
 
 /* Routes */
 app.get("/", function(req, res){
@@ -18,33 +23,63 @@ app.get("/clinica/nova", function(req, res){
 
 app.post("/clinica/nova", function(req, res){
   var clinicName = req.body.name;
+  var clinicEmail = req.body.email;
+  var clinicCNPJ = req.body.cnpj;
   var clinicAddress = req.body.address;
   var clinicPassword = req.body.password;
-  // NEED TO PROPER DEFINE THE CLINIC ATTRIBUTES
 
-  if(clinicName && clinicAddress && clinicPassword){
-    const newClinic = {
-      "name" : clinicName,
-      "address" : clinicAddress,
-      "password" : clinicPassword
+  var errors = false;
+
+  if(clinicName && clinicAddress && clinicCNPJ && clinicPassword){
+    if(!validator.isEmail(clinicEmail)){
+      console.log("Email inválido");
+      errors = true;
+    }
+    if(!CNPJ.isValid(clinicCNPJ)){
+      console.log("CNPJ inválido");
+      errors = true;
     }
 
-    clinics.push(newClinic);
-    res.redirect("/lista-clinicas");
+    if(!errors){
+      const newClinic = {
+        "name" : clinicName,
+        "email" : clinicEmail,
+        "CNPJ" : clinicCNPJ,
+        "address" : clinicAddress,
+        "password" : clinicPassword
+      }
+
+      db.Clinic.create(newClinic, function(err, clinic){
+        if(err){
+          console.log("Something went wrong!");
+        }else{
+          console.log("Clinic created with success!");
+        }
+      });
+    }
   }
 
-  res.send(clinicName + clinicAddress);
+  res.redirect("/lista-clinicas");
 })
 
 // TEST
 app.get("/lista-clinicas", function(req, res){
-  res.render("index.ejs", {"clinics" : clinics});
+  var clinics = [];
+
+  db.Clinic.find({}, function(err, theClinics){
+    if(err){
+      console.log(err);
+    }else{
+      clinics = theClinics;
+    }
+    res.render("index.ejs", {"clinics" : clinics});
+  });
 })
 
 /*
 app.get("/clinica/:nome", function(req, res){
-  let nome = req.params.nome;
-  let clinicResponse = undefined;
+  var nome = req.params.nome;
+  var clinicResponse = undefined;
 
   for(clinic of clinics){
     if(clinic.name === nome){

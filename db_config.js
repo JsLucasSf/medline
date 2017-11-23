@@ -21,7 +21,15 @@ db.once('open', function() {
 		password: String,
 		created_at: Date
     });
-    
+
+    var clinicSchema = mongoose.Schema({
+        name : String,
+        email : String,
+        cnpj : String,
+        address : String,
+        password : String
+      });
+      
     //authenticate input against database
 /*   doctorSchema.statics.authenticate = function (email, password, callback) {
     doctor.findOne({ email: email })
@@ -54,6 +62,8 @@ db.once('open', function() {
         next();
     })
     });*/
+
+    exports.Clinic = mongoose.model("Clinic", clinicSchema);
 
 	exports.Doctor = mongoose.model('Doctor', doctorSchema);
 });
