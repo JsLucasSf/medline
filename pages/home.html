@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="scotchApp">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,15 +7,20 @@
 <title>Medline</title>
 
 <head>
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/custom.css" rel="stylesheet">
+
+<link href="../css/custom.css" rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="js/custom.js"></script>
+<script src="../js/custom.js"></script>
 
+<!-- SPELLS -->
+<script src="../script.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.js"></script>
 
 
 <style>
@@ -25,30 +30,30 @@
 </head>
 
 
-<body class="main">
+<body class="main" ng-controller="mainController">
 <div class="container" id="container-sidebar">
         <div class="row">
             <div class="wrapper">
                 <div class="side-bar">
                     <ul>
                         <li class="menu-head">
-                            <img src="images/logo_onlyName.png" style="width: 210px; height: auto;"><a href="#" class="push_menu"><img src="images/logo_noName.png" class="pull-right"></a>
+                            <img src="../images/logo_onlyName.png" style="width: 210px; height: auto;"><a href="#" class="push_menu"><img src="../images/logo_noName.png" class="pull-right"></a>
                         </li>
                         <div class="menu">
                             <li>
                             <hr>
                             </li>
                             <li>
-                                <a href="#"> Agenda <span class="glyphicon glyphicon-calendar pull-right"></span></a>
+                                <a href="#agenda"> Agenda <span class="glyphicon glyphicon-calendar pull-right"></span></a>
                             </li>
                             <li>
-                                <a href="#">Pacientes <span class="glyphicon glyphicon-user pull-right"></span></a>
+                                <a href="#pacientes">Pacientes <span class="glyphicon glyphicon-user pull-right"></span></a>
                             </li>
                             <li>
-                                <a href="#"> Médicos <span class="glyphicon glyphicon-briefcase pull-right"></span></a>
+                                <a href="#medicos"> Médicos <span class="glyphicon glyphicon-briefcase pull-right"></span></a>
                             </li>
                             <li>
-                                <a href="#">Configurações <span class="glyphicon glyphicon-cog pull-right"></span></a>
+                                <a href="#config">Configurações <span class="glyphicon glyphicon-cog pull-right"></span></a>
                                 </li>
                             <li>
                                 <a data-toggle="modal" data-target="#sair">Sair <span class="glyphicon glyphicon-log-out pull-right"></span></a>
@@ -59,7 +64,9 @@
                 </div>  
                 <div class="content">
                         <div class="col-md-12">
-                               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat sapien non velit 
+
+                    
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat sapien non velit 
                                 vulputate imperdiet. Aenean finibus viverra vehicula. Cras accumsan id lacus placerat ultrices. 
                                 Donec in ligula nulla. Nunc facilisis mi odio, sed sollicitudin augue convallis dapibus. 
                                 Nulla eget tempus erat, nec dapibus purus. Curabitur pulvinar mollis ante sed accumsan. 
@@ -74,7 +81,7 @@
                                 <div class="panel-body">
                                     Conteudo do panel - teste
                                 </div>
-                            </div>
+                            </div> 
                         </div>
                     </div>
             </div>
