@@ -20,7 +20,19 @@ app.use(allowCors);
 
 app.use(bodyParser.json());
 
+app.use(express.static(__dirname + '/views'));
+
 app.use(bodyParser.urlencoded({
 
 	extended: true
 }));
+
+app.use(require("express-session")({
+  secret : "super secret string",
+  resave : false,
+  saveUninitialized : false
+}));
+app.use(function(req, res, next){
+  res.locals.currentUser = req.user;
+  next();
+});

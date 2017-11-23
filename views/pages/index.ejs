@@ -26,9 +26,9 @@
 <meta name="theme-color" content="#ffffff">
 
 
-<!-- styles --> 
-<link href="../css/custom.css" rel="stylesheet">
-<link href="../css/bootstrap.min.css" rel="stylesheet">
+<!-- styles -->
+<link href="css/custom.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -42,13 +42,14 @@
 <div class="text-center"><br><br><br><br><br>
 	<img src="../images/logo.png"><br><br>
 	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#login">Entrar</button>
-	   
+
 
 <br><br><br><br><br><br><br><br><br><br>
 </div>
 
-<div class="container" id="cadastro">		
-	Ainda não é cadastrado? Faça seu cadastro agora mesmo <button type="button" class="btn btn-info btn-lg">Cadastre-se</button>
+<div class="container" id="cadastro">
+	Ainda não é cadastrado? Faça seu cadastro agora mesmo
+	<a type="button" class="btn btn-info btn-lg" href="/clinica/nova">Cadastre-se</a>
   </div>
 
 
@@ -61,22 +62,22 @@
 					<div class="avatar">
 							<img src="../images/avatarLogo.png" alt="Medline">
 					</div>				<br>
-					<h4 class="modal-title">Acessar o Medline</h4>	
+					<h4 class="modal-title">Acessar o Medline</h4>
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 				<div class="modal-body">
-					<form action="home.html" method="post">
+					<form action="/login" method="post">
 						<div class="form-group">
-							<input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>		
+							<input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
 						</div>
 						<div class="form-group">
-							<input type="password" class="form-control" name="password" placeholder="Senha" required="required">	
-						</div>      
+							<input type="password" class="form-control" name="password" placeholder="Senha" required="required">
+						</div>
 						<div class="form-group">
 								<input type="radio" name="tipo" value="clinica" checked="checked"> Clínica<br>
 								<input type="radio" name="tipo" value="medico"> Médico<br>
 								<input type="radio" name="tipo" value="paciente"> Paciente
-						</div>  
+						</div>
 						<div class="form-group">
 							<button type="submit" class="btn btn-primary btn-lg login-btn">Entrar</button>
 						</div>
@@ -87,8 +88,8 @@
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 
 </body>
-</html>                            
+</html>

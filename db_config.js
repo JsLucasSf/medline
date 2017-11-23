@@ -18,7 +18,7 @@ db.on('error', console.error.bind(console, 'Erro ao conectar no banco'));
 
 var doctorSchema = mongoose.Schema({
 
-	fullname: String,
+	username: String,
 	email: String,
 	password: String,
 	created_at: Date
@@ -33,7 +33,7 @@ var clinicSchema = mongoose.Schema({
 });
 
 clinicSchema.plugin(passportLocalMongoose);
+doctorSchema.plugin(passportLocalMongoose);
 
 exports.Clinic = mongoose.model("Clinic", clinicSchema);
-
 exports.Doctor = mongoose.model('Doctor', doctorSchema);

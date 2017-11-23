@@ -14,7 +14,6 @@ exports.list = function(callback){
 	});
 };
 
-
 exports.doctor = function(id, callback) {
 
 	db.Doctor.findById(id, function(error, doctor) {
@@ -29,25 +28,38 @@ exports.doctor = function(id, callback) {
 	});
 };
 
+exports.save = function(username, email, password, callback){
 
-exports.save = function(fullname, email, password, callback){
-
-	new db.Doctor({
-
-		'fullname': fullname,
+	var newDoctor = {
+		'username': username,
 		'email': email,
-		'password': password,
 		'created_at': new Date()
-	}).save(function(error, doctor) {
+	}
 
-		if(error) {
-
-			callback({error: 'Não foi possivel salvar o medico'});
-		} else {
-
+	db.Doctor.register(newDoctor, password, function(error, doctor){
+		if(error){
+			console.log(error);
+			callback({error : "Não foi possível salvar o médico"});
+		}else{
 			callback(doctor);
 		}
 	});
+	// new db.Doctor({
+	//
+	// 	'fullname': fullname,
+	// 	'email': email,
+	// 	'password': password,
+	// 	'created_at': new Date()
+	// }).save(function(error, doctor) {
+	//
+	// 	if(error) {
+	//
+	// 		callback({error: 'Não foi possivel salvar o medico'});
+	// 	} else {
+	//
+	// 		callback(doctor);
+	// 	}
+	// });
 };
 
 
@@ -83,7 +95,6 @@ exports.update = function(id, fullname, email, password, callback) {
 	});
 };
 
-
 exports.delete = function(id, callback) {
 
 	db.Doctor.findById(id, function(error, doctor) {
@@ -106,7 +117,7 @@ exports.delete = function(id, callback) {
 
 exports.authenticate = function(email, password, callback){
 	db.Doctor.find(email, function(error, doctor){
-		
+
 		if(error) {
 			callback({error: 'Não foi possivel retornar o medico'});
 		} else {

@@ -6,23 +6,10 @@ var validator = require('validator');
 
 var doctorController = require('./controller/doctorController.js');
 
-var clinics = [];
-
 var CPF = require("cpf_cnpj").CPF;
 var CNPJ = require("cpf_cnpj").CNPJ;
 var passport = require("passport");
 var localStrategy = require("passport-local");
-
-
-app.use(require("express-session")({
-  secret : "super secret string",
-  resave : false,
-  saveUninitialized : false
-}));
-app.use(function(req, res, next){
-  res.locals.currentUser = req.user;
-  next();
-});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -33,12 +20,15 @@ passport.deserializeUser(db.Clinic.deserializeUser());
 
 /* Routes */
 app.get("/", function(req, res){
-  res.send("<h1>Welcome to the Medline API!</h1>");
+  res.render("./pages/index.ejs");
 })
 
+app.get("/home", isLoggedIn, function(req, res){
+  res.render("pages/home.ejs");
+});
 // TEST
 app.get("/clinica/nova", function(req, res){
-  res.render("nova_clinica.ejs", {message : undefined});
+  res.render("register_clinic.ejs", {message : undefined});
 })
 
 app.post("/clinica/nova", function(req, res){
@@ -78,13 +68,6 @@ app.post("/clinica/nova", function(req, res){
           });
         }
       });
-      // db.Clinic.create(newClinic, function(err, clinic){
-      //   if(err){
-      //     console.log(err);
-      //   }else{
-      //     console.log("Clinic created with success!");
-      //   }
-      // });
     }
   }
 
@@ -109,7 +92,7 @@ app.get("/login", function(req, res){
   res.render("login.ejs");
 })
 app.post("/login", passport.authenticate("local", {
-  successRedirect : "/lista-clinicas",
+  successRedirect : "/home",
   failureRedirect : "/login"
 }) ,function(req, res){
 
@@ -117,14 +100,14 @@ app.post("/login", passport.authenticate("local", {
 
 app.get("/logout", function(req, res){
   req.logout();
-  return res.redirect("/login");
+  return res.redirect("/");
 })
 
 function isLoggedIn(req, res, next){
   if(req.isAuthenticated()){
     return next();
   }
-  res.redirect("/login");
+  res.redirect("/");
 }
 
 app.get('/doctors/', function(req, res) {
@@ -135,46 +118,43 @@ app.get('/doctors/', function(req, res) {
 
 app.get('/doctors/:id', function(req, res) {
 
-    var id = validator.trim(validator.escape(req.param('id')));
+  var id = validator.trim(validator.escape(req.param('id')));
 
-    doctorController.doctor(id, function(resp) {
+  doctorController.doctor(id, function(resp) {
+    res.json(resp);
+  });
+});
 
-      res.json(resp);
-    });
+app.post('/doctors', function(req, res) {
+
+  var username = validator.trim(validator.escape(req.body.username));
+  var email = validator.trim(validator.escape(req.body.email));
+  var password = validator.trim(validator.escape(req.body.password));
+
+  doctorController.save(username, email, password, function(resp) {
+    res.json(resp);
+  });
+});
+
+app.put('/doctors', function(req, res) {
+
+  var id = validator.trim(validator.escape(req.param('id')));
+  var fullname = validator.trim(validator.escape(req.param('fullname')));
+  var email = validator.trim(validator.escape(req.param('email')));
+  var password = validator.trim(validator.escape(req.param('password')));
+
+  doctorController.update(id, fullname, email, password, function(resp) {
+    res.json(resp);
+  });
+});
+
+app.delete('/doctors/:id', function(req, res) {
+
+  var id = validator.trim(validator.escape(req.param('id')));
+
+  doctorController.delete(id, function(resp) {
+
+    res.json(resp);
   });
 
-  app.post('/doctors', function(req, res) {
-
-    var fullname = validator.trim(validator.escape(req.param('fullname')));
-    var email = validator.trim(validator.escape(req.param('email')));
-    var password = validator.trim(validator.escape(req.param('password')));
-
-    doctorController.save(fullname, email, password, function(resp) {
-
-      res.json(resp);
-    });
-  });
-
-  app.put('/doctors', function(req, res) {
-
-    var id = validator.trim(validator.escape(req.param('id')));
-    var fullname = validator.trim(validator.escape(req.param('fullname')));
-    var email = validator.trim(validator.escape(req.param('email')));
-    var password = validator.trim(validator.escape(req.param('password')));
-
-    doctorController.update(id, fullname, email, password, function(resp) {
-
-      res.json(resp);
-    });
-  });
-
-  app.delete('/doctors/:id', function(req, res) {
-
-    var id = validator.trim(validator.escape(req.param('id')));
-
-    doctorController.delete(id, function(resp) {
-
-      res.json(resp);
-    });
-
-  });
+});
