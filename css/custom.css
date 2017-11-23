@@ -74,7 +74,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 .modal-login .form-control:focus {
     border-color: #73B7C0;
 }
-.modal-login .form-control, .modal-login .btn {
+.modal-login .form-control{
     min-height: 40px;
     border-radius: 3px; 
 }
@@ -83,6 +83,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     top: -5px;
     right: -5px;
 }	
+
 .modal-login .modal-footer {
     background: #bdbdbd;
     border-color: #bdbdbd;
@@ -115,7 +116,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 .modal-login.modal-dialog {
     margin-top: 80px;
 }
-.modal-login .btn, .modal-login .btn:focus {
+.modal-login .btn, .modal-login .btn:focus{
     color: #fff;
     border-radius: 4px;
     background: #73B7C0;
@@ -128,17 +129,13 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     background: #45aba6;
     outline: none;
 }
-.trigger-btn {
-    display: inline-block;
-    margin: 100px auto;
-}
 
 
 
 /*CSS home --------------------------------------------------------------------------------*/
 @import url(http://fonts.googleapis.com/css?family=Lato);
 
-.main {
+#main {
     background: #b3e4ea;
     overflow: auto;
 }
@@ -234,7 +231,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     width:auto;
 }
 
-.content
+#main-content
 {
     background:#b3e4ea;
     padding-top: 40px;
@@ -249,7 +246,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     transition: margin-left 0.5s;
 }
 
-.active > .content
+.active > #main-content
 {
     padding-left:100px;
     transition: padding-left 0.5s;
