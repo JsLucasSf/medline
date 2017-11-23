@@ -1,13 +1,27 @@
 /* Modules */
-let express = require("express");
-let app = express();
-let bodyParser = require("body-parser");
+var express = require("express");
+var app = express();
+var bodyParser = require("body-parser");
+var mongoose = require("mongoose");
+var validator = require("validator");
+var CPF = require("cpf_cnpj").CPF;
+var CNPJ = require("cpf_cnpj").CNPJ;
+
 
 /* Config */
 const PORT = 5000;
 app.use(bodyParser.urlencoded({ extended: true }))
+mongoose.connect("mongodb://localhost/medline_db");
 
-let clinics = [];
+var clinicSchema = mongoose.Schema({
+  name : String,
+  email : String,
+  cnpj : String,
+  address : String,
+  password : String
+});
+
+var Clinic = mongoose.model("Clinic", clinicSchema);
 
 /* Routes */
 app.get("/", function(req, res){
@@ -20,34 +34,64 @@ app.get("/clinica/nova", function(req, res){
 })
 
 app.post("/clinica/nova", function(req, res){
-  let clinicName = req.body.name;
-  let clinicAddress = req.body.address;
-  let clinicPassword = req.body.password;
-  // NEED TO PROPER DEFINE THE CLINIC ATTRIBUTES
+  var clinicName = req.body.name;
+  var clinicEmail = req.body.email;
+  var clinicCNPJ = req.body.cnpj;
+  var clinicAddress = req.body.address;
+  var clinicPassword = req.body.password;
 
-  if(clinicName && clinicAddress && clinicPassword){
-    const newClinic = {
-      "name" : clinicName,
-      "address" : clinicAddress,
-      "password" : clinicPassword
+  var errors = false;
+
+  if(clinicName && clinicAddress && clinicCNPJ && clinicPassword){
+    if(!validator.isEmail(clinicEmail)){
+      console.log("Email inválido");
+      errors = true;
+    }
+    if(!CNPJ.isValid(clinicCNPJ)){
+      console.log("CNPJ inválido");
+      errors = true;
     }
 
-    clinics.push(newClinic);
-    res.redirect("/lista-clinicas");
+    if(!errors){
+      const newClinic = {
+        "name" : clinicName,
+        "email" : clinicEmail,
+        "CNPJ" : clinicCNPJ,
+        "address" : clinicAddress,
+        "password" : clinicPassword
+      }
+
+      Clinic.create(newClinic, function(err, clinic){
+        if(err){
+          console.log("Something went wrong!");
+        }else{
+          console.log("Clinic created with success!");
+        }
+      });
+    }
   }
 
-  res.send(clinicName + clinicAddress);
+  res.redirect("/lista-clinicas");
 })
 
 // TEST
 app.get("/lista-clinicas", function(req, res){
-  res.render("index.ejs", {"clinics" : clinics});
+  var clinics = [];
+
+  Clinic.find({}, function(err, theClinics){
+    if(err){
+      console.log(err);
+    }else{
+      clinics = theClinics;
+    }
+    res.render("index.ejs", {"clinics" : clinics});
+  });
 })
 
 /*
 app.get("/clinica/:nome", function(req, res){
-  let nome = req.params.nome;
-  let clinicResponse = undefined;
+  var nome = req.params.nome;
+  var clinicResponse = undefined;
 
   for(clinic of clinics){
     if(clinic.name === nome){
