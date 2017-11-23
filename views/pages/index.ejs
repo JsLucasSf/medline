@@ -49,7 +49,8 @@
 
 <div class="container" id="cadastro">
 	Ainda não é cadastrado? Faça seu cadastro agora mesmo
-	<a type="button" class="btn btn-info btn-lg" href="/clinica/nova">Cadastre-se</a>
+	<a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastrar">Cadastre-se</a>
+	<!-- Aqui no href antes tava /clinica/nova! Tirei pra poder abrir o modal que kallynny fez -->
   </div>
 
 
@@ -89,7 +90,102 @@
 			</div>
 		</div>
 
-	</div>
+	</div> <!-- Fim do Modal Login -->
+
+
+	<!-- Modal Cadastrar -->
+    <div id="cadastrar" class="modal fade">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cadastro do Usuário</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form action="home.html" method="post">
+                        <div class="container" id="cadastroMedico" id="cadastroClinica">
+                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastroMedicos" >Médico</button>
+                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastroClinica" >Clínica</button>
+                          </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Fim modal-cadastro -->
+
+<!-- Modal-Cadastro Médico -->
+<div id="cadastroMedicos" class="modal fade">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="avatar">
+                        <img src="images/avatarLogo.png">
+                </div>              <br>
+                <h4 class="modal-title">Cadastro Médico</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="home.html" method="post">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" class="form-control" name="age" placeholder="Idade" required="required" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="cellphone" placeholder="Telefone" required="required" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="crmNumber" placeholder="Número do CRM" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="specialty" placeholder="Especialidade" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg cadastrar-btn">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim Modal-Cadastro Médico -->
+
+<!-- Modal-Cadastro Clinica -->
+<div id="cadastroClinica" class="modal fade">
+    <div class="modal-dialog modal-login">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="avatar">
+                        <img src="images/avatarLogo.png">
+                </div>              <br>
+                <h4 class="modal-title">Cadastro Clínica</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="home.html" method="post">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="username" placeholder="Nome da Clínica" required="required" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
+                    </div>
+          <div class="form-group">
+                        <input type="text" class="form-control" name="telephone" placeholder="Telefone" required="required" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg cadastrar-btn">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fim Modal-Cadastro Clinica -->
 
 </body>
 </html>
