@@ -1,8 +1,7 @@
 /* CSS customizado do Medline
 Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente do Bootstrap*/
 
-
-/* CSS index.html -----------------------------------------------------------------------------*/ 
+/* CSS index ----------------------------*/
 
 .text-center {
     font-family: 'Varela Round', sans-serif;
@@ -36,7 +35,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     text-align: right;
 }
 
-#cadastro .btn, .btn:focus {
+#cadastro .btn, #cadastro .btn:focus {
     color: #fff;
     border-radius: 4px;
     background: #D9853B;
@@ -116,23 +115,25 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 .modal-login.modal-dialog {
     margin-top: 80px;
 }
-.modal-login .btn, .modal-login .btn:focus{
+
+.modal-login .btn, .modal-login .btn:focus, .modal-login .btn:active{
     color: #fff;
     border-radius: 4px;
-    background: #73B7C0;
+    background: #D9853B;
     text-decoration: none;
     transition: all 0.4s;
     line-height: normal;
     border: none;
 }
+
 .modal-login .btn:hover {
-    background: #45aba6;
+    background: #BDBDBD;
     outline: none;
 }
 
 
 
-/*CSS home --------------------------------------------------------------------------------*/
+/*CSS home ------------------------------------------------------------------------------*/
 @import url(http://fonts.googleapis.com/css?family=Lato);
 
 #main {
@@ -217,7 +218,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     padding-left:17px;
 }
 
-.side-bar ul .menu li  a:active, a:focus
+.side-bar ul .menu li  a:active, .menu li a:focus
 {
     padding-left:17px;
     background:#D9853B;
@@ -245,6 +246,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     margin-left:-230px;   
     transition: margin-left 0.5s;
 }
+
 
 .active > #main-content
 {
