@@ -37,16 +37,15 @@
 </head>
 
 
-<body>
+<body style="background: #73B7C0">
 <div class="text-center"><br><br><br><br><br>
 	<img src="../images/logo.png"><br><br>
 	<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#login">Entrar</button>
 
 
-<br><br><br><br><br><br><br><br><br><br>
 </div>
 
-<div class="container" id="cadastro">
+<div class="navbar navbar-fixed-bottom" id="cadastro">
 	Ainda não é cadastrado? Faça seu cadastro agora mesmo
 	<a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastrar">Cadastre-se</a>
 	<!-- Aqui no href antes tava /clinica/nova! Tirei pra poder abrir o modal que kallynny fez -->
@@ -97,7 +96,7 @@
         <div class="modal-dialog modal-login">
             <div class="modal-content">
 							<div class="modal-header">
-								<div class="avatar">
+								<div class="avatar-cadastro">
 										<img src="../images/default_user_avatar.jpg" alt="Medline" id="modal-avatar">
                                 </div><br>
                                 <h4>Cadastro de <span id="cadastro-de">Paciente</span></h4>
@@ -106,7 +105,7 @@
                 <div class="modal-body">
                       <!-- Nav tabs -->
                       <ul class="nav nav-tabs">
-                            <li class="active"><a href="#user" data-toggle="tab" class="avatar-user">Usuário</a></li>
+                            <li class="active"><a href="#user" data-toggle="tab" class="avatar-user">Paciente</a></li>
                             <li><a href="#medico" data-toggle="tab" class="avatar-medico">Médico</a></li>
                             <li><a href="#clinica" data-toggle="tab" class="avatar-clinica">Clínica</a></li>
                         </ul>
