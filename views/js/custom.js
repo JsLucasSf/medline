@@ -7,3 +7,20 @@ $(document).ready(function(){
          $(".wrapper").toggleClass("active");
     });
 });
+
+$(document).ready(function(){
+    $('.avatar-user').click(function(){
+        $('#cadastro-de').text('Paciente');
+        $('#modal-avatar').attr('src', '../images/default_user_avatar.jpg');
+    });
+
+    $('.avatar-medico').click(function(){
+        $('#cadastro-de').text('Médico');
+        $('#modal-avatar').attr('src', '../images/doctor_avatar.png');
+    });
+
+    $('.avatar-clinica').click(function(){
+        $('#cadastro-de').text('Clínica');
+        $('#modal-avatar').attr('src', '../images/hospital_avatar.png');
+    });
+})
