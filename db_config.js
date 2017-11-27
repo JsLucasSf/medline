@@ -26,8 +26,7 @@ var doctorSchema = mongoose.Schema({
 
 var clinicSchema = mongoose.Schema({
 	username : String,
-	email : String,
-	cnpj : String,
+	phone : String,
 	address : String,
 	password : String
 });

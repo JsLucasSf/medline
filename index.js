@@ -26,52 +26,32 @@ app.get("/", function(req, res){
 app.get("/home", isLoggedIn, function(req, res){
   res.render("pages/home.ejs");
 });
-// TEST
-app.get("/clinica/nova", function(req, res){
-  res.render("register_clinic.ejs", {message : undefined});
-})
 
 app.post("/clinica/nova", function(req, res){
-  var clinicName = req.body.name;
-  var clinicEmail = req.body.email;
-  var clinicCNPJ = req.body.cnpj;
+  var clinicName = req.body.username;
   var clinicAddress = req.body.address;
+  var clinicPhone = req.body.telephone;
   var clinicPassword = req.body.password;
 
-  var errors = false;
-
-  if(clinicName && clinicAddress && clinicCNPJ && clinicPassword){
-    if(!validator.isEmail(clinicEmail)){
-      console.log("Email inválido");
-      errors = true;
-    }
-    if(!CNPJ.isValid(clinicCNPJ)){
-      console.log("CNPJ inválido");
-      errors = true;
+  if(clinicName && clinicAddress && clinicPhone && clinicPassword){
+    const newClinic = {
+      "username" : clinicName,
+      "phone" : clinicPhone,
+      "address" : clinicAddress
     }
 
-    if(!errors){
-      const newClinic = {
-        "username" : clinicName,
-        "email" : clinicEmail,
-        "CNPJ" : clinicCNPJ,
-        "address" : clinicAddress
+    db.Clinic.register(newClinic, clinicPassword, function(err, clinic){
+      if(err){
+        console.log(err);
+        res.redirect("/");
+      }else{
+        console.log("Clínica cadastrada com sucesso!");
+        passport.authenticate("local")(req, res, function(){
+          res.redirect("/lista-clinicas");
+        });
       }
-
-      db.Clinic.register(newClinic, clinicPassword, function(err, clinic){
-        if(err){
-          console.log(err);
-          res.redirect("/clinica/nova");
-        }else{
-          passport.authenticate("local")(req, res, function(){
-            res.redirect("/lista-clinicas");
-          });
-        }
-      });
-    }
+    });
   }
-
-  res.redirect("/lista-clinicas");
 })
 
 // TEST
@@ -88,15 +68,10 @@ app.get("/lista-clinicas", isLoggedIn, function(req, res){
   });
 })
 
-app.get("/login", function(req, res){
-  res.render("login.ejs");
-})
 app.post("/login", passport.authenticate("local", {
   successRedirect : "/home",
-  failureRedirect : "/login"
-}) ,function(req, res){
-
-})
+  failureRedirect : "/"
+}) ,function(req, res){})
 
 app.get("/logout", function(req, res){
   req.logout();
