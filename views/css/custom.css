@@ -7,6 +7,8 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     font-family: 'Varela Round', sans-serif;
     background:#73B7C0;
     height: 80%;
+    align-content: center;
+    padding-top: 10%;
 }
 
 .text-center .btn,  .text-center .btn:focus {
@@ -250,6 +252,7 @@ box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
     border-left:3px solid #ECECEA;
 }
 
+
 .side-bar ul .menu-head .pull-right {
     padding-top: 35px;
     padding-right: 15px;
@@ -266,7 +269,11 @@ box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
     transition: padding-left 0.5s;
 }
 
-.glyphicon {
+#main-content h1 {
+
+}
+
+.menu .glyphicon {
 padding-top: 4px;
 }
 
