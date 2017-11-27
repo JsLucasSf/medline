@@ -47,7 +47,7 @@ app.post("/clinica/nova", function(req, res){
       }else{
         console.log("Clínica cadastrada com sucesso!");
         passport.authenticate("local")(req, res, function(){
-          res.redirect("/lista-clinicas");
+          res.redirect("/home");
         });
       }
     });
