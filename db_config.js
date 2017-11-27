@@ -1,4 +1,4 @@
-var db_string = 'mongodb://127.0.0.1/medline';
+const db_string = process.env.MONGODB_URI || 'mongodb://127.0.0.1/medline';
 
 var mongoose = require('mongoose');
 var passportLocalMongoose = require("passport-local-mongoose");
