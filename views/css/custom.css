@@ -181,7 +181,7 @@ box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
     position:absolute;
     top:0px;
     height:100%;
-    width:300px;
+    width:250px;
     color:#fff;
     transition: margin-left 0.5s;
 }
@@ -204,7 +204,7 @@ box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 .side-bar ul li.menu-head
 {
     font-family: 'Lato', sans-serif;
-    padding:15px;
+    padding:10px;
     display: inline;
 }
 
@@ -233,7 +233,7 @@ box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
     font-size: 15pt;
     padding-left:20px;
     padding-right:20px;
-    padding-top:20px;
+    padding-top:10px;
     padding-bottom:10px;
 }
 
@@ -261,14 +261,14 @@ box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 {
     background:#b3e4ea;
     padding-top: 40px;
-    padding-left: 340px;
+    padding-left: 300px;
     padding-right: -20px;
     transition: padding-left 0.5s;
 }
 
 .active > .side-bar
 {
-    margin-left:-230px;   
+    margin-left:-195px;   
     transition: margin-left 0.5s;
 }
 
