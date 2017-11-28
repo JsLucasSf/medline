@@ -2,6 +2,7 @@ var app = require('./app_config.js');
 var db = require('./db_config.js');
 var validator = require('validator');
 
+var userController = require('./controller/userController.js');
 var clinicController = require('./controller/clinicController.js');
 var doctorController = require('./controller/doctorController.js');
 var patientController = require('./controller/patientController.js');
@@ -74,7 +75,7 @@ app.get('/doctors/', function(req, res) {
   });
 });
 
-app.get('/doctors/:id', function(req, res) {
+app.get('/doctor/:id', function(req, res) {
 
   var id = validator.trim(validator.escape(req.param('id')));
 
@@ -150,4 +151,18 @@ app.post("/patient/new", function(req, res){
                               res.json(resp);
                             }
                         });
+});
+
+/* User's general routes */
+app.get("/users", function(req, res){
+  userController.list(function(resp){
+    res.json(resp);
+  })
+});
+
+app.get("/user/:id", function(req, res){
+  var id = validator.trim(validator.escape(req.param('id')));
+  userController.user(id, function(resp){
+    res.json(resp);
+  });
 });
