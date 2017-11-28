@@ -1,4 +1,5 @@
 var db = require('../db_config.js');
+var userController = require("./userController.js");
 
 exports.list = function(callback){
 	db.User.find({"category" : 'd'}, function(error, doctors) {
@@ -34,7 +35,8 @@ exports.save = function(username, age, password, phone,
 		'phone': phone,
 		'crm': crm,
 		'specialty': specialty,
-		'category': 'd'
+		'category': 'd',
+		'associatedClinics': []
 	}
 
 	db.User.register(newDoctor, password, function(error, doctor){
@@ -113,3 +115,54 @@ exports.authenticate = function(email, password, callback){
 		}
 	});
 };
+
+exports.addClinic = function(doctorId, clinicId, callback){
+  db.User.findById(doctorId , function(error, doctor){
+    var errors = false;
+
+    if(error){
+      console.log(error);
+      errors = true;
+      callback({error: "Não foi possível encontrar o médico",
+                message: error});
+    }else{
+      if(doctor.category != 'd'){
+        errors = true;
+        callback({error: "Não foi possível associar a clínica",
+                  message: "Não é possível associar uma clínica a um elemento que não é um médico"});
+      }
+      userController.user(clinicId, function(resp){
+        if(resp['error']){
+          errors = true;
+          callback({error: "Não foi possível associar a clínica",
+                    message: resp["message"]});
+        }else{
+          if(resp.category != 'c'){
+            errors = true;
+            callback({error: "Não foi possível associar a clínica",
+                      message: "Não é possível associar a um médico, um elemento que não seja uma clínica"});
+          }
+        }
+      });
+
+      if(doctor.associatedClinics.includes(clinicId)){
+        errors = true;
+        callback({error: "Não foi possível associar a clínica",
+                  message: "Clínica já associada"});
+      }
+
+      if(!errors){
+        doctor.associatedClinics.push(clinicId);
+        doctor.save(function(error, doctor){
+          if(error){
+            console.log(error);
+            callback({error: "Não foi possível associar a clínica",
+                      message: error});
+          }else{
+            callback(doctor);
+          }
+        });
+      };
+    }
+  });
+}

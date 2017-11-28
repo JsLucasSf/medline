@@ -68,6 +68,15 @@ app.post("/clinic/new", function(req, res){
                         });
 })
 
+app.put("/clinic/add-doctor", function(req, res){
+  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
+  var doctorId = validator.trim(validator.escape(req.param('doctorId')));
+
+  clinicController.addDoctor(clinicId, doctorId, function(resp){
+    res.json(resp);
+  });
+})
+
 /* Doctor's Routes */
 app.get('/doctors/', function(req, res) {
   doctorController.list(function(resp){
@@ -116,6 +125,15 @@ app.put('/doctors', function(req, res) {
     res.json(resp);
   });
 });
+
+app.put('/doctor/add-clinic', function(req, res){
+  var doctorId = validator.trim(validator.escape(req.param('doctorId')));
+  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
+
+  doctorController.addClinic(doctorId, clinicId, function(resp){
+    res.json(resp);
+  });
+})
 
 app.delete('/doctors/:id', function(req, res) {
 

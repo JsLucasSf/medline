@@ -20,9 +20,11 @@ var userSchema = mongoose.Schema({
 	// Doctors only
 	crm: Number,
 	specialty: String,
+	associatedClinics: Array,
 	// Clinics only
 	address: String,
-	// IMPORTANT: c = clinic, p = patient, d = doctor
+	associatedDoctors: Array,
+	// ALL USERS, IMPORTANT: c = clinic, p = patient, d = doctor
 	category: String
 });
 
