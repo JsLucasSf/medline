@@ -1,14 +1,11 @@
 var db = require('../db_config.js');
 
 exports.list = function(callback){
-
 	db.User.find({"category" : 'd'}, function(error, doctors) {
-
 		if(error) {
-
-			callback({error: 'Não foi possivel retornar os medicos'});
+			callback({error: 'Não foi possivel retornar os medicos',
+								message: error});
 		} else {
-
 			callback(doctors);
 		}
 	});
@@ -19,8 +16,8 @@ exports.doctor = function(id, callback) {
 	db.User.findById(id, function(error, doctor) {
 
 		if(error) {
-
-			callback({error: 'Não foi possivel retornar o medico'});
+			callback({error: 'Não foi possivel retornar o medico',
+								message: error});
 		} else {
 
 			callback(doctor);
@@ -74,7 +71,8 @@ exports.update = function(id, fullname, email, password, callback) {
 
 			if(error) {
 
-				callback({error: 'Não foi possivel salvar o medico'});
+				callback({error: 'Não foi possivel salvar o medico',
+									message: error});
 			} else {
 
 				callback(doctor);
@@ -89,7 +87,8 @@ exports.delete = function(id, callback) {
 
 		if(error) {
 
-			callback({error: 'Não foi possivel retornar o médico'});
+			callback({error: 'Não foi possivel retornar o médico',
+								message: error});
 		} else {
 
 			doctor.remove(function(error) {
@@ -107,7 +106,8 @@ exports.authenticate = function(email, password, callback){
 	db.User.find(email, function(error, doctor){
 
 		if(error) {
-			callback({error: 'Não foi possivel retornar o medico'});
+			callback({error: 'Não foi possivel retornar o medico',
+								message: error});
 		} else {
 			callback(doctor);
 		}
