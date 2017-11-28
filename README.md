@@ -61,7 +61,7 @@ Antes de mais nada, precisamos adicionar o remote do heroku
 
 ```
 git remote add heroku https://git.heroku.com/medline.git
-``'
+```
 
 
 ```
