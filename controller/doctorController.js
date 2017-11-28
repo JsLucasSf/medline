@@ -62,7 +62,6 @@ exports.save = function(username, email, password, callback){
 	// });
 };
 
-
 exports.update = function(id, fullname, email, password, callback) {
 
 	db.Doctor.findById(id, function(error, doctor) {

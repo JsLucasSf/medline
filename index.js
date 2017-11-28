@@ -1,13 +1,10 @@
 var app = require('./app_config.js');
-
 var db = require('./db_config.js');
-
 var validator = require('validator');
 
+var clinicController = require('./controller/clinicController.js');
 var doctorController = require('./controller/doctorController.js');
 
-var CPF = require("cpf_cnpj").CPF;
-var CNPJ = require("cpf_cnpj").CNPJ;
 var passport = require("passport");
 var localStrategy = require("passport-local");
 
@@ -18,6 +15,13 @@ passport.use(new localStrategy(db.Clinic.authenticate()));
 passport.serializeUser(db.Clinic.serializeUser());
 passport.deserializeUser(db.Clinic.deserializeUser());
 
+function isLoggedIn(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect("/");
+}
+
 /* Routes */
 app.get("/", function(req, res){
   res.render("./pages/index.ejs");
@@ -27,45 +31,30 @@ app.get("/home", isLoggedIn, function(req, res){
   res.render("pages/home.ejs");
 });
 
-app.post("/clinica/nova", function(req, res){
+app.get("/clinics", function(req, res){
+  clinicController.list(function(resp){
+    res.json(resp);
+  });
+})
+
+app.post("/clinic/new", function(req, res){
   var clinicName = req.body.username;
   var clinicAddress = req.body.address;
   var clinicPhone = req.body.telephone;
   var clinicPassword = req.body.password;
 
   if(clinicName && clinicAddress && clinicPhone && clinicPassword){
-    const newClinic = {
-      "username" : clinicName,
-      "phone" : clinicPhone,
-      "address" : clinicAddress
-    }
-
-    db.Clinic.register(newClinic, clinicPassword, function(err, clinic){
-      if(err){
-        console.log(err);
-        res.redirect("/");
-      }else{
-        console.log("Clínica cadastrada com sucesso!");
-        passport.authenticate("local")(req, res, function(){
-          res.redirect("/home");
-        });
-      }
-    });
+    clinicController.save(clinicName, clinicAddress,
+                          clinicPhone, clinicPassword, function(resp){
+                            if(!resp['error']){
+                              passport.authenticate("local")(req, res, function(){
+                                res.redirect("/home");
+                              });
+                            }else{
+                              res.json(resp);
+                            }
+                          });
   }
-})
-
-// TEST
-app.get("/lista-clinicas", isLoggedIn, function(req, res){
-  var clinics = [];
-
-  db.Clinic.find({}, function(err, theClinics){
-    if(err){
-      console.log(err);
-    }else{
-      clinics = theClinics;
-    }
-    res.render("index.ejs", {"clinics" : clinics});
-  });
 })
 
 app.post("/login", passport.authenticate("local", {
@@ -77,13 +66,6 @@ app.get("/logout", function(req, res){
   req.logout();
   return res.redirect("/");
 })
-
-function isLoggedIn(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-  res.redirect("/");
-}
 
 app.get('/doctors/', function(req, res) {
   doctorController.list(function(resp){
