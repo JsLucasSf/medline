@@ -2,7 +2,7 @@ var db = require('../db_config.js');
 
 exports.list = function(callback){
 
-	db.Doctor.find({}, function(error, doctors) {
+	db.User.find({"category" : 'd'}, function(error, doctors) {
 
 		if(error) {
 
@@ -16,7 +16,7 @@ exports.list = function(callback){
 
 exports.doctor = function(id, callback) {
 
-	db.Doctor.findById(id, function(error, doctor) {
+	db.User.findById(id, function(error, doctor) {
 
 		if(error) {
 
@@ -28,43 +28,32 @@ exports.doctor = function(id, callback) {
 	});
 };
 
-exports.save = function(username, email, password, callback){
+exports.save = function(username, age, password, phone,
+											crm, specialty, callback){
 
 	var newDoctor = {
 		'username': username,
-		'email': email,
-		'created_at': new Date()
+		'age': age,
+		'phone': phone,
+		'crm': crm,
+		'specialty': specialty,
+		'category': 'd'
 	}
 
-	db.Doctor.register(newDoctor, password, function(error, doctor){
+	db.User.register(newDoctor, password, function(error, doctor){
 		if(error){
 			console.log(error);
-			callback({error : "Não foi possível salvar o médico"});
+			callback({error : "Não foi possível salvar o médico",
+								message : error});
 		}else{
 			callback(doctor);
 		}
 	});
-	// new db.Doctor({
-	//
-	// 	'fullname': fullname,
-	// 	'email': email,
-	// 	'password': password,
-	// 	'created_at': new Date()
-	// }).save(function(error, doctor) {
-	//
-	// 	if(error) {
-	//
-	// 		callback({error: 'Não foi possivel salvar o medico'});
-	// 	} else {
-	//
-	// 		callback(doctor);
-	// 	}
-	// });
 };
 
 exports.update = function(id, fullname, email, password, callback) {
 
-	db.Doctor.findById(id, function(error, doctor) {
+	db.User.findById(id, function(error, doctor) {
 
 		if(fullname) {
 
@@ -96,7 +85,7 @@ exports.update = function(id, fullname, email, password, callback) {
 
 exports.delete = function(id, callback) {
 
-	db.Doctor.findById(id, function(error, doctor) {
+	db.User.findById(id, function(error, doctor) {
 
 		if(error) {
 
@@ -115,7 +104,7 @@ exports.delete = function(id, callback) {
 };
 
 exports.authenticate = function(email, password, callback){
-	db.Doctor.find(email, function(error, doctor){
+	db.User.find(email, function(error, doctor){
 
 		if(error) {
 			callback({error: 'Não foi possivel retornar o medico'});

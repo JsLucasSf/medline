@@ -1,7 +1,7 @@
 var db = require('../db_config.js');
 
 exports.list = function(callback){
-  db.Clinic.find({}, function(error, clinics) {
+  db.User.find({"category": 'c'}, function(error, clinics) {
 		if(error) {
 			callback({error: 'Não foi possivel retornar as clínicas',
                 message: error});
@@ -15,10 +15,11 @@ exports.save = function(name, phone, address, password, callback){
   const newClinic = {
     "username" : name,
     "phone" : phone,
-    "address" : address
+    "address" : address,
+    "category" : 'c'
   }
 
-  db.Clinic.register(newClinic, password, function(error, clinic){
+  db.User.register(newClinic, password, function(error, clinic){
     if(error){
       console.log(error);
       callback({error: "Não foi possível salvar a clínica",

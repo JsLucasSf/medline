@@ -11,28 +11,21 @@ var Doctor;
 
 db.on('error', console.error.bind(console, 'Erro ao conectar no banco'));
 
-// db.once('open', function() {
-//
-//
-// });
-
-var doctorSchema = mongoose.Schema({
-
+var userSchema = mongoose.Schema({
 	username: String,
-	email: String,
 	password: String,
-	created_at: Date
+	phone: String,
+	// Patients and Doctors only
+	age: Number,
+	// Doctors only
+	crm: Number,
+	specialty: String,
+	// Clinics only
+	address: String,
+	// IMPORTANT: c = clinic, p = patient, d = doctor
+	category: String
 });
 
-var clinicSchema = mongoose.Schema({
-	username : String,
-	phone : String,
-	address : String,
-	password : String
-});
+userSchema.plugin(passportLocalMongoose);
 
-clinicSchema.plugin(passportLocalMongoose);
-doctorSchema.plugin(passportLocalMongoose);
-
-exports.Clinic = mongoose.model("Clinic", clinicSchema);
-exports.Doctor = mongoose.model('Doctor', doctorSchema);
+exports.User = mongoose.model("User", userSchema);

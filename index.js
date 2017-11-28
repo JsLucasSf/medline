@@ -11,9 +11,9 @@ var localStrategy = require("passport-local");
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new localStrategy(db.Clinic.authenticate()));
-passport.serializeUser(db.Clinic.serializeUser());
-passport.deserializeUser(db.Clinic.deserializeUser());
+passport.use(new localStrategy(db.User.authenticate()));
+passport.serializeUser(db.User.serializeUser());
+passport.deserializeUser(db.User.deserializeUser());
 
 function isLoggedIn(req, res, next){
   if(req.isAuthenticated()){
@@ -38,23 +38,21 @@ app.get("/clinics", function(req, res){
 })
 
 app.post("/clinic/new", function(req, res){
-  var clinicName = req.body.username;
-  var clinicAddress = req.body.address;
-  var clinicPhone = req.body.telephone;
-  var clinicPassword = req.body.password;
+  var clinicName = validator.trim(validator.escape(req.body.username));
+  var clinicAddress = validator.trim(validator.escape(req.body.address));
+  var clinicPhone = validator.trim(validator.escape(req.body.telephone));
+  var clinicPassword = validator.trim(validator.escape(req.body.password));
 
-  if(clinicName && clinicAddress && clinicPhone && clinicPassword){
-    clinicController.save(clinicName, clinicAddress,
-                          clinicPhone, clinicPassword, function(resp){
-                            if(!resp['error']){
-                              passport.authenticate("local")(req, res, function(){
-                                res.redirect("/home");
-                              });
-                            }else{
-                              res.json(resp);
-                            }
-                          });
-  }
+  clinicController.save(clinicName, clinicAddress,
+                        clinicPhone, clinicPassword, function(resp){
+                          if(!resp['error']){
+                            passport.authenticate("local")(req, res, function(){
+                              res.redirect("/home");
+                            });
+                          }else{
+                            res.json(resp);
+                          }
+                        });
 })
 
 app.post("/login", passport.authenticate("local", {
@@ -82,15 +80,25 @@ app.get('/doctors/:id', function(req, res) {
   });
 });
 
-app.post('/doctors', function(req, res) {
+app.post('/doctor/new', function(req, res) {
 
   var username = validator.trim(validator.escape(req.body.username));
-  var email = validator.trim(validator.escape(req.body.email));
+  var age = validator.trim(validator.escape(req.body.age));
   var password = validator.trim(validator.escape(req.body.password));
+  var phone = validator.trim(validator.escape(req.body.cellphone));
+  var crm = validator.trim(validator.escape(req.body.crmNumber));
+  var specialty = validator.trim(validator.escape(req.body.specialty));
 
-  doctorController.save(username, email, password, function(resp) {
-    res.json(resp);
-  });
+  doctorController.save(username, age, password, phone,
+                        crm, specialty, function(resp) {
+                          if(!resp['error']){
+                            passport.authenticate("local")(req, res, function(){
+                              res.redirect("/home");
+                            });
+                          }else{
+                            res.json(resp);
+                          }
+                        });
 });
 
 app.put('/doctors', function(req, res) {
