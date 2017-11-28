@@ -4,6 +4,7 @@ var validator = require('validator');
 
 var clinicController = require('./controller/clinicController.js');
 var doctorController = require('./controller/doctorController.js');
+var patientController = require('./controller/patientController.js');
 
 var passport = require("passport");
 var localStrategy = require("passport-local");
@@ -31,6 +32,17 @@ app.get("/home", isLoggedIn, function(req, res){
   res.render("pages/home.ejs");
 });
 
+app.post("/login", passport.authenticate("local", {
+  successRedirect : "/home",
+  failureRedirect : "/"
+}) ,function(req, res){})
+
+app.get("/logout", function(req, res){
+  req.logout();
+  return res.redirect("/");
+})
+
+/* Clinics' Routes */
 app.get("/clinics", function(req, res){
   clinicController.list(function(resp){
     res.json(resp);
@@ -55,19 +67,10 @@ app.post("/clinic/new", function(req, res){
                         });
 })
 
-app.post("/login", passport.authenticate("local", {
-  successRedirect : "/home",
-  failureRedirect : "/"
-}) ,function(req, res){})
-
-app.get("/logout", function(req, res){
-  req.logout();
-  return res.redirect("/");
-})
-
+/* Doctor's Routes */
 app.get('/doctors/', function(req, res) {
   doctorController.list(function(resp){
-    res.json(resp)
+    res.json(resp);
   });
 });
 
@@ -122,4 +125,29 @@ app.delete('/doctors/:id', function(req, res) {
     res.json(resp);
   });
 
+});
+
+/* Patient's Routes */
+app.get("/patients", function(req, res){
+  patientController.list(function(resp){
+    res.json(resp);
+  });
+});
+
+app.post("/patient/new", function(req, res){
+  var username = validator.trim(validator.escape(req.body.username));
+  var age = validator.trim(validator.escape(req.body.age));
+  var password = validator.trim(validator.escape(req.body.password));
+  var phone = validator.trim(validator.escape(req.body.telephone));
+
+  patientController.save(username, age, password, phone,
+                        function(resp){
+                            if(!resp['error']){
+                              passport.authenticate("local")(req, res, function(){
+                                res.redirect("/home");
+                              });
+                            }else{
+                              res.json(resp);
+                            }
+                        });
 });
