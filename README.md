@@ -57,6 +57,13 @@ sudo nodemon index.js
 
 Uma vez que novas funcionalidades ou modificações forem implementadas, fazemos deploy no heroku da seguinte maneira
 
+Antes de mais nada, precisamos adicionar o remote do heroku
+
+```
+git remote add heroku https://git.heroku.com/medline.git
+``'
+
+
 ```
 git add .
 git commit -m "SUA MENSAGEM DE COMMIT AQUI"
