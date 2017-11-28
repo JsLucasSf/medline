@@ -1,5 +1,6 @@
 var db = require('../db_config.js');
 var userController = require('./userController.js');
+var doctorController = require('./doctorController.js');
 
 exports.list = function(callback){
   db.User.find({"category": 'c'}, function(error, clinics) {
@@ -79,6 +80,23 @@ exports.addDoctor = function(clinicId, doctorId, callback){
           }
         });
       };
+    }
+  });
+}
+
+exports.listDoctors = function(clinicId, callback){
+  db.User.findById(clinicId, function(error, clinic){
+    if(error){
+      console.log(error);
+      callback({error: "Não foi possível listar os médicos",
+                message: error});
+    }else{
+      if(clinic.category != 'c'){
+        callback({error: "Não foi possível listar os médicos",
+                  message: "Não há médicos associados a entidades que não são clínicas"});
+      }else{
+        callback(clinic.associatedDoctors);
+      }
     }
   });
 }

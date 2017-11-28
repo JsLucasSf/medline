@@ -38,13 +38,13 @@ app.post("/login", passport.authenticate("local", {
   failureRedirect : "/"
 }) ,function(req, res){})
 
-app.get("/logout", function(req, res){
+app.get("/logout", isLoggedIn , function(req, res){
   req.logout();
   return res.redirect("/");
 })
 
 /* Clinics' Routes */
-app.get("/clinics", function(req, res){
+app.get("/clinics", isLoggedIn ,function(req, res){
   clinicController.list(function(resp){
     res.json(resp);
   });
@@ -68,7 +68,7 @@ app.post("/clinic/new", function(req, res){
                         });
 })
 
-app.put("/clinic/add-doctor", function(req, res){
+app.put("/clinic/add-doctor", isLoggedIn, function(req, res){
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
   var doctorId = validator.trim(validator.escape(req.param('doctorId')));
 
@@ -76,6 +76,14 @@ app.put("/clinic/add-doctor", function(req, res){
     res.json(resp);
   });
 })
+
+app.get("/clinic/doctors/:clinicId", isLoggedIn , function(req, res){
+  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
+
+  clinicController.listDoctors(clinicId, function(resp){
+    res.json(resp);
+  });
+});
 
 /* Doctor's Routes */
 app.get('/doctors/', function(req, res) {
@@ -93,7 +101,7 @@ app.get('/doctor/:id', function(req, res) {
   });
 });
 
-app.post('/doctor/new', function(req, res) {
+app.post('/doctor/new', isLoggedIn , function(req, res) {
 
   var username = validator.trim(validator.escape(req.body.username));
   var age = validator.trim(validator.escape(req.body.age));
@@ -126,7 +134,7 @@ app.put('/doctors', function(req, res) {
   });
 });
 
-app.put('/doctor/add-clinic', function(req, res){
+app.put('/doctor/add-clinic', isLoggedIn , function(req, res){
   var doctorId = validator.trim(validator.escape(req.param('doctorId')));
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
 
@@ -172,7 +180,7 @@ app.post("/patient/new", function(req, res){
 });
 
 /* User's general routes */
-app.get("/users", function(req, res){
+app.get("/users" , function(req, res){
   userController.list(function(resp){
     res.json(resp);
   })
