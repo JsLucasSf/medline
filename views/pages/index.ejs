@@ -48,7 +48,6 @@
 <div class="navbar navbar-fixed-bottom" id="cadastro">
 	Ainda não é cadastrado? Faça seu cadastro agora mesmo
 	<a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastrar">Cadastre-se</a>
-	<!-- Aqui no href antes tava /clinica/nova! Tirei pra poder abrir o modal que kallynny fez -->
   </div>
 
 
@@ -112,7 +111,7 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane active" id="user">
-                                    <form action="home.html" method="post"><br>
+                                    <form action="/patient/new" method="post"><br>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="username" placeholder="Nome do Paciente" required="required" autofocus>
                                             </div>
@@ -131,7 +130,7 @@
                                         </form>
                 </div>
                 <div class="tab-pane" id="medico">
-                        <form action="home.html" method="post"><br>
+                        <form action="/doctor/new" method="post"><br>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
                                 </div>
@@ -157,20 +156,23 @@
                     </div>
 
                     <div class="tab-pane" id="clinica">
-                            <form action="home.html" method="post"><br>
+                            <form action="/clinic/new" method="post"><br>
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="username" placeholder="Nome da Clínica" required="required" autofocus>
+                                    </div>
+																		<div class="form-group">
+                                        <input type="text" class="form-control" name="address" placeholder="Endereço" required="required" autofocus>
+                                    </div>
+                          					<div class="form-group">
+                                        <input type="text" class="form-control" name="telephone" placeholder="Telefone" required="required" autofocus>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
                                     </div>
-                          <div class="form-group">
-                                        <input type="text" class="form-control" name="telephone" placeholder="Telefone" required="required" autofocus>
-                                    </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
                                     </div>
-                                </form>                       
+                                </form>
                     </div>
             </div>
         </div>
