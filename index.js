@@ -27,7 +27,11 @@ function isLoggedIn(req, res, next){
 /* Routes */
 app.get("/", function(req, res){
   res.render("./pages/index.ejs");
-})
+});
+
+app.get("/logged-user/info", isLoggedIn, function(req, res){
+  res.json(req.user);
+});
 
 app.get("/home", isLoggedIn, function(req, res){
   res.render("pages/home.ejs");
