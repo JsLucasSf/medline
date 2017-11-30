@@ -350,16 +350,15 @@ p {
 }
 
 #main h1 {
-        color:#ECECEA; 
-   font-family: 'Rouge Script', cursive; 
-   font-size: 22px; 
+    color:#ECECEA; 
+    font-family: 'Rouge Script', cursive; 
+    font-size: 22px; 
     font-weight: normal; 
-   line-height: 48px; 
-  margin: 0 0 50px; 
     text-align: left; 
     text-shadow: 1px 1px 2px #082b34; 
-        border-bottom: 2px  #D9853B; 
-       text-transform: uppercase;
+    border-bottom: 2px solid #D9853B; 
+    text-transform: capitalize;
+    padding-bottom: -30px;
 }
 
 #avatar_lista_medico {
@@ -371,4 +370,20 @@ p {
 #container-info-medicos .panel-collapse .collapse{
     background: #73B7C0;
     color: white;
+}
+
+#container-medicos li a{
+    color: #2E3E4E;
+    text-decoration: none;
+}
+
+#container-medicos li:hover, #container-medicos a:hover, #container-medicos a:active, #container-medicos li:focus{
+    background: #D9853B;
+    text-decoration: none;
+    color: white;
+}
+
+#container-info-medicos .panel-collapse {
+    width: 130%;
+    height: auto;
 }
