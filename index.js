@@ -37,6 +37,22 @@ app.get("/home", isLoggedIn, function(req, res){
   res.render("pages/home.ejs");
 });
 
+app.get("/medicos", function(req, res){
+  res.render("pages/medicos.ejs");
+ });
+
+ app.get("/pacientes", function(req, res){
+  res.render("pages/pacientes.ejs");
+ });
+
+ app.get("/agenda", function(req, res){
+  res.render("pages/agenda.ejs");
+ });
+
+ app.get("/config", function(req, res){
+  res.render("pages/config.ejs");
+ });
+
 //app.post("/login", passport.authenticate("local", {
 //  successRedirect : "/home",
 //  failureRedirect : "/"
