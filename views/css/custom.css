@@ -245,8 +245,14 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     padding-left:17px;
 }
 
-.side-bar ul .menu li  a:active, .menu li a:focus
+.side-bar ul .menu li a:focus
 {
+    padding-left:17px;
+    background:#D9853B;
+    border-left:3px solid #ECECEA;
+}
+
+.menu li .active {
     padding-left:17px;
     background:#D9853B;
     border-left:3px solid #ECECEA;

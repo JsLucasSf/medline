@@ -24,9 +24,9 @@
 
 <script>
         $(function() {
-            $('#nav-menu').load('sidebar.html');
+            $('#logout').load('sidebar.html');
         })
-</script>
+</script> 
 
 <style>
 @import url(http://fonts.googleapis.com/css?family=Lato);
@@ -39,13 +39,45 @@
 <div class="container" id="container-sidebar">
         <div class="row">
             <div class="wrapper">
-                <div id="nav-menu"></div>
+                    <div class="side-bar">
+                            <ul>
+                                <li class="menu-head">
+                                    <img src="../images/logo_onlyName.png" style="width: 175px; height: auto; padding-top: 10px"><a href="#" class="push_menu"><img src="../images/logo_noName.png" class="pull-right"></a>
+                                </li>
+                                <div class="menu">
+                                    <li>
+                                     <hr>
+                                    </li>
+                                    <li>
+                                        <a href="home.ejs"> Início <span class="glyphicon glyphicon-home pull-right"></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="agenda.html"> Agenda <span class="glyphicon glyphicon-calendar pull-right"></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="pacientes.html" class="active">Pacientes <span class="glyphicon glyphicon-user pull-right"></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="medicos.html"> Médicos <span class="glyphicon glyphicon-briefcase pull-right"></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="config.html">Configurações <span class="glyphicon glyphicon-cog pull-right"></span></a>
+                                        </li>
+                                    <li>
+                                        <a data-toggle="modal" data-target="#sair">Sair <span class="glyphicon glyphicon-log-out pull-right"></span></a>
+                                    </li>
+                                </div>
+                        
+                            </ul>
+                        </div>
+                        
 
 
                 <div class="content" id="main-content">
                                Página de pacientes
                        </div>
                    </div>
+                   <div id="logout"></div>
            
                </body>
                </head>
