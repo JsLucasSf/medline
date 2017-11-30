@@ -22,11 +22,11 @@
 <script src="https://code.angularjs.org/1.2.20/angular-route.js"></script>
 <script src="../js/script.js"></script>-->
 
-<script>
+<!-- <script>
         $(function() {
             $('#logout').load('sidebar.html');
         })
-</script> 
+</script>  -->
 
 <style>
 @import url(http://fonts.googleapis.com/css?family=Lato);
@@ -77,7 +77,24 @@
                                Página de pacientes
                        </div>
                    </div>
-                   <div id="logout"></div>
+
+                   <div id="sair" class="modal fade">
+                        <div class="modal-dialog modal-confirm">
+                            <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h4 class="modal-title">Logout</h4>
+                                    </div>
+                                <div class="modal-body">
+                                    <p>Você está prestes a sair do Medline.  Deseja realmente sair? </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-danger" href="/logout">Sair</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
            
                </body>
                </head>

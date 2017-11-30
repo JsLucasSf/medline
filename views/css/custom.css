@@ -30,7 +30,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 #cadastro {
     padding-top: 15px;
     padding-right: 15px;
-    background: #2E3E4E;
+    background: rgba(8,43,52, 0.6);
     height: 75px;
     font: 15pt 'Varela Round', sans-serif;
     color: #fff;
@@ -163,14 +163,14 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 @import url(http://fonts.googleapis.com/css?family=Lato);
 
 #main {
-    background: #b3e4ea;
+    background:#ECECEA;
     overflow: auto;
     color:#636363; 
 }
 
 #container-sidebar
 {
-    background: #b3e4ea;
+    background:#ECECEA;
     width: 1200px;
     height: 100%;
     overflow:hidden;
@@ -268,7 +268,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 
 #main-content
 {
-    background:#b3e4ea;
+    background:#ECECEA;
     padding-top: 40px;
     padding-left: 300px;
     padding-right: -20px;
@@ -316,3 +316,59 @@ p {
 }
 
 /*---------------------------------------teste --------------------------------------*/
+
+#container-medicos {
+    padding-top: 14px; 
+    height: 100%;
+   
+}
+
+#container-medicos .panel-primary {
+    border: none;
+}
+
+#container-medicos .panel-primary .panel-heading, #container-medicos .panel-primary .panel-heading a{
+    color: white;
+    background:#73B7C0;
+    font-size: 14pt;
+}
+
+#container-medicos .panel-primary .panel-heading a:hover {
+    color: white;
+    letter-spacing: 3px;
+    text-decoration: none;
+}
+
+#container-medicos .panel-primary .panel-heading a:visited, #container-medicos .panel-primary .panel-heading a:focus  {
+    color: white;
+    text-decoration: none;
+}
+
+#container-medicos .panel-body {
+    max-height: 520px;
+   overflow: auto; 
+}
+
+#main h1 {
+        color:#ECECEA; 
+   font-family: 'Rouge Script', cursive; 
+   font-size: 22px; 
+    font-weight: normal; 
+   line-height: 48px; 
+  margin: 0 0 50px; 
+    text-align: left; 
+    text-shadow: 1px 1px 2px #082b34; 
+        border-bottom: 2px  #D9853B; 
+       text-transform: uppercase;
+}
+
+#avatar_lista_medico {
+    border-radius: 50%;
+    width: 15%;
+    height: auto;
+}
+
+#container-info-medicos .panel-collapse .collapse{
+    background: #73B7C0;
+    color: white;
+}

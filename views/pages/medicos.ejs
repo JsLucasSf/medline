@@ -22,11 +22,11 @@
 <script src="https://code.angularjs.org/1.2.20/angular-route.js"></script>
 <script src="../js/script.js"></script>-->
 
-<script>
+<!-- <script>
         $(function() {
             $('#logout').load('sidebar.html');
         })
-</script>
+</script> -->
 
 <style>
 @import url(http://fonts.googleapis.com/css?family=Lato);
@@ -71,12 +71,112 @@
                             </ul>
                         </div>
 
+
+                        
                 <div class="content" id="main-content">
-                              Página de exibir medicos
+                        <div class="container" id="container-medicos">
+                            <div class="col-md-4">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                   <span class="glyphicon glyphicon-briefcase"></span> Lista de Médicos  
+                                            </div>
+                                            <div class="panel-body">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">     
+                                                         <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"><a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#medico1"> Senhor Incrível</a>
+                                                    </li>
+                                                    <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"><a data-toggle="collapse" data-target="#medico2" data-parent="#container-medicos" href="#medico2"> Mascarenhas Jota</a>
+                                                       </li>
+                                                       <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"><a data-toggle="collapse" data-target="#medico3" data-parent="#container-medicos" href="#medico3"> Otaviano Fonseca</a>
+                                                       </li>
+                                                       <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
+                                                       </li>
+                                                       <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
+                                                       </li>
+                                                       <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
+                                                       </li>
+                                                       <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
+                                                       </li>
+                                                       <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
+                                                       </li>
+                                                       <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
+                                                       </li>
+                                                       <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
+                                                       </li>
+                                                       <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
+                                                       </li>
+                                                       <li class="list-group-item">     
+                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
+                                                       </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4" id="container-info-medicos">
+                                            <div id="medico1" class="panel-collapse collapse" data-parent="#container-medicos">
+                                                Infos sobre Senhor Incrível
+                                                                                                          
+                                               </div>   
+
+                                               <div id="medico2" class="panel-collapse collapse" data-parent="#container-medicos">
+                                                    
+                                                       Infos sobre Mascarenhas
+                                                       
+                                               </div>   
+
+                                               <div id="medico3" class="panel-collapse collapse" data-parent="#container-medicos">
+                                                    
+                                                      Infos sobre Otaviano
+                                                       
+                                               </div>   
+
+                                               <div id="medico4" class="panel-collapse collapse" data-parent="#container-medicos">
+                                                    
+                                                       auifhsdufh adifuhsd fahs sdfihuasf aodsfho
+                                                       
+                                               </div>   
+
+
+                                    </div><!-- fim da div container-info-medicos"--> 
+
+                                </div>
+
+                               
+ 
+                            </div> <!-- fim da div main content-->
+                            
                        </div>
                    </div>
 
-                   <div id="logout"></div>
+                   <div id="sair" class="modal fade">
+                        <div class="modal-dialog modal-confirm">
+                            <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h4 class="modal-title">Logout</h4>
+                                    </div>
+                                <div class="modal-body">
+                                    <p>Você está prestes a sair do Medline.  Deseja realmente sair? </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-danger" href="/logout">Sair</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
            
                </body>
                </head>
