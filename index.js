@@ -26,7 +26,7 @@ function isLoggedIn(req, res, next){
 
 /* Routes */
 app.get("/", function(req, res){
-  res.render("./pages/index.ejs");
+  res.render("./pages/index.ejs", {message: undefined});
 });
 
 app.get("/logged-user/info", isLoggedIn, function(req, res){
@@ -37,10 +37,43 @@ app.get("/home", isLoggedIn, function(req, res){
   res.render("pages/home.ejs");
 });
 
-app.post("/login", passport.authenticate("local", {
-  successRedirect : "/home",
-  failureRedirect : "/"
-}) ,function(req, res){})
+//app.post("/login", passport.authenticate("local", {
+//  successRedirect : "/home",
+//  failureRedirect : "/"
+//}) ,function(req, res){})
+
+app.post("/login", function(req, res, next) {
+  passport.authenticate("local", function(err, user, info){
+    if(err) {
+      console.log(err);
+      return next(err);
+    }
+    if(!user){
+      return res.render('pages/index.ejs', {"message": info.message});
+    }
+
+    req.logIn(user, function(err){
+      if (err) {return next(err);}
+      return res.redirect("/home");
+    });
+})(req, res, next);
+});
+
+
+// app.get('/login', function(req, res, next) {
+//   passport.authenticate('local', function(err, user, info) {
+//     if (err) { return next(err) }
+//     if (!user) {
+//       // *** Display message without using flash option
+//       // re-render the login form with a message
+//       return res.render('login', { message: info.message })
+//     }
+//     req.logIn(user, function(err) {
+//       if (err) { return next(err); }
+//       return res.redirect('/users/' + user.username);
+//     });
+//   })(req, res, next);
+// });
 
 app.get("/logout", isLoggedIn , function(req, res){
   req.logout();
