@@ -90,6 +90,21 @@
 	</div> <!-- Fim do Modal Login -->
 
 
+<!--  Alerta de login
+@if(message != "") {
+    @if(message contains("Erro")){
+        <div class="alert alert-danger" role="alert" id="successPanel">
+        } else {
+        <div class="alert alert-success" role="alert" id="successPanel">
+        }
+    <button type="button" class="close" id="close"><span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span></button>
+    @message
+</div>
+} -->
+
+
+
 	<!-- Modal Cadastrar -->
     <div id="cadastrar" class="modal fade">
         <div class="modal-dialog modal-login">
