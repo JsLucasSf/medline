@@ -171,10 +171,12 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 #container-sidebar
 {
     background:#ECECEA;
-    width: 1200px;
-    height: 100%;
+    width: 100%;
+    height: auto;
     overflow:hidden;
     display:inline-block;
+    padding-right: 60px;
+    padding-top: 40px;
 }
 
 .side-bar
