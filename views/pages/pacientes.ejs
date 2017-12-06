@@ -17,7 +17,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="../js/custom.js"></script>
 
-<!-- SPELLS 
+<!-- SPELLS
 <script data-require="angular.js@1.2.22" data-semver="1.2.22" src="https://code.angularjs.org/1.2.22/angular.js"></script>
 <script src="https://code.angularjs.org/1.2.20/angular-route.js"></script>
 <script src="../js/script.js"></script>-->
@@ -67,16 +67,119 @@
                                         <a data-toggle="modal" data-target="#sair">Sair <span class="glyphicon glyphicon-log-out pull-right"></span></a>
                                     </li>
                                 </div>
-                        
+
                             </ul>
                         </div>
-                        
 
 
-                <div class="content" id="main-content">
-                               Página de pacientes
-                       </div>
-                   </div>
+
+                        <div class="content" id="main-content">
+
+                            <div class="acordion-group">
+                                <div class="container" id="container-medicos">
+                                    <div class="col-md-4">
+                                                <div class="panel panel-primary">
+                                                    <div class="panel-heading">
+                                                           <span class="glyphicon glyphicon-briefcase"></span> Lista de Pacientes
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <ul class="list-group">
+                                                                <a data-toggle="collapse" data-target="#paciente1" data-parent="#container-pacientes" href="#paciente1">
+                                                            <li class="list-group-item">
+                                                                 <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Ana Maria
+                                                            </li></a>
+                                                            <a data-toggle="collapse" data-target="#paciente2" data-parent="#container-pacientes" href="#paciente2">
+                                                            <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> João Victor
+                                                               </li></a>
+                                                               <a data-toggle="collapse" data-target="#paciente3" data-parent="#container-pacientes" href="#paciente3">
+                                                               <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Antonio Oliveira
+                                                               </li></a>
+                                                               <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Gustavo Nóbrega
+                                                               </li>
+                                                               <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
+                                                               </li>
+                                                               <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Ana Araújo
+                                                               </li>
+                                                               <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Ana Araújo
+                                                               </li>
+                                                               <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Ana Araújo
+                                                               </li>
+                                                               <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Ana Araújo
+                                                               </li>
+                                                               <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Ana Araújo
+                                                               </li>
+                                                               <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Ana Araújo
+                                                               </li>
+                                                               <li class="list-group-item">
+                                                                    <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Ana Araújo
+                                                               </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+                                            <div class="col-md-4" id="container-info-pacientes">
+                                                    <div id="paciente1" class="panel-collapse collapse" data-parent="#container-pacientes">
+                                                        <h1>Sra. Ana Maria</h1>
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat sapien non velit
+                                                        vulputate imperdiet. Aenean finibus viverra vehicula. Cras accumsan id lacus placerat ultrices.
+                                                        Donec in ligula nulla. Nunc facilisis mi odio, sed sollicitudin augue convallis dapibus.
+                                                        Nulla eget tempus erat, nec dapibus purus. Curabitur pulvinar mollis ante sed accumsan.
+
+                                                       </div>
+
+                                                       <div id="paciente2" class="panel-collapse collapse" data-parent="#container-pacientes">
+
+                                                        <h1>Sr. João Vitor</h1>
+                                                               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat sapien non velit
+                                                               vulputate imperdiet. Aenean finibus viverra vehicula. Cras accumsan id lacus placerat ultrices.
+                                                               Donec in ligula nulla. Nunc facilisis mi odio, sed sollicitudin augue convallis dapibus.
+                                                               Nulla eget tempus erat, nec dapibus purus. Curabitur pulvinar mollis ante sed accumsan.
+
+                                                       </div>
+
+                                                       <div id="paciente3" class="panel-collapse collapse" data-parent="#container-pacientes">
+
+                                                              <h1>Sr. Antonio Oliveira </h1>
+                                                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat sapien non velit
+                                                              vulputate imperdiet. Aenean finibus viverra vehicula. Cras accumsan id lacus placerat ultrices.
+                                                              Donec in ligula nulla. Nunc facilisis mi odio, sed sollicitudin augue convallis dapibus.
+                                                              Nulla eget tempus erat, nec dapibus purus. Curabitur pulvinar mollis ante sed accumsan.
+
+                                                       </div>
+
+                                                       <div id="paciente4" class="panel-collapse collapse" data-parent="#container-pacientes">
+
+                                                               auifhsdufh adifuhsd fahs sdfihuasf aodsfho
+
+                                                       </div>
+
+
+                                            </div><!-- fim da div container-info-medicos" -->
+
+                                        </div>
+
+                                    </div>
+
+                                    </div> <!-- fim da div main content-->
+
+                               </div>
+                           </div>
 
                    <div id="sair" class="modal fade">
                         <div class="modal-dialog modal-confirm">
@@ -94,9 +197,9 @@
                             </div>
                         </div>
                     </div>
-                </div> 
-           
+
+                </div>
+
                </body>
                </head>
                </html>
-           
