@@ -185,17 +185,17 @@ app.post("/clinic/patient/new", isLoggedIn, function(req, res){
     var age = validator.trim(validator.escape(req.body.age));
     var password = validator.trim(validator.escape(req.body.password));
     var phone = validator.trim(validator.escape(req.body.telephone));
-  
+
     patientController.save(username, fullname, age, password, phone,
                           function(resp){
                               if(!resp['error']){
-                                  res.redirect("/home");
+                                  res.redirect("/pacientes");
                               }else{
                                 res.json(resp);
                               }
                           });
   }
- 
+
 });
 
 /* Doctor's Routes */
