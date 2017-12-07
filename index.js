@@ -40,7 +40,10 @@ app.get("/home", isLoggedIn, function(req, res){
 app.get("/medicos", isLoggedIn , function(req, res){
   if(req.user.category === 'c'){
     doctorController.list(function(resp){
-      res.render("pages/medicos.ejs", {"user": req.user, "page": "/medicos", "medicos": resp});
+      var respAssociated = resp.filter(function(doctor){
+        return req.user.associatedDoctors.includes(String(doctor._id));
+      });
+      res.render("pages/medicos.ejs", {"user": req.user, "page": "/medicos", "medicos": resp, "medicosAssociados": respAssociated});
     });
   }else{
     res.redirect("/home");
@@ -50,7 +53,9 @@ app.get("/medicos", isLoggedIn , function(req, res){
 
  app.get("/pacientes", isLoggedIn , function(req, res){
    if(req.user.category === 'c' || req.user.category === 'd'){
-    res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes"});
+     patientController.list(function(resp){
+       res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes", "pacientes": resp});
+     });
   }else{
     res.redirect("/home");
   }
@@ -141,6 +146,27 @@ app.put("/clinic/add-doctor", isLoggedIn, function(req, res){
   });
 })
 
+app.get("/clinic/associateDoctor/:doctorId", isLoggedIn, function(req, res){
+  if(req.user.category === 'c'){
+    var clinicId = String(req.user._id);
+    var doctorId = validator.trim(validator.escape(req.param('doctorId')));
+
+    clinicController.addDoctor(clinicId, doctorId, function(resp){
+      if(!resp['error']){
+        doctorController.addClinic(doctorId, clinicId, function(resp){
+          if(!resp['error']){
+            res.redirect("/medicos");
+          }
+        });
+      }else{
+        res.redirect("/home");
+      }
+    })
+  }else{
+    res.redirect("/home");
+  }
+});
+
 app.get("/clinic/doctors/:clinicId", isLoggedIn , function(req, res){
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
 
@@ -177,9 +203,7 @@ app.post('/doctor/new', isLoggedIn , function(req, res) {
   doctorController.save(username, age, password, phone,
                         crm, specialty, function(resp) {
                           if(!resp['error']){
-                            passport.authenticate("local")(req, res, function(){
-                              res.redirect("/medicos");
-                            });
+                            res.redirect("/medicos");
                           }else{
                             res.json(resp);
                           }
