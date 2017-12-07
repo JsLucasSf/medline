@@ -7,149 +7,103 @@
 
                 <div class="content" id="main-content">
 
-                    <div class="acordion-group">
-                        <div class="container" id="container-medicos">
-                            <div class="col-md-4">
-                                        <div class="panel panel-primary">
-                                            <div class="panel-heading">
-                                                   <span class="glyphicon glyphicon-briefcase"></span> Lista de Médicos
-                                            </div>
-                                            <div class="panel-body">
-                                                <ul class="list-group">
-                                                        <a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#medico1">
-                                                    <li class="list-group-item">
-                                                         <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Senhor Incrível
-                                                    </li></a>
-                                                    <a data-toggle="collapse" data-target="#medico2" data-parent="#container-medicos" href="#medico2">
-                                                    <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Mascarenhas Jota
-                                                       </li></a>
-                                                       <a data-toggle="collapse" data-target="#medico3" data-parent="#container-medicos" href="#medico3">
-                                                       <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
-                                                       </li></a>
-                                                       <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
-                                                       </li>
-                                                       <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
-                                                       </li>
-                                                       <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
-                                                       </li>
-                                                       <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
-                                                       </li>
-                                                       <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
-                                                       </li>
-                                                       <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
-                                                       </li>
-                                                       <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
-                                                       </li>
-                                                       <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
-                                                       </li>
-                                                       <li class="list-group-item">
-                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> Otaviano Fonseca
-                                                       </li>
-                                                </ul>
-                                            </div>
-
-                                            <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastrar">Cadastre-se</a>
-                                            <div class="modal fade" id="cadastrar">
-                                              <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                  <div class="modal-header">
-                                                    <h5 class="modal-title">Cadastrar Médico</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                  </div>
-                                                  <div class="modal-body">
-                                                    <div id="medico">
-                                                            <form action="/doctor/new" method="post"><br>
-                                                                    <div class="form-group">
-                                                                        <input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <input type="number" class="form-control" name="age" placeholder="Idade" required="required" autofocus>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <input type="text" class="form-control" name="cellphone" placeholder="Telefone" required="required" autofocus>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <input type="text" class="form-control" name="crmNumber" placeholder="Número do CRM" autofocus>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <input type="text" class="form-control" name="specialty" placeholder="Especialidade" autofocus>
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
-                                                                    </div>
-                                                                </form>
-                                                        </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div>
-
-                                        </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="acordion-group">
+                          <div class="container" id="container-medicos">
+                              <div class="col-md-4">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                           <span class="glyphicon glyphicon-briefcase"></span> Lista de Médicos Geral
+                                    </div>
+                                    <div class="panel-body">
+                                        <ul class="list-group">
+                                            <% for(var i = 0; i < medicos.length; i++){ %>
+                                              <a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#">
+                                                <li class="list-group-item">
+                                                     <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= medicos[i].username %>
+                                                     <a type="button" class="btn btn-primary" href="/clinic/associateDoctor/<%= medicos[i]._id %>" >Associar</a>
+                                                </li>
+                                              </a>
+                                            <% } %>
+                                        </ul>
                                     </div>
 
-
-                                    <div class="col-md-4" id="container-info-medicos">
-                                            <div id="medico1" class="panel-collapse collapse" data-parent="#container-medicos">
-                                                <h1>Dr. Senhor Incrível</h1>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat sapien non velit
-                                                vulputate imperdiet. Aenean finibus viverra vehicula. Cras accumsan id lacus placerat ultrices.
-                                                Donec in ligula nulla. Nunc facilisis mi odio, sed sollicitudin augue convallis dapibus.
-                                                Nulla eget tempus erat, nec dapibus purus. Curabitur pulvinar mollis ante sed accumsan.
-
-                                               </div>
-
-                                               <div id="medico2" class="panel-collapse collapse" data-parent="#container-medicos">
-
-                                                <h1>Dr. Mascarenhas Jota</h1>
-                                                       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat sapien non velit
-                                                       vulputate imperdiet. Aenean finibus viverra vehicula. Cras accumsan id lacus placerat ultrices.
-                                                       Donec in ligula nulla. Nunc facilisis mi odio, sed sollicitudin augue convallis dapibus.
-                                                       Nulla eget tempus erat, nec dapibus purus. Curabitur pulvinar mollis ante sed accumsan.
-
-                                               </div>
-
-                                               <div id="medico3" class="panel-collapse collapse" data-parent="#container-medicos">
-
-                                                      <h1>Dr. Otaviano Fonseca </h1>
-                                                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce volutpat sapien non velit
-                                                      vulputate imperdiet. Aenean finibus viverra vehicula. Cras accumsan id lacus placerat ultrices.
-                                                      Donec in ligula nulla. Nunc facilisis mi odio, sed sollicitudin augue convallis dapibus.
-                                                      Nulla eget tempus erat, nec dapibus purus. Curabitur pulvinar mollis ante sed accumsan.
-
-                                               </div>
-
-                                               <div id="medico4" class="panel-collapse collapse" data-parent="#container-medicos">
-
-                                                       auifhsdufh adifuhsd fahs sdfihuasf aodsfho
-
-                                               </div>
-
-
-                                    </div><!-- fim da div container-info-medicos" -->
+                                    <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastrar">Cadastrar Médicos</a>
+                                    <div class="modal fade" id="cadastrar">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title">Cadastrar Médico</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div id="medico">
+                                                    <form action="/doctor/new" method="post"><br>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="number" class="form-control" name="age" placeholder="Idade" required="required" autofocus>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="cellphone" placeholder="Telefone" required="required" autofocus>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="crmNumber" placeholder="Número do CRM" autofocus>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control" name="specialty" placeholder="Especialidade" autofocus>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
+                                                            </div>
+                                                        </form>
+                                                </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
 
                                 </div>
-
+                              </div>
                             </div>
-
-                            </div> <!-- fim da div main content-->
-
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="acordion-group">
+                        <div class="container" id="container-medicos">
+                          <div class="col-md-4">
+                             <div class="panel panel-primary">
+                                 <div class="panel-heading">
+                                        <span class="glyphicon glyphicon-briefcase"></span> Lista de Médicos Associados
+                                 </div>
+                                 <div class="panel-body">
+                                     <ul class="list-group">
+                                         <% for(var i = 0; i < medicosAssociados.length; i++){ %>
+                                           <a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#">
+                                             <li class="list-group-item">
+                                                  <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= medicosAssociados[i].username %>
+                                             </li>
+                                           </a>
+                                         <% } %>
+                                     </ul>
+                                 </div>
+                             </div>
+                          </div>
+                        </div>
                        </div>
-                   </div>
+                    </div>
+                  </div>
+
+                </div> <!-- fim da div main content-->
+          </div>
+      </div>
 
                    <div id="sair" class="modal fade">
                         <div class="modal-dialog modal-confirm">
@@ -169,6 +123,6 @@
                     </div>
                 </div>
 
-               </body>
-               </head>
-               </html>
+</body>
+</head>
+</html>
