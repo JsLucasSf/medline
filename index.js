@@ -104,12 +104,13 @@ app.get("/clinics", isLoggedIn ,function(req, res){
 })
 
 app.post("/clinic/new", function(req, res){
-  var clinicName = validator.trim(validator.escape(req.body.username));
+  var clinicLogin = validator.trim(validator.escape(req.body.username));
+  var clinicName = validator.trim(validator.escape(req.body.clinicName));
   var clinicAddress = validator.trim(validator.escape(req.body.address));
   var clinicPhone = validator.trim(validator.escape(req.body.telephone));
   var clinicPassword = validator.trim(validator.escape(req.body.password));
 
-  clinicController.save(clinicName, clinicAddress,
+  clinicController.save(clinicLogin, clinicName, clinicAddress,
                         clinicPhone, clinicPassword, function(resp){
                           if(!resp['error']){
                             passport.authenticate("local")(req, res, function(){
@@ -138,6 +139,28 @@ app.get("/clinic/doctors/:clinicId", isLoggedIn , function(req, res){
   });
 });
 
+app.post("/clinic/patient/new", isLoggedIn, function(req, res){
+  if(req.user.category !== 'c'){
+    res.redirect("/home");
+  } else {
+    var username = validator.trim(validator.escape(req.body.username));
+    var fullname = validator.trim(validator.escape(req.body.fullname));
+    var age = validator.trim(validator.escape(req.body.age));
+    var password = validator.trim(validator.escape(req.body.password));
+    var phone = validator.trim(validator.escape(req.body.telephone));
+  
+    patientController.save(username, fullname, age, password, phone,
+                          function(resp){
+                              if(!resp['error']){
+                                  res.redirect("/home");
+                              }else{
+                                res.json(resp);
+                              }
+                          });
+  }
+ 
+});
+
 /* Doctor's Routes */
 app.get('/doctors/', function(req, res) {
   doctorController.list(function(resp){
@@ -157,13 +180,14 @@ app.get('/doctor/:id', function(req, res) {
 app.post('/doctor/new', isLoggedIn , function(req, res) {
 
   var username = validator.trim(validator.escape(req.body.username));
+  var fullname = validator.trim(validator.escape(req.body.fullname));
   var age = validator.trim(validator.escape(req.body.age));
   var password = validator.trim(validator.escape(req.body.password));
   var phone = validator.trim(validator.escape(req.body.cellphone));
   var crm = validator.trim(validator.escape(req.body.crmNumber));
   var specialty = validator.trim(validator.escape(req.body.specialty));
 
-  doctorController.save(username, age, password, phone,
+  doctorController.save(username, fullname, age, password, phone,
                         crm, specialty, function(resp) {
                           if(!resp['error']){
                             passport.authenticate("local")(req, res, function(){
@@ -179,10 +203,10 @@ app.put('/doctors', function(req, res) {
 
   var id = validator.trim(validator.escape(req.param('id')));
   var fullname = validator.trim(validator.escape(req.param('fullname')));
-  var email = validator.trim(validator.escape(req.param('email')));
+  var username = validator.trim(validator.escape(req.param('username')));
   var password = validator.trim(validator.escape(req.param('password')));
 
-  doctorController.update(id, fullname, email, password, function(resp) {
+  doctorController.update(id, username, fullname, password, function(resp) {
     res.json(resp);
   });
 });
@@ -216,11 +240,12 @@ app.get("/patients", function(req, res){
 
 app.post("/patient/new", function(req, res){
   var username = validator.trim(validator.escape(req.body.username));
+  var fullname = validator.trim(validator.escape(req.body.fullname));
   var age = validator.trim(validator.escape(req.body.age));
   var password = validator.trim(validator.escape(req.body.password));
   var phone = validator.trim(validator.escape(req.body.telephone));
 
-  patientController.save(username, age, password, phone,
+  patientController.save(username, fullname, age, password, phone,
                         function(resp){
                             if(!resp['error']){
                               passport.authenticate("local")(req, res, function(){

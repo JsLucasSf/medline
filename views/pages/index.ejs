@@ -87,7 +87,10 @@
                             <div class="tab-pane active" id="user">
                                     <form action="/patient/new" method="post"><br>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="username" placeholder="Nome do Paciente" required="required" autofocus>
+                                                <input type="text" class="form-control" name="username" placeholder="Login" required="required" autofocus>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="fullname" placeholder="Nome completo" required="required" autofocus>
                                             </div>
                                             <div class="form-group">
                                                 <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
@@ -107,7 +110,10 @@
                     <div class="tab-pane" id="clinica">
                             <form action="/clinic/new" method="post"><br>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="username" placeholder="Nome da Clínica" required="required" autofocus>
+                                        <input type="text" class="form-control" name="username" placeholder="Login" required="required" autofocus>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="clinicName" placeholder="Nome da Clínica" required="required" autofocus>
                                     </div>
 																		<div class="form-group">
                                         <input type="text" class="form-control" name="address" placeholder="Endereço" required="required" autofocus>

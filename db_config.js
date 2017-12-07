@@ -13,6 +13,7 @@ db.on('error', console.error.bind(console, 'Erro ao conectar no banco'));
 
 var userSchema = mongoose.Schema({
 	username: String,
+	fullname: String,
 	password: String,
 	phone: String,
 	// Patients and Doctors only
