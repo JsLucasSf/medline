@@ -38,11 +38,22 @@ app.get("/home", isLoggedIn, function(req, res){
 });
 
 app.get("/medicos", isLoggedIn , function(req, res){
-  res.render("pages/medicos.ejs", {"user": req.user, "page": "/medicos"});
+  if(req.user.category === 'c'){
+    doctorController.list(function(resp){
+      res.render("pages/medicos.ejs", {"user": req.user, "page": "/medicos", "medicos": resp});
+    });
+  }else{
+    res.redirect("/home");
+  }
+
  });
 
  app.get("/pacientes", isLoggedIn , function(req, res){
-  res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes"});
+   if(req.user.category === 'c' || req.user.category === 'd'){
+    res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes"});
+  }else{
+    res.redirect("/home");
+  }
  });
 
  app.get("/agenda", isLoggedIn, function(req, res){
@@ -167,7 +178,7 @@ app.post('/doctor/new', isLoggedIn , function(req, res) {
                         crm, specialty, function(resp) {
                           if(!resp['error']){
                             passport.authenticate("local")(req, res, function(){
-                              res.redirect("/home");
+                              res.redirect("/medicos");
                             });
                           }else{
                             res.json(resp);
