@@ -34,23 +34,23 @@ app.get("/logged-user/info", isLoggedIn, function(req, res){
 });
 
 app.get("/home", isLoggedIn, function(req, res){
-  res.render("pages/home.ejs");
+  res.render("pages/home.ejs", {"user" : req.user, "page": "/home"});
 });
 
-app.get("/medicos", function(req, res){
-  res.render("pages/medicos.ejs");
+app.get("/medicos", isLoggedIn , function(req, res){
+  res.render("pages/medicos.ejs", {"user": req.user, "page": "/medicos"});
  });
 
- app.get("/pacientes", function(req, res){
-  res.render("pages/pacientes.ejs");
+ app.get("/pacientes", isLoggedIn , function(req, res){
+  res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes"});
  });
 
- app.get("/agenda", function(req, res){
-  res.render("pages/agenda.ejs");
+ app.get("/agenda", isLoggedIn, function(req, res){
+  res.render("pages/agenda.ejs", {"user": req.user, "page": "/agenda"});
  });
 
- app.get("/config", function(req, res){
-  res.render("pages/config.ejs");
+ app.get("/config", isLoggedIn ,function(req, res){
+  res.render("pages/config.ejs", {"user": req.user, "page": "/config"});
  });
 
 //app.post("/login", passport.authenticate("local", {

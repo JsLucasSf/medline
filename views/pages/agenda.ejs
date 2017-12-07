@@ -1,75 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Medline</title>
-
-<head>
-
-<link href="../css/custom.css" rel="stylesheet">
-<link href="../css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="../js/custom.js"></script>
-
-<!-- SPELLS
-<script data-require="angular.js@1.2.22" data-semver="1.2.22" src="https://code.angularjs.org/1.2.22/angular.js"></script>
-<script src="https://code.angularjs.org/1.2.20/angular-route.js"></script>
-<script src="../js/script.js"></script>-->
-
-<!-- <script>
-        $(function() {
-            $('#logout').load('sidebar.html');
-        })
-</script> -->
-
-<style>
-@import url(http://fonts.googleapis.com/css?family=Lato);
-</style>
-
-</head>
-
+<% include partials/header.ejs %>
 
 <body id="main" ng-app="medlineApp">
 <div class="container" id="container-sidebar">
         <div class="row">
             <div class="wrapper">
-                    <div class="side-bar">
-                            <ul>
-                                <li class="menu-head">
-                                    <img src="../images/logo_onlyName.png" style="width: 175px; height: auto; padding-top: 10px"><a href="#" class="push_menu"><img src="../images/logo_noName.png" class="pull-right"></a>
-                                </li>
-                                <div class="menu">
-                                    <li>
-                                     <hr>
-                                    </li>
-                                    <li>
-                                        <a href="/home"> Início <span class="glyphicon glyphicon-home pull-right"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="/agenda" class="active"> Agenda <span class="glyphicon glyphicon-calendar pull-right"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="/pacientes">Pacientes <span class="glyphicon glyphicon-user pull-right"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="/medicos"> Médicos <span class="glyphicon glyphicon-briefcase pull-right"></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="/config">Configurações <span class="glyphicon glyphicon-cog pull-right"></span></a>
-                                        </li>
-                                    <li>
-                                        <a data-toggle="modal" data-target="#sair" href="#">Sair <span class="glyphicon glyphicon-log-out pull-right"></span></a>
-                                    </li>
-                                </div>
-
-                            </ul>
-                        </div>
+                    <% include partials/sidebar.ejs %>
 
 
                 <div class="content" id="main-content">
