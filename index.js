@@ -77,11 +77,11 @@ app.get("/medicos", isLoggedIn , function(req, res){
 app.post("/login", function(req, res, next) {
   passport.authenticate("local", function(err, user, info){
     if(err) {
-      console.log(err);
-      return next(err);
+      return {"message":err};
     }
     if(!user){
-      return res.render('pages/index.ejs', {"message": info.message});
+      return res.send(info.message);
+      //return res.render('pages/index.ejs', {"message": info.message});
     }
 
     req.logIn(user, function(err){
@@ -90,7 +90,6 @@ app.post("/login", function(req, res, next) {
     });
 })(req, res, next);
 });
-
 
 // app.get('/login', function(req, res, next) {
 //   passport.authenticate('local', function(err, user, info) {

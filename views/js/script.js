@@ -1,66 +1,100 @@
 	// create the module and name it RoutingApp
-	var scotchApp = angular.module('medlineApp', ['ngRoute']);
-    
-        // configure our routes
-        scotchApp.config(function($routeProvider, $locationProvider) {
-            console.log("route");
-            $routeProvider
+	var medlineApp = angular.module('medlineApp', []);
 
-                //route for the home page
-                .when('/home', {
-                    templateUrl : 'home.ejs',
-                    controller  : 'mainController'
-                })
-    
-                // route for the agenda page
-                .when('/agenda', {
-                    templateUrl : 'agenda.html',
-                    controller  : 'agendaController'
-                })
-    
-                // route for the pacientes page
-                .when('/pacientes', {
-                    templateUrl : 'pacientes.html',
-                    controller  : 'pacientesController'
-                })
-    
-                // route for the medicos page
-                .when('/medicos', {
-                    templateUrl : 'medicos.html',
-                    controller  : 'medicosController'
-                })
+	medlineApp.controller('loginController', ['$scope', '$http', '$window', function($scope, $http, $window){
+		$scope.submitLogin = function(){
+			var username = document.getElementsByName("username")[0].value;
+			var password = document.getElementsByName("password")[0].value;
 
-                // route for the config page
-                .when('/config', {
-                    templateUrl : 'config.html',
-                    controller  : 'configController'
-                })
-                
-                .otherwise({
-                    redirectTo: '/home'
-                  });
-        });
+			var postData = {"username": username, "password": password};
 
-        // create the controller and inject Angular's $scope
+			$http({
+        url: '/login',
+        method: "POST",
+        data: postData
+	    })
+	    .then(function(response) {
+				if(response.data === "Password or username is incorrect"){
+				var message =	document.getElementById("error-message");
+				message.setAttribute("style", "display:block");
+				message.innerText = "Usuário ou senha inválidos";
+				}else{
+					$window.location.href = "/home";
+				}
+	    });
 
-    scotchApp.controller('mainController', function($scope) {
-        // create a message to display in our view
-        $scope.message = 'Corpo da página principal aqui ';
-    });
+		}
+		$scope.submitCadastroClinica = function(){
+			var username = document.getElementsByName("username")[2].value;
+			var clinicName = document.getElementsByName("clinicName")[0].value;
+			var address = document.getElementsByName("address")[0].value;
+			var password = document.getElementsByName("password")[2].value;
+			var telephone = document.getElementsByName("telephone")[1].value;
 
-	scotchApp.controller('agendaController', function($scope) {
+			var postData = {"username": username, "clinicName": clinicName,
+			 								"address": address, "telephone": telephone, "password": password};
+
+			$http({
+        url: '/clinic/new',
+        method: "POST",
+        data: postData
+	    })
+	    .then(function(response) {
+				if(response.data.message && response.data.message.name === "UserExistsError"){
+				var message =	document.getElementById("error-message-clinic");
+				message.setAttribute("style", "display:block");
+				message.innerText = "Uma clínica com o mesmo login já foi cadastrada";
+				}else{
+					$window.location.href = "/home";
+				}
+	    });
+		}
+		$scope.submitCadastroPaciente = function(){
+			var username = document.getElementsByName("username")[1].value;
+			var fullname = document.getElementsByName("fullname")[0].value;
+			var age = document.getElementsByName("age")[0].value;
+			var password = document.getElementsByName("password")[1].value;
+			var telephone = document.getElementsByName("telephone")[0].value;
+
+			var postData = {"username": username, "fullname": fullname,
+			 								"age": age, "telephone": telephone, "password": password};
+
+			$http({
+        url: '/patient/new',
+        method: "POST",
+        data: postData
+	    })
+	    .then(function(response) {
+				if(response.data.message && response.data.message.name === "UserExistsError"){
+				var message =	document.getElementById("error-message-patient");
+				message.setAttribute("style", "display:block");
+				message.innerText = "Um paciente com o mesmo login já foi cadastrado";
+				}else{
+					$window.location.href = "/home";
+				}
+	    });
+		}
+	}]);
+
+  // create the controller and inject Angular's $scope
+  medlineApp.controller('mainController', function($scope) {
+    // create a message to display in our view
+    $scope.message = 'Corpo da página principal aqui :) ';
+  });
+
+	medlineApp.controller('agendaController', function($scope) {
 		// create a message to display in our view
 		$scope.message = 'Corpo da página de agenda aqui ';
 	});
 
-	scotchApp.controller('pacientesController', function($scope) {
+	medlineApp.controller('pacientesController', function($scope) {
 		$scope.message = 'Corpo da página de pacientes aqui ';
 	});
 
-	scotchApp.controller('medicosController', function($scope) {
+	medlineApp.controller('medicosController', function($scope) {
 		$scope.message = 'Corpo da página de medicos aqui ';
     });
 
-	scotchApp.controller('configController', function($scope) {
+	medlineApp.controller('configController', function($scope) {
 		$scope.message = 'Corpo da página de configurações aqui ';
 	});
