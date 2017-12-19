@@ -3,15 +3,14 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 
 /* CSS index ----------------------------*/
 
-.text-center {
+#entrar {
     font-family: 'Varela Round', sans-serif;
-    background:#73B7C0;
     height: 80%;
-    align-content: center;
+    padding-left: 45%;
     padding-top: 10%;
 }
 
-.text-center .btn,  .text-center .btn:focus {
+#entrar .btn,  #entrar .btn:focus {
     color: #fff;
     border-radius: 4px;
     background: #D9853B;
@@ -22,7 +21,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     width: 175px;
 }
 
-.text-center .btn:hover {
+#entrar .btn:hover {
    background: #BDBDBD;
    outline: none;
 }
@@ -391,4 +390,18 @@ p {
 
 #container-info-medicos .panel {
     background: #ECECEA;
+}
+
+
+#myVideo {
+    opacity: 0.5;
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translate(-50%, -50%);
 }
