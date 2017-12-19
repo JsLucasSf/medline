@@ -13,9 +13,10 @@ exports.list = function(callback){
 	});
 };
 
-exports.save = function(name, phone, address, password, callback){
+exports.save = function(username, clinicName, phone, address, password, callback){
   const newClinic = {
-    "username" : name,
+    "username" : username,
+    "clinicName" : clinicName,
     "phone" : phone,
     "address" : address,
     "category" : 'c',

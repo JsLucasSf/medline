@@ -34,23 +34,39 @@ app.get("/logged-user/info", isLoggedIn, function(req, res){
 });
 
 app.get("/home", isLoggedIn, function(req, res){
-  res.render("pages/home.ejs");
+  res.render("pages/home.ejs", {"user" : req.user, "page": "/home"});
 });
 
-app.get("/medicos", function(req, res){
-  res.render("pages/medicos.ejs");
+app.get("/medicos", isLoggedIn , function(req, res){
+  if(req.user.category === 'c'){
+    doctorController.list(function(resp){
+      var respAssociated = resp.filter(function(doctor){
+        return req.user.associatedDoctors.includes(String(doctor._id));
+      });
+      res.render("pages/medicos.ejs", {"user": req.user, "page": "/medicos", "medicos": resp, "medicosAssociados": respAssociated});
+    });
+  }else{
+    res.redirect("/home");
+  }
+
  });
 
- app.get("/pacientes", function(req, res){
-  res.render("pages/pacientes.ejs");
+ app.get("/pacientes", isLoggedIn , function(req, res){
+   if(req.user.category === 'c' || req.user.category === 'd'){
+     patientController.list(function(resp){
+       res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes", "pacientes": resp});
+     });
+  }else{
+    res.redirect("/home");
+  }
  });
 
- app.get("/agenda", function(req, res){
-  res.render("pages/agenda.ejs");
+ app.get("/agenda", isLoggedIn, function(req, res){
+  res.render("pages/agenda.ejs", {"user": req.user, "page": "/agenda"});
  });
 
- app.get("/config", function(req, res){
-  res.render("pages/config.ejs");
+ app.get("/config", isLoggedIn ,function(req, res){
+  res.render("pages/config.ejs", {"user": req.user, "page": "/config"});
  });
 
 //app.post("/login", passport.authenticate("local", {
@@ -61,11 +77,11 @@ app.get("/medicos", function(req, res){
 app.post("/login", function(req, res, next) {
   passport.authenticate("local", function(err, user, info){
     if(err) {
-      console.log(err);
-      return next(err);
+      return {"message":err};
     }
     if(!user){
-      return res.render('pages/index.ejs', {"message": info.message});
+      return res.send(info.message);
+      //return res.render('pages/index.ejs', {"message": info.message});
     }
 
     req.logIn(user, function(err){
@@ -74,7 +90,6 @@ app.post("/login", function(req, res, next) {
     });
 })(req, res, next);
 });
-
 
 // app.get('/login', function(req, res, next) {
 //   passport.authenticate('local', function(err, user, info) {
@@ -104,12 +119,13 @@ app.get("/clinics", isLoggedIn ,function(req, res){
 })
 
 app.post("/clinic/new", function(req, res){
-  var clinicName = validator.trim(validator.escape(req.body.username));
+  var clinicLogin = validator.trim(validator.escape(req.body.username));
+  var clinicName = validator.trim(validator.escape(req.body.clinicName));
   var clinicAddress = validator.trim(validator.escape(req.body.address));
   var clinicPhone = validator.trim(validator.escape(req.body.telephone));
   var clinicPassword = validator.trim(validator.escape(req.body.password));
 
-  clinicController.save(clinicName, clinicAddress,
+  clinicController.save(clinicLogin, clinicName, clinicAddress,
                         clinicPhone, clinicPassword, function(resp){
                           if(!resp['error']){
                             passport.authenticate("local")(req, res, function(){
@@ -130,12 +146,55 @@ app.put("/clinic/add-doctor", isLoggedIn, function(req, res){
   });
 })
 
+app.get("/clinic/associateDoctor/:doctorId", isLoggedIn, function(req, res){
+  if(req.user.category === 'c'){
+    var clinicId = String(req.user._id);
+    var doctorId = validator.trim(validator.escape(req.param('doctorId')));
+
+    clinicController.addDoctor(clinicId, doctorId, function(resp){
+      if(!resp['error']){
+        doctorController.addClinic(doctorId, clinicId, function(resp){
+          if(!resp['error']){
+            res.redirect("/medicos");
+          }
+        });
+      }else{
+        res.redirect("/home");
+      }
+    })
+  }else{
+    res.redirect("/home");
+  }
+});
+
 app.get("/clinic/doctors/:clinicId", isLoggedIn , function(req, res){
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
 
   clinicController.listDoctors(clinicId, function(resp){
     res.json(resp);
   });
+});
+
+app.post("/clinic/patient/new", isLoggedIn, function(req, res){
+  if(req.user.category !== 'c'){
+    res.redirect("/home");
+  } else {
+    var username = validator.trim(validator.escape(req.body.username));
+    var fullname = validator.trim(validator.escape(req.body.fullname));
+    var age = validator.trim(validator.escape(req.body.age));
+    var password = validator.trim(validator.escape(req.body.password));
+    var phone = validator.trim(validator.escape(req.body.telephone));
+
+    patientController.save(username, fullname, age, password, phone,
+                          function(resp){
+                              if(!resp['error']){
+                                  res.redirect("/pacientes");
+                              }else{
+                                res.json(resp);
+                              }
+                          });
+  }
+
 });
 
 /* Doctor's Routes */
@@ -157,18 +216,17 @@ app.get('/doctor/:id', function(req, res) {
 app.post('/doctor/new', isLoggedIn , function(req, res) {
 
   var username = validator.trim(validator.escape(req.body.username));
+  var fullname = validator.trim(validator.escape(req.body.fullname));
   var age = validator.trim(validator.escape(req.body.age));
   var password = validator.trim(validator.escape(req.body.password));
   var phone = validator.trim(validator.escape(req.body.cellphone));
   var crm = validator.trim(validator.escape(req.body.crmNumber));
   var specialty = validator.trim(validator.escape(req.body.specialty));
 
-  doctorController.save(username, age, password, phone,
+  doctorController.save(username, fullname, age, password, phone,
                         crm, specialty, function(resp) {
                           if(!resp['error']){
-                            passport.authenticate("local")(req, res, function(){
-                              res.redirect("/home");
-                            });
+                            res.redirect("/medicos");
                           }else{
                             res.json(resp);
                           }
@@ -179,10 +237,10 @@ app.put('/doctors', function(req, res) {
 
   var id = validator.trim(validator.escape(req.param('id')));
   var fullname = validator.trim(validator.escape(req.param('fullname')));
-  var email = validator.trim(validator.escape(req.param('email')));
+  var username = validator.trim(validator.escape(req.param('username')));
   var password = validator.trim(validator.escape(req.param('password')));
 
-  doctorController.update(id, fullname, email, password, function(resp) {
+  doctorController.update(id, username, fullname, password, function(resp) {
     res.json(resp);
   });
 });
@@ -216,11 +274,12 @@ app.get("/patients", function(req, res){
 
 app.post("/patient/new", function(req, res){
   var username = validator.trim(validator.escape(req.body.username));
+  var fullname = validator.trim(validator.escape(req.body.fullname));
   var age = validator.trim(validator.escape(req.body.age));
   var password = validator.trim(validator.escape(req.body.password));
   var phone = validator.trim(validator.escape(req.body.telephone));
 
-  patientController.save(username, age, password, phone,
+  patientController.save(username, fullname, age, password, phone,
                         function(resp){
                             if(!resp['error']){
                               passport.authenticate("local")(req, res, function(){

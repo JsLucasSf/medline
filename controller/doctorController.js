@@ -26,11 +26,12 @@ exports.doctor = function(id, callback) {
 	});
 };
 
-exports.save = function(username, age, password, phone,
+exports.save = function(username, fullname, age, password, phone,
 											crm, specialty, callback){
 
 	var newDoctor = {
 		'username': username,
+		'fullname': fullname,
 		'age': age,
 		'phone': phone,
 		'crm': crm,
@@ -50,18 +51,18 @@ exports.save = function(username, age, password, phone,
 	});
 };
 
-exports.update = function(id, fullname, email, password, callback) {
+exports.update = function(id, username, fullname, password, callback) {
 
 	db.User.findById(id, function(error, doctor) {
 
-		if(fullname) {
+		if(username) {
 
-			doctor.fullname = fullname;
+			doctor.username = username;
 		}
-
-		if(email) {
-
-			doctor.email = email;
+		
+		if(fullname) {
+			
+			doctor.fullname = fullname;
 		}
 
 		if(password) {
@@ -104,8 +105,8 @@ exports.delete = function(id, callback) {
 	});
 };
 
-exports.authenticate = function(email, password, callback){
-	db.User.find(email, function(error, doctor){
+exports.authenticate = function(username, password, callback){
+	db.User.find(username, function(error, doctor){
 
 		if(error) {
 			callback({error: 'Não foi possivel retornar o medico',

@@ -11,9 +11,10 @@ exports.list = function(callback){
 	});
 };
 
-exports.save = function(name, age, password, phone, callback){
+exports.save = function(username, fullname, age, password, phone, callback){
   const newPatient = {
-    "username" : name,
+    "username" : username,
+    "fullname" : fullname,
     "phone" : phone,
     "age" : age,
     "category" : 'p'
