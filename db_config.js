@@ -27,8 +27,19 @@ var userSchema = mongoose.Schema({
 	associatedDoctors: Array,
 	// ALL USERS, IMPORTANT: c = clinic, p = patient, d = doctor
 	category: String
+}, {
+  usePushEach: true
 });
+
+var notificationSchema = mongoose.Schema({
+	sourceUser: String,
+	targetUser: String,
+	message: String,
+	answered: Boolean,
+	type: String
+})
 
 userSchema.plugin(passportLocalMongoose);
 
 exports.User = mongoose.model("User", userSchema);
+exports.Notification = mongoose.model("Notification", notificationSchema);

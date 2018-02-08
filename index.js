@@ -6,6 +6,7 @@ var userController = require('./controller/userController.js');
 var clinicController = require('./controller/clinicController.js');
 var doctorController = require('./controller/doctorController.js');
 var patientController = require('./controller/patientController.js');
+var notificationController = require('./controller/notificationController.js');
 
 var passport = require("passport");
 var localStrategy = require("passport-local");
@@ -48,10 +49,19 @@ app.get("/medicos", isLoggedIn , function(req, res){
   }else{
     res.redirect("/home");
   }
+});
 
- });
+app.get("/notificacoes", isLoggedIn, function(req, res){
+  notificationController.list(function(resp){
+    var filteredResp = resp.filter(function(obj){
+      return obj.targetUser == req.user._id;
+    });
+    console.log(filteredResp);
+    res.render("pages/notificacoes.ejs", {"user": req.user, "page": "/notificacoes", "notificacoes" : filteredResp});
+  });
+});
 
- app.get("/pacientes", isLoggedIn , function(req, res){
+app.get("/pacientes", isLoggedIn , function(req, res){
    if(req.user.category === 'c' || req.user.category === 'd'){
      patientController.list(function(resp){
        res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes", "pacientes": resp});
@@ -61,13 +71,14 @@ app.get("/medicos", isLoggedIn , function(req, res){
   }
  });
 
- app.get("/agenda", isLoggedIn, function(req, res){
+app.get("/agenda", isLoggedIn, function(req, res){
   res.render("pages/agenda.ejs", {"user": req.user, "page": "/agenda"});
  });
 
- app.get("/config", isLoggedIn ,function(req, res){
+app.get("/config", isLoggedIn ,function(req, res){
   res.render("pages/config.ejs", {"user": req.user, "page": "/config"});
  });
+
 
 //app.post("/login", passport.authenticate("local", {
 //  successRedirect : "/home",
@@ -151,14 +162,16 @@ app.get("/clinic/associateDoctor/:doctorId", isLoggedIn, function(req, res){
     var clinicId = String(req.user._id);
     var doctorId = validator.trim(validator.escape(req.param('doctorId')));
 
-    clinicController.addDoctor(clinicId, doctorId, function(resp){
+    clinicController.requestDoctor(clinicId, doctorId, function(resp){
       if(!resp['error']){
+        console.log("entrou")
         doctorController.addClinic(doctorId, clinicId, function(resp){
           if(!resp['error']){
             res.redirect("/medicos");
           }
         });
       }else{
+        console.log("saiu");
         res.redirect("/home");
       }
     })
