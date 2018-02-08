@@ -28,8 +28,7 @@ exports.save = function(username, clinicName, phone, address, password, callback
   db.User.register(newClinic, password, function(error, clinic){
     if(error){
       console.log(error);
-      callback({error: "Não foi possível salvar a clínica",
-                message: error});
+      callback({error: "Não foi possível salvar a clínica", message: error});
     }else{
       callback(clinic);
     }
@@ -169,40 +168,32 @@ exports.addAppointment = function(clinicId, appointmentID, callback){
         callback({error: "Não foi possível cadastrar consulta",
                   message: "Não é possível cadastrar consulta um elemento que não é uma clínica"});
       }
-      appointmentController.user(appointmentID, function(resp){
+      appointmentController.appointment({"appointmentId":appointmentID}, function(resp){
         if(resp['error']){
           errors = true;
-          callback({error: "Não foi possível associar o médico",
+          callback({error: "Não foi possível cadastrar consulta",
                     message: resp["message"]});
         }else{
-          if(resp.category != 'd'){
+          if(clinic.appointments.includes(resp)){
             errors = true;
             callback({error: "Não foi possível associar o médico",
-                      message: "Não é possível associar a uma clínica, um elemento que não seja um médico"});
+                      message: "Médico já associado"});
           }
         }
+
+        if(!errors){
+          clinic.appointments.push(appointmentID);
+          clinic.save(function(error, clinic){
+            if(error){
+              console.log(error);
+              callback({error: "Não foi possível cadastrar consulta",
+                        message: error});
+            }else{
+              callback(clinic);
+            }
+          });
+        };
       });
-      if(clinic.associatedDoctors.includes(doctorId)){
-        errors = true;
-        callback({error: "Não foi possível associar o médico",
-                  message: "Médico já associado"});
-      }
-      if(!errors){
-        const notificationMessage = "A clínica xxx deseja adicionar você ao quadro de médicos";
-        notificationController.create(notificationMessage, doctorId, function(resp){
-          callback(resp);
-        });
-        //clinic.associatedDoctors = clinic.associatedDoctors.concat([doctorId]);
-        //clinic.associatedDoctors.push(doctorId);
-        /*clinic.save(function(error, updatedClinic){
-          if(error){
-            callback({error: "Não foi possível associar o médico",
-                      message: error});
-          }else{
-            callback(updatedClinic);
-          }
-        });*/
-      };
     }
   });
 }
