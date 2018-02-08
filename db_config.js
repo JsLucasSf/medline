@@ -44,7 +44,7 @@ var appointmentSchema = mongoose.Schema({
 	patientID: String,
 	doctorID: String,
 	clinicID: String,
-	date: Date,
+	date: String,
 	time: String
 })
 

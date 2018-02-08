@@ -8,9 +8,96 @@
 
 
                 <div class="content" id="main-content">
-                               Página de agenda
-                       </div>
-                   </div>
+                    Página de agenda
+
+                    <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastrar">Cadastrar consultas</a>
+                        <div class="modal fade" id="cadastrar">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title">Cadastrar consulta</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                <div id="consulta">
+                                    <form action="/clinic/agenda/add-appointment" method="post"><br>
+                                    
+                                    <div class="col-md-4">
+                                            <div class="acordion-group">
+                                                <div class="container" id="container-medicos">
+                                                <div class="col-md-4">
+                                                    <div class="panel panel-primary">
+                                                        <div class="panel-heading">
+                                                            <span class="glyphicon glyphicon-briefcase"></span> Lista de pacientes
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <ul class="list-group">
+                                                                    <% for(var i = 0; i < pacientes.length; i++){ %>
+                                                                    <a data-toggle="collapse" data-target="#paciente1" data-parent="#container-pacientes" href="#">
+                                                                    <li class="list-group-item">
+                                                                        <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= pacientes[i].fullname %>
+                                                                        <a type="button" class="btn btn-primary" href="/clinic/associateDoctor/<%= medicos[i]._id %>" >Selecionar</a>
+                                                                    </li>
+                                                                        </a>
+                                                                <% } %>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+
+                                    </div>
+                                                
+                                    <div class="col-md-4">
+                                            <div class="acordion-group">
+                                                <div class="container" id="container-medicos">
+                                                <div class="col-md-4">
+                                                    <div class="panel panel-primary">
+                                                        <div class="panel-heading">
+                                                                <span class="glyphicon glyphicon-briefcase"></span> Lista de Médicos
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <ul class="list-group">
+                                                                <% for(var i = 0; i < medicos.length; i++){ %>
+                                                                    <a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#">
+                                                                    <li class="list-group-item">
+                                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= medicos[i].fullname %>
+                                                                            <a type="button" class="btn btn-primary" href="/clinic/associateDoctor/<%= medicos[i]._id %>" >Selecionar</a>
+                                                                    </li>
+                                                                    </a>
+                                                                <% } %>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                    
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" name="Date" placeholder="Data" required="required" autofocus>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="time" placeholder="Horário" required="required" autofocus>
+                                    </div>
+        
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
+                                    </div>
+                                    </form>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+            </div>
+        </div>
 
                    <div id="sair" class="modal fade">
                         <div class="modal-dialog modal-confirm">
