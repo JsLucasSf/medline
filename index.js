@@ -7,6 +7,7 @@ var clinicController = require('./controller/clinicController.js');
 var doctorController = require('./controller/doctorController.js');
 var patientController = require('./controller/patientController.js');
 var notificationController = require('./controller/notificationController.js');
+var appointmentController = require('./controller/appointmentController.js');
 
 var passport = require("passport");
 var localStrategy = require("passport-local");
@@ -72,7 +73,13 @@ app.get("/pacientes", isLoggedIn , function(req, res){
  });
 
 app.get("/agenda", isLoggedIn, function(req, res){
-  res.render("pages/agenda.ejs", {"user": req.user, "page": "/agenda"});
+  if(req.user.category === 'c'){
+    appointmentController.list(function(resp){
+      res.render("pages/agenda.ejs", {"user": req.user, "page": "/agenda"});
+    });
+ }else{
+   res.redirect("/home");
+ }
  });
 
 app.get("/config", isLoggedIn ,function(req, res){
@@ -156,6 +163,39 @@ app.put("/clinic/add-doctor", isLoggedIn, function(req, res){
     res.json(resp);
   });
 })
+
+app.put("/clinic/agenda/add-appointment", isLoggedIn, function(req, res){
+  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
+  var doctorId = validator.trim(validator.escape(req.param('doctorId')));
+  var patientId = validator.trim(validator.escape(req.param('patientId')));
+  var date = validator.trim(validator.escape(req.param('date')));
+  var time = validator.trim(validator.escape(req.param('time')));
+
+  appointmentController.save(patientId, doctorId, clinicId, date, time, 
+                                  function(resp){
+                                    if(!resp['error']){
+                                        res.redirect("/clinic/agenda");
+                                    }else{
+                                      res.json(resp);
+                                      clinicController.addAppointment(clinicId, resp._id, function(resp){
+                                        res.json(resp);
+                                      });
+                                    }
+                                  });
+
+
+  //clinicController.addAppointment(clinicId, appointmentId, function(resp){
+    //res.json(resp);
+ // });
+})
+
+app.get("/clinic/agenda/:clinicId", isLoggedIn , function(req, res){
+  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
+
+  clinicController.listAppointments(clinicId, function(resp){
+    res.json(resp);
+  });
+});
 
 app.get("/clinic/associateDoctor/:doctorId", isLoggedIn, function(req, res){
   if(req.user.category === 'c'){

@@ -25,6 +25,7 @@ var userSchema = mongoose.Schema({
 	// Clinics only
 	address: String,
 	associatedDoctors: Array,
+	appointments: Array,
 	// ALL USERS, IMPORTANT: c = clinic, p = patient, d = doctor
 	category: String
 }, {
@@ -39,7 +40,17 @@ var notificationSchema = mongoose.Schema({
 	type: String
 })
 
+var appointmentSchema = mongoose.Schema({
+	patientID: String,
+	doctorID: String,
+	clinicID: String,
+	date: Date,
+	time: String
+})
+
 userSchema.plugin(passportLocalMongoose);
 
 exports.User = mongoose.model("User", userSchema);
 exports.Notification = mongoose.model("Notification", notificationSchema);
+exports.Appointment = mongoose.model("Appointment", appointmentSchema);
+
