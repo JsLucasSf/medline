@@ -6,6 +6,8 @@ var userController = require('./controller/userController.js');
 var clinicController = require('./controller/clinicController.js');
 var doctorController = require('./controller/doctorController.js');
 var patientController = require('./controller/patientController.js');
+var notificationController = require('./controller/notificationController.js');
+var appointmentController = require('./controller/appointmentController.js');
 
 var passport = require("passport");
 var localStrategy = require("passport-local");
@@ -48,10 +50,19 @@ app.get("/medicos", isLoggedIn , function(req, res){
   }else{
     res.redirect("/home");
   }
+});
 
- });
+app.get("/notificacoes", isLoggedIn, function(req, res){
+  notificationController.list(function(resp){
+    var filteredResp = resp.filter(function(obj){
+      return obj.targetUser == req.user._id;
+    });
+    console.log(filteredResp);
+    res.render("pages/notificacoes.ejs", {"user": req.user, "page": "/notificacoes", "notificacoes" : filteredResp});
+  });
+});
 
- app.get("/pacientes", isLoggedIn , function(req, res){
+app.get("/pacientes", isLoggedIn , function(req, res){
    if(req.user.category === 'c' || req.user.category === 'd'){
      patientController.list(function(resp){
        res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes", "pacientes": resp});
@@ -61,13 +72,22 @@ app.get("/medicos", isLoggedIn , function(req, res){
   }
  });
 
- app.get("/agenda", isLoggedIn, function(req, res){
-  res.render("pages/agenda.ejs", {"user": req.user, "page": "/agenda"});
- });
+app.get("/agenda", isLoggedIn, function(req, res){
+  if(req.user.category === 'c'){
+    
+    doctorController.list(function(resp){
+      var doctors = resp;
+      patientController.list(function(resp){
+        res.render("pages/agenda.ejs", {"user": req.user, "page": "/agenda", "medicos": doctors, "pacientes": resp});
+      });
+    });    
+  }
+  }); 
 
- app.get("/config", isLoggedIn ,function(req, res){
+app.get("/config", isLoggedIn ,function(req, res){
   res.render("pages/config.ejs", {"user": req.user, "page": "/config"});
  });
+
 
 //app.post("/login", passport.authenticate("local", {
 //  successRedirect : "/home",
@@ -146,19 +166,51 @@ app.put("/clinic/add-doctor", isLoggedIn, function(req, res){
   });
 })
 
+app.post("/clinic/agenda/add-appointment", isLoggedIn, function(req, res){
+  console.log("entrou");
+  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
+  var doctorId = validator.trim(validator.escape(req.param('doctorId')));
+  var patientId = validator.trim(validator.escape(req.param('patientId')));
+  var date = validator.trim(validator.escape(req.param('date')));
+  var time = validator.trim(validator.escape(req.param('time')));
+
+  appointmentController.save(patientId, doctorId, clinicId, date, time, function(resp){
+    if(!resp['error']){
+        console.log("error");
+        res.redirect("/clinic/agenda");
+    }else{
+      clinicController.addAppointment(clinicId, resp._id, function(resp){
+        res.json(resp);
+        console.log(res);
+      });
+    }
+  });
+})
+
+app.get("/clinic/agenda/:clinicId", isLoggedIn , function(req, res){
+  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
+
+  clinicController.listAppointments(clinicId, function(resp){
+    //res.json(resp);
+    res.render("pages/agenda.ejs", {"appointments": req, "page": "/agenda"});
+  });
+});
+
 app.get("/clinic/associateDoctor/:doctorId", isLoggedIn, function(req, res){
   if(req.user.category === 'c'){
     var clinicId = String(req.user._id);
     var doctorId = validator.trim(validator.escape(req.param('doctorId')));
 
-    clinicController.addDoctor(clinicId, doctorId, function(resp){
+    clinicController.requestDoctor(clinicId, doctorId, function(resp){
       if(!resp['error']){
+        console.log("entrou")
         doctorController.addClinic(doctorId, clinicId, function(resp){
           if(!resp['error']){
             res.redirect("/medicos");
           }
         });
       }else{
+        console.log("saiu");
         res.redirect("/home");
       }
     })
