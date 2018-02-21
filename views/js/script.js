@@ -49,7 +49,11 @@
 				}
 	    });
 		}
+		
+	
+
 		$scope.submitCadastroPaciente = function(){
+			
 			var username = document.getElementsByName("username")[1].value;
 			var fullname = document.getElementsByName("fullname")[0].value;
 			var age = document.getElementsByName("age")[0].value;
@@ -71,6 +75,32 @@
 				message.innerText = "Um paciente com o mesmo login já foi cadastrado";
 				}else{
 					$window.location.href = "/home";
+				}
+	    });
+		}
+		
+		$scope.submitNewAppointment = function(){
+			var clinicId = document.getElementsByName("a_clinicId")[0].value;
+			var patientID = document.getElementsByName("a_patientId")[0].value;
+			var doctorID = document.getElementsByName("a_doctorId")[0].value;
+			var data = document.getElementsByName("a_data")[0].value;
+			var time = document.getElementsByName("a_time")[0].value;
+
+			var postData = {"clinicId": clinicId, "patientId": patientID, "doctorId": doctorID,
+			 								"data": data, "time": time};
+
+			$http({
+        url: '/clinic/agenda/add-appointment',
+        method: "POST",
+        data: postData
+	    })
+	    .then(function(response) {
+				if(response.data.message && response.data.message.name === "UserExistsError"){
+				var message =	document.getElementById("error-message-clinic");
+				message.setAttribute("style", "display:block");
+				message.innerText = "Não foi possível agendar consulta";
+				}else{
+					$window.location.href = "/clinic";
 				}
 	    });
 		}
@@ -98,3 +128,4 @@
 	medlineApp.controller('configController', function($scope) {
 		$scope.message = 'Corpo da página de configurações aqui ';
 	});
+

@@ -21,7 +21,7 @@
                             <% if(!medicosAssociados.includes(medicos[i].medico)){ %>
                               <a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#">
                                 <li class="list-group-item">
-                                 <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= medicos[i].medico.username %>
+                                 <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= medicos[i].medico.fullname %>
                                  <% if(!medicos[i].exists){ %>
                                   <a type="button" class="btn btn-primary" href="/clinic/associateDoctor/<%= medicos[i].medico._id %>" >Associar</a>
                                  <% } %>

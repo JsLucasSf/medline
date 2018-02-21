@@ -23,7 +23,11 @@
                                 <div class="modal-body">
                                 <div id="consulta">
                                     <form action="/clinic/agenda/add-appointment" method="post"><br>
-                                    
+                                        <select ng-model="selected">
+                                                <option ng-repeat="x in pacientes" ng-value="x.fullname">{{x.fullname}}</option>
+                                         </select>
+                                                
+                                    <h1>You selected: {{selected}}</h1>
                                     <div class="col-md-4">
                                             <div class="acordion-group">
                                                 <div class="container" id="container-medicos">
@@ -33,12 +37,17 @@
                                                             <span class="glyphicon glyphicon-briefcase"></span> Lista de pacientes
                                                         </div>
                                                         <div class="panel-body">
+
+                                                            
                                                             <ul class="list-group">
                                                                     <% for(var i = 0; i < pacientes.length; i++){ %>
+                                                                        
                                                                     <a data-toggle="collapse" data-target="#paciente1" data-parent="#container-pacientes" href="#">
                                                                     <li class="list-group-item">
                                                                         <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= pacientes[i].fullname %>
-                                                                        <a type="button" class="btn btn-primary" href="/clinic/associateDoctor/<%= medicos[i]._id %>" >Selecionar</a>
+                                                                        
+                                                                        <a type="button" class="btn btn-primary" href="/clinic/associateDoctor/<%= pacientes[i]._id %>" >Selecionar</a>
+                                                                       
                                                                     </li>
                                                                         </a>
                                                                 <% } %>

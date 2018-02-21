@@ -59,7 +59,7 @@ exports.save = function(patientID, doctorID, clinicId, date, time,
 		'time': time
 	}
 
-	db.Appointment.register(newAppointment, function(error, appointment){
+	db.Appointment.save(newAppointment, function(error, appointment){
 		if(error){
 			console.log(error);
 			callback({error : "Não foi possível cadastrar consulta",

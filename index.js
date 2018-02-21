@@ -180,12 +180,15 @@ app.post("/clinic/agenda/add-appointment", isLoggedIn, function(req, res){
   var patientId = validator.trim(validator.escape(req.param('patientId')));
   var date = validator.trim(validator.escape(req.param('date')));
   var time = validator.trim(validator.escape(req.param('time')));
+  console.log("agendamento");
 
   appointmentController.save(patientId, doctorId, clinicId, date, time, function(resp){
     if(!resp['error']){
+        console.log("erro de agendamento");
         res.redirect("/clinic/agenda");
     }else{
       clinicController.addAppointment(clinicId, resp._id, function(resp){
+        console.log("adicionar");
         res.json(resp);
       });
     }
@@ -196,8 +199,8 @@ app.get("/clinic/agenda/:clinicId", isLoggedIn , function(req, res){
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
 
   clinicController.listAppointments(clinicId, function(resp){
-    //res.json(resp);
-    res.render("pages/agenda.ejs", {"appointments": req, "page": "/agenda"});
+    res.json(resp);
+   // res.render("pages/agenda.ejs", {"appointments": req, "page": "/agenda"});
   });
 });
 

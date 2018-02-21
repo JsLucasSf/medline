@@ -173,8 +173,8 @@ exports.addAppointment = function(clinicId, appointmentID, callback){
         }else{
           if(clinic.appointments.includes(resp)){
             errors = true;
-            callback({error: "Não foi possível associar o médico",
-                      message: "Médico já associado"});
+            callback({error: "Não foi cadastrar consulta",
+                      message: "Consulta já agendada"});
           }
         }
 
