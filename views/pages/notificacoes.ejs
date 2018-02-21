@@ -1,43 +1,42 @@
 <% include partials/header.ejs %>
 <body id="main" ng-app="medlineApp">
-<div class="container" id="container-sidebar">
-        <div class="row">
-            <div class="wrapper">
-                <% include partials/sidebar.ejs %>
+  <div class="container" id="container-sidebar">
+    <div class="row">
+      <div class="wrapper">
+        <% include partials/sidebar.ejs %>
 
-                <div class="content" id="main-content">
-
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="acordion-group">
-                          <div class="container" id="container-medicos">
-                              <div class="col-md-4">
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                           <span class="glyphicon glyphicon-briefcase"></span> Suas Notificações
-                                    </div>
-                                    <div class="panel-body">
-                                        <ul class="list-group">
-                                            <% for(var i = 0; i < notificacoes.length; i++){ %>
-                                                <li class="list-group-item">
-                                                     <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico">
-                                                     <%= notificacoes[i].message %>
-                                                </li>
-                                              </a>
-                                            <% } %>
-                                        </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+        <div class="content" id="main-content">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="acordion-group">
+                <div class="container" id="container-medicos">
+                  <div class="col-md-4">
+                    <div class="panel panel-primary">
+                      <div class="panel-heading">
+                       <span class="glyphicon glyphicon-briefcase"></span> Suas Notificações
+                      </div>
+                      <div class="panel-body">
+                        <ul class="list-group">
+                          <% for(var i = 0; i < notificacoes.length; i++){ %>
+                            <li class="list-group-item">
+                               <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico">
+                               <%= notificacoes[i].message %>
+                               <a type="button" class="btn btn-success" href="/doctor/acceptAssociation/<%= notificacoes[i]._id %>">V</a>
+                               <a type="button" class="btn btn-danger" href="/doctor/rejectAssociation/<%= notificacoes[i]._id %>">X</a>
+                            </li>
+                          <% } %>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-
-                </div> <!-- fim da div main content-->
+                </div>
+              </div>
+            </div>
           </div>
-      </div>
+        </div>
+      </div> <!-- fim da div main content-->
+    </div>
+  </div>
 
                    <div id="sair" class="modal fade">
                         <div class="modal-dialog modal-confirm">
@@ -56,7 +55,6 @@
                         </div>
                     </div>
                 </div>
-
 </body>
 </head>
 </html>

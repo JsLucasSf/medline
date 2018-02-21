@@ -45,7 +45,32 @@ app.get("/medicos", isLoggedIn , function(req, res){
       var respAssociated = resp.filter(function(doctor){
         return req.user.associatedDoctors.includes(String(doctor._id));
       });
-      res.render("pages/medicos.ejs", {"user": req.user, "page": "/medicos", "medicos": resp, "medicosAssociados": respAssociated});
+
+      var medicos = [];
+      notificationController.list(function(notifications){
+        for(var i = 0; i < resp.length; i++){
+          var medico = resp[i];
+
+          var found = false;
+          for(var j = 0; j < notifications.length; j++){
+            var notification = notifications[j];
+            console.log(j);
+            if(notification.sourceUser === String(req.user._id) &&
+               notification.targetUser === String(medico._id)){
+                 found = true;
+                 break;
+               }
+          }
+          medicos.push({"medico": medico, "exists": found});
+        }
+        res.render("pages/medicos.ejs",
+        {
+          "user": req.user,
+          "page": "/medicos",
+          "medicos": medicos,
+          "medicosAssociados": respAssociated
+        });
+      });
     });
   }else{
     res.redirect("/home");
@@ -57,8 +82,12 @@ app.get("/notificacoes", isLoggedIn, function(req, res){
     var filteredResp = resp.filter(function(obj){
       return obj.targetUser == req.user._id;
     });
-    console.log(filteredResp);
-    res.render("pages/notificacoes.ejs", {"user": req.user, "page": "/notificacoes", "notificacoes" : filteredResp});
+    res.render("pages/notificacoes.ejs",
+     {
+       "user": req.user,
+       "page": "/notificacoes",
+       "notificacoes" : filteredResp
+     });
   });
 });
 
@@ -74,25 +103,19 @@ app.get("/pacientes", isLoggedIn , function(req, res){
 
 app.get("/agenda", isLoggedIn, function(req, res){
   if(req.user.category === 'c'){
-    
+
     doctorController.list(function(resp){
       var doctors = resp;
       patientController.list(function(resp){
         res.render("pages/agenda.ejs", {"user": req.user, "page": "/agenda", "medicos": doctors, "pacientes": resp});
       });
-    });    
+    });
   }
-  }); 
+  });
 
 app.get("/config", isLoggedIn ,function(req, res){
   res.render("pages/config.ejs", {"user": req.user, "page": "/config"});
  });
-
-
-//app.post("/login", passport.authenticate("local", {
-//  successRedirect : "/home",
-//  failureRedirect : "/"
-//}) ,function(req, res){})
 
 app.post("/login", function(req, res, next) {
   passport.authenticate("local", function(err, user, info){
@@ -110,21 +133,6 @@ app.post("/login", function(req, res, next) {
     });
 })(req, res, next);
 });
-
-// app.get('/login', function(req, res, next) {
-//   passport.authenticate('local', function(err, user, info) {
-//     if (err) { return next(err) }
-//     if (!user) {
-//       // *** Display message without using flash option
-//       // re-render the login form with a message
-//       return res.render('login', { message: info.message })
-//     }
-//     req.logIn(user, function(err) {
-//       if (err) { return next(err); }
-//       return res.redirect('/users/' + user.username);
-//     });
-//   })(req, res, next);
-// });
 
 app.get("/logout", isLoggedIn , function(req, res){
   req.logout();
@@ -167,7 +175,6 @@ app.put("/clinic/add-doctor", isLoggedIn, function(req, res){
 })
 
 app.post("/clinic/agenda/add-appointment", isLoggedIn, function(req, res){
-  console.log("entrou");
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
   var doctorId = validator.trim(validator.escape(req.param('doctorId')));
   var patientId = validator.trim(validator.escape(req.param('patientId')));
@@ -176,12 +183,10 @@ app.post("/clinic/agenda/add-appointment", isLoggedIn, function(req, res){
 
   appointmentController.save(patientId, doctorId, clinicId, date, time, function(resp){
     if(!resp['error']){
-        console.log("error");
         res.redirect("/clinic/agenda");
     }else{
       clinicController.addAppointment(clinicId, resp._id, function(resp){
         res.json(resp);
-        console.log(res);
       });
     }
   });
@@ -202,20 +207,8 @@ app.get("/clinic/associateDoctor/:doctorId", isLoggedIn, function(req, res){
     var doctorId = validator.trim(validator.escape(req.param('doctorId')));
 
     clinicController.requestDoctor(clinicId, doctorId, function(resp){
-      if(!resp['error']){
-        console.log("entrou")
-        doctorController.addClinic(doctorId, clinicId, function(resp){
-          if(!resp['error']){
-            res.redirect("/medicos");
-          }
-        });
-      }else{
-        console.log("saiu");
-        res.redirect("/home");
-      }
-    })
-  }else{
-    res.redirect("/home");
+      res.redirect("/medicos");
+    });
   }
 });
 
@@ -315,6 +308,54 @@ app.delete('/doctors/:id', function(req, res) {
     res.json(resp);
   });
 
+});
+
+app.get('/doctor/acceptAssociation/:id', isLoggedIn, function(req, res){
+  var id = validator.trim(validator.escape(req.param('id')));
+
+  notificationController.get(id, function(resp){
+    if(resp['error']){
+      // TODO: Tratar esse erro
+      res.redirect('/notificacoes');
+    }else{
+      var clinicId = resp[0].sourceUser;
+      var doctorId = resp[0].targetUser;
+
+      clinicController.addDoctor(clinicId, doctorId, function(clinic){
+        doctorController.addClinic(doctorId, clinicId, function(doctor){
+          notificationController.delete(id, function(error){
+            if(error){
+              // TODO: Tratar esse erro
+              console.log(error);
+              res.redirect('/home');
+            }
+          });
+
+          res.redirect('/home');
+        })
+      });
+    }
+  });
+});
+
+app.get('/doctor/rejectAssociation/:id', isLoggedIn, function(req, res){
+  var id = validator.trim(validator.escape(req.param('id')));
+
+  notificationController.get(id, function(resp){
+    if(resp['error']){
+      // TODO: Tratar esse erro
+      res.redirect('/notificacoes');
+    }else{
+      // TODO: Mostrar mensagem de recusa de associação
+      notificationController.delete(id, function(error){
+        if(error){
+          // TODO: Tratar esse erro
+          console.log(error);
+        }
+      });
+      res.redirect('/home');
+    }
+  });
 });
 
 /* Patient's Routes */

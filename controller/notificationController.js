@@ -12,11 +12,11 @@ exports.addDoctorNotification = function(message, clinicId, doctorId, callback){
   newNotification.save(newNotification, function(error, notification){
     if(error){
       console.log(error);
-      callback({"error": "Não foi possível criar a notificação",
+      return callback({"error": "Não foi possível criar a notificação",
                 "message":  error})
     }else{
       console.log("Criou :)");
-      callback(notification);
+      return callback(notification);
     }
   });
 }
@@ -24,10 +24,40 @@ exports.addDoctorNotification = function(message, clinicId, doctorId, callback){
 exports.list = function(callback){
   db.Notification.find({}, function(error, notifications) {
     if(error) {
-      callback({error: 'Não foi possivel retornar as notificações',
+      return callback({error: 'Não foi possivel retornar as notificações',
                 message: error});
     } else {
-      callback(notifications);
+      return callback(notifications);
     }
   });
 };
+
+exports.notificationAlreadyExists = function(clinicId, doctorId, callback){
+  db.Notification.find({"sourceUser" : clinicId, "targetUser": doctorId},
+    function(error, notifications){
+      if(error){
+        return callback(false);
+      }
+      return callback (notifications.length > 0);
+    });
+}
+
+exports.get = function(notificationId, callback){
+  db.Notification.find({"_id": notificationId}, function(error, notification){
+    if(error){
+      return callback({error: "Não foi possível encontrar a notificação",
+                      message: error});
+    }else{
+      return callback(notification);
+    }
+  })
+};
+
+exports.delete = function(notificationId, callback){
+  db.Notification.remove({"_id": notificationId}, function(error){
+    if(error){
+      callback(error);
+
+    }
+  });
+}
