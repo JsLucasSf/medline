@@ -15,7 +15,7 @@
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h5 class="modal-title">Cadastrar consulta</h5>
+                                <h4 class="modal-title">Cadastrar consulta</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -23,81 +23,41 @@
                                 <div class="modal-body">
                                 <div id="consulta">
                                     <form action="/clinic/agenda/add-appointment" method="post"><br>
-                                        <select ng-model="selected">
-                                                <option ng-repeat="x in pacientes" ng-value="x.fullname">{{x.fullname}}</option>
-                                         </select>
-                                                
-                                    <h1>You selected: {{selected}}</h1>
-                                    <div class="col-md-4">
-                                            <div class="acordion-group">
-                                                <div class="container" id="container-medicos">
-                                                <div class="col-md-4">
-                                                    <div class="panel panel-primary">
-                                                        <div class="panel-heading">
-                                                            <span class="glyphicon glyphicon-briefcase"></span> Lista de pacientes
-                                                        </div>
-                                                        <div class="panel-body">
-
-                                                            
-                                                            <ul class="list-group">
-                                                                    <% for(var i = 0; i < pacientes.length; i++){ %>
-                                                                        
-                                                                    <a data-toggle="collapse" data-target="#paciente1" data-parent="#container-pacientes" href="#">
-                                                                    <li class="list-group-item">
-                                                                        <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= pacientes[i].fullname %>
-                                                                        
-                                                                        <a type="button" class="btn btn-primary" href="/clinic/associateDoctor/<%= pacientes[i]._id %>" >Selecionar</a>
-                                                                       
-                                                                    </li>
-                                                                        </a>
-                                                                <% } %>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
+                                        <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                         Selecione um paciente
                                                 </div>
-                                            </div>
+                                                <select class="form-control" ng-model="selectedPatient">
+                                                        <% for(var i = 0; i < pacientes.length; i++){ %>
+                                                             <option ng-value="pacientes[i]._id"><%= pacientes[i].fullname %></option>
+                                                        <% } %>
+                                                 </select>
                                         </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-
-                                    </div>
+                                        
+                                        <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                         Selecione um médico
+                                                </div>
+                                                <select class="form-control" ng-model="selectedDoctor">
+                                                        <% for(var i = 0; i < medicos.length; i++){ %>
+                                                                <option ng-value="medicos[i]._id"><%= medicos[i].fullname %></option>
+                                                        <% } %>
+                                                </select>
+                                        </div>
+                                       
                                                 
-                                    <div class="col-md-4">
-                                            <div class="acordion-group">
-                                                <div class="container" id="container-medicos">
-                                                <div class="col-md-4">
-                                                    <div class="panel panel-primary">
-                                                        <div class="panel-heading">
-                                                                <span class="glyphicon glyphicon-briefcase"></span> Lista de Médicos
-                                                        </div>
-                                                        <div class="panel-body">
-                                                            <ul class="list-group">
-                                                                <% for(var i = 0; i < medicos.length; i++){ %>
-                                                                    <a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#">
-                                                                    <li class="list-group-item">
-                                                                            <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= medicos[i].fullname %>
-                                                                            <a type="button" class="btn btn-primary" href="/clinic/associateDoctor/<%= medicos[i]._id %>" >Selecionar</a>
-                                                                    </li>
-                                                                    </a>
-                                                                <% } %>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                                </div>
-                                            </div>
-                                    
+                                    <h5 class="form-control">Paciente selecionado: {{selectedPatient}}</h5>
+                                    <h5 class="form-control">Médico selecionado: {{selectedDoctor}}</h5>
+                                   
                                     <div class="form-group">
-                                        <input type="date" class="form-control" name="Date" placeholder="Data" required="required" autofocus>
+                                        <input type="date" class="form-control" name="date" placeholder="Data" required="required" autofocus>
                                     </div>
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="time" placeholder="Horário" required="required" autofocus>
                                     </div>
         
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block">Agendar</button>
                                     </div>
                                     </form>
                                 </div>

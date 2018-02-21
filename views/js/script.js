@@ -80,11 +80,11 @@
 		}
 		
 		$scope.submitNewAppointment = function(){
-			var clinicId = document.getElementsByName("a_clinicId")[0].value;
-			var patientID = document.getElementsByName("a_patientId")[0].value;
-			var doctorID = document.getElementsByName("a_doctorId")[0].value;
-			var data = document.getElementsByName("a_data")[0].value;
-			var time = document.getElementsByName("a_time")[0].value;
+			var clinicId = document.getElementsByName("clinicId")[0].value;
+			var patientID = document.getElementsByName("patientId")[0].value;
+			var doctorID = document.getElementsByName("doctorId")[0].value;
+			var data = document.getElementsByName("data")[0].value;
+			var time = document.getElementsByName("time")[0].value;
 
 			var postData = {"clinicId": clinicId, "patientId": patientID, "doctorId": doctorID,
 			 								"data": data, "time": time};
