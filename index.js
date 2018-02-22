@@ -198,12 +198,12 @@ app.post("/clinic/agenda/add-appointment", function(req, res){
   });
 })
 
-app.get("/clinic/agenda/:clinicId", isLoggedIn , function(req, res){
+app.get("/clinic/agenda/:clinicId", function(req, res){
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
-
+  console.log("LISTAR CONSULTAS");
   clinicController.listAppointments(clinicId, function(resp){
-    res.json(resp);
-   // res.render("pages/agenda.ejs", {"appointments": req, "page": "/agenda"});
+    //res.json(resp);
+    res.render("pages/agenda.ejs", {"appointments": resp, "page": "/agenda"});
   });
 });
 

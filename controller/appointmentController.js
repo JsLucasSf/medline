@@ -1,7 +1,7 @@
 var db = require('../db_config.js');
 
 exports.patientAppointments = function(patientId, callback){
-	db.Appointment.find({"patientID": patientId}, function(error, appointments) {
+	db.Appointment.find({"patientId": patientId}, function(error, appointments) {
 		if(error) {
 			callback({error: 'Não foi possivel retornar as consultas do paciente',
 								message: error});
@@ -12,9 +12,20 @@ exports.patientAppointments = function(patientId, callback){
 };
 
 exports.doctorAppointments = function(doctorId, callback){
-	db.Appointment.find({"doctorID": doctorId}, function(error, appointments) {
+	db.Appointment.find({"doctorId": doctorId}, function(error, appointments) {
 		if(error) {
 			callback({error: 'Não foi possivel retornar as consultas do médico',
+								message: error});
+		} else {
+			callback(appointments);
+		}
+	});
+};
+
+exports.clinicAppointments = function(clinicId, callback){
+	db.Appointment.find({"clinicId": clinicId}, function(error, appointments) {
+		if(error) {
+			callback({error: 'Não foi possivel retornar as consultas da clinica',
 								message: error});
 		} else {
 			callback(appointments);

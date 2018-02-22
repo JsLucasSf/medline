@@ -198,7 +198,15 @@ exports.listAppointments = function(clinicId, callback){
         callback({error: "Não foi possível listar as consultas",
                   message: "Não há consultas cadastradas em entidades que não são clínicas"});
       }else{
-        callback(clinic.appointments);
+
+        appointmentController.clinicAppointments(clinicId, function(resp){
+          if(resp['error']){
+            callback({error: "Não foi possível listar consultas",
+                      message: resp["message"]});
+          }else{
+            return callback(resp);
+          }
+        });
       }
     }
   });
