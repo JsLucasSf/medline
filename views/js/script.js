@@ -90,27 +90,27 @@
 			 								"data": data, "time": time};
 
 			$http({
-        url: '/clinic/agenda/add-appointment',
-        method: "POST",
-        data: postData
-	    })
-	    .then(function(response) {
-				if(response.data.message && response.data.message.name === "UserExistsError"){
-				var message =	document.getElementById("error-message-clinic");
-				message.setAttribute("style", "display:block");
-				message.innerText = "Não foi possível agendar consulta";
-				}else{
-					$window.location.href = "/clinic";
-				}
-	    });
+				url: '/clinic/agenda/add-appointment',
+				method: "POST",
+				data: postData
+				})
+				.then(function(response) {
+						if(response.data.message && response.data.message.name === "ExistsError"){
+						var message =	document.getElementById("error-message-clinic");
+						message.setAttribute("style", "display:block");
+						message.innerText = "Não foi possível agendar consulta";
+						}else{
+							$window.location.href = "/clinic";
+						}
+				});
 		}
 	}]);
 
-  // create the controller and inject Angular's $scope
-  medlineApp.controller('mainController', function($scope) {
-    // create a message to display in our view
-    $scope.message = 'Corpo da página principal aqui :) ';
-  });
+	// create the controller and inject Angular's $scope
+	medlineApp.controller('mainController', function($scope) {
+		// create a message to display in our view
+		$scope.message = 'Corpo da página principal aqui :) ';
+	});
 
 	medlineApp.controller('agendaController', function($scope) {
 		// create a message to display in our view

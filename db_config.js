@@ -41,9 +41,9 @@ var notificationSchema = mongoose.Schema({
 })
 
 var appointmentSchema = mongoose.Schema({
-	patientID: String,
-	doctorID: String,
-	clinicID: String,
+	patientId: String,
+	doctorId: String,
+	clinicId: String,
 	date: String,
 	time: String
 })

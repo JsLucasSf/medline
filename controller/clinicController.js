@@ -165,33 +165,25 @@ exports.addAppointment = function(clinicId, appointmentID, callback){
         callback({error: "Não foi possível cadastrar consulta",
                   message: "Não é possível cadastrar consulta um elemento que não é uma clínica"});
       }
-      appointmentController.appointment({"appointmentId":appointmentID}, function(resp){
-        if(resp['error']){
-          errors = true;
-          callback({error: "Não foi possível cadastrar consulta",
-                    message: resp["message"]});
-        }else{
-          if(clinic.appointments.includes(resp)){
-            errors = true;
-            callback({error: "Não foi cadastrar consulta",
-                      message: "Consulta já agendada"});
-          }
-        }
-
-        if(!errors){
-          clinic.appointments.push(appointmentID);
-          clinic.save(function(error, clinic){
-            if(error){
-              console.log(error);
-              callback({error: "Não foi possível cadastrar consulta",
-                        message: error});
-            }else{
-              callback(clinic);
-            }
-          });
-        };
-      });
+      if(clinic.appointments.includes(appointmentID)){
+        errors = true;
+        callback({error: "Não foi cadastrar consulta",
+                  message: "Consulta já agendada"});
+      }
     }
+
+    if(!errors){
+      clinic.appointments.push(appointmentID);
+      clinic.save(function(error, clinic){
+        if(error){
+          console.log(error);
+          callback({error: "Não foi possível cadastrar consulta",
+                    message: error});
+        }else{
+          callback(clinic);
+        }
+      });
+    };
   });
 }
 

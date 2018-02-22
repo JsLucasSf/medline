@@ -8,9 +8,31 @@
 
 
                 <div class="content" id="main-content">
-                    Página de agenda
 
-                    <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastrar">Cadastrar consultas</a>
+                    <div class="panel-body" action="/clinic/agenda/:clinicId" method="get">
+                            <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                            Consultas
+                                   </div>
+                                   <ul class="list-group" >
+                                        <li class="list-group-item">
+                                           <h5>Paciente: José Santos</h5>
+                                           <h6>Médico: Raul Medeiros</h6>
+                                           <h6>Data: 21/04/2018</h6>
+                                           <h6>Horário: 10:30</h6>
+                                        </li>
+                                        <li class="list-group-item">
+                                                <h5>Paciente: Raquel Silva</h5>
+                                                <h6>Médico: José Freitas</h6>
+                                                <h6>Data: 22/04/2018</h6>
+                                                <h6>Horário: 11:30</h6>
+                                             </li>
+                                   </ul>
+                            </div>
+            
+                    </div>
+                    <br>
+                    <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastrar">Agendar consultas</a>
                         <div class="modal fade" id="cadastrar">
                             <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -27,7 +49,7 @@
                                                 <div class="panel-heading">
                                                          Selecione um paciente
                                                 </div>
-                                                <select class="form-control" ng-model="selectedPatient">
+                                                <select name="patientId" class="form-control" ng-model="selectedPatient">
                                                         <% for(var i = 0; i < pacientes.length; i++){ %>
                                                              <option ng-value="pacientes[i]._id"><%= pacientes[i].fullname %></option>
                                                         <% } %>
@@ -38,7 +60,7 @@
                                                 <div class="panel-heading">
                                                          Selecione um médico
                                                 </div>
-                                                <select class="form-control" ng-model="selectedDoctor">
+                                                <select name="doctorId" class="form-control" ng-model="selectedDoctor">
                                                         <% for(var i = 0; i < medicos.length; i++){ %>
                                                                 <option ng-value="medicos[i]._id"><%= medicos[i].fullname %></option>
                                                         <% } %>
@@ -46,19 +68,19 @@
                                         </div>
                                        
                                                 
-                                    <h5 class="form-control">Paciente selecionado: {{selectedPatient}}</h5>
-                                    <h5 class="form-control">Médico selecionado: {{selectedDoctor}}</h5>
-                                   
-                                    <div class="form-group">
-                                        <input type="date" class="form-control" name="date" placeholder="Data" required="required" autofocus>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" name="time" placeholder="Horário" required="required" autofocus>
-                                    </div>
-        
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block">Agendar</button>
-                                    </div>
+                                        <h5 class="form-control">Paciente selecionado: {{selectedPatient}}</h5>
+                                        <h5 class="form-control">Médico selecionado: {{selectedDoctor}}</h5>
+                                    
+                                        <div class="form-group">
+                                            <input type="date" class="form-control" name="date" placeholder="Data" required="required" autofocus>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="time" placeholder="Horário" required="required" autofocus>
+                                        </div>
+            
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block">Agendar</button>
+                                        </div>
                                     </form>
                                 </div>
                                 </div>

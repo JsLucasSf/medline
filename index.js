@@ -93,11 +93,11 @@ app.get("/notificacoes", isLoggedIn, function(req, res){
 
 app.get("/pacientes", isLoggedIn , function(req, res){
    if(req.user.category === 'c' || req.user.category === 'd'){
-     patientController.list(function(resp){
-       res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes", "pacientes": resp});
+      patientController.list(function(resp){
+      res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes", "pacientes": resp});
      });
   }else{
-    res.redirect("/home");
+      res.redirect("/home");
   }
  });
 
@@ -140,9 +140,10 @@ app.get("/logout", isLoggedIn , function(req, res){
 })
 
 /* Clinics' Routes */
-app.get("/clinics", isLoggedIn ,function(req, res){
-  clinicController.list(function(resp){
-    res.json(resp);
+app.get("/clinics", function(req, res){
+    clinicController.list(function(resp){
+      console.log("clinicas");
+      res.json(resp);
   });
 })
 
@@ -174,20 +175,22 @@ app.put("/clinic/add-doctor", isLoggedIn, function(req, res){
   });
 })
 
-app.post("/clinic/agenda/add-appointment", isLoggedIn, function(req, res){
-  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
-  var doctorId = validator.trim(validator.escape(req.param('doctorId')));
-  var patientId = validator.trim(validator.escape(req.param('patientId')));
-  var date = validator.trim(validator.escape(req.param('date')));
-  var time = validator.trim(validator.escape(req.param('time')));
+app.post("/clinic/agenda/add-appointment", function(req, res){
+  console.log("ENTROU");
+  var clinicId = validator.trim(validator.escape(req.body.clinicId));
+  var doctorId = validator.trim(validator.escape(req.body.doctorId));
+  var patientId = validator.trim(validator.escape(req.body.patientId));
+  var date = validator.trim(validator.escape(req.body.date));
+  var time = validator.trim(validator.escape(req.body.time));
+ 
   console.log("agendamento");
 
-  appointmentController.save(patientId, doctorId, clinicId, date, time, function(resp){
-    if(!resp['error']){
+  appointmentController.register(patientId, doctorId, clinicId, date, time, function(resp){
+    if(resp['error']){
         console.log("erro de agendamento");
-        res.redirect("/clinic/agenda");
+        //res.redirect("/clinic/agenda");
     }else{
-      clinicController.addAppointment(clinicId, resp._id, function(resp){
+        clinicController.addAppointment(clinicId, resp._id, function(resp){
         console.log("adicionar");
         res.json(resp);
       });

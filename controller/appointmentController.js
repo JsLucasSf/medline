@@ -1,7 +1,7 @@
 var db = require('../db_config.js');
 
-exports.patientAppointments = function(patientID, callback){
-	db.Appointment.find({"patientID": patientID}, function(error, appointments) {
+exports.patientAppointments = function(patientId, callback){
+	db.Appointment.find({"patientID": patientId}, function(error, appointments) {
 		if(error) {
 			callback({error: 'Não foi possivel retornar as consultas do paciente',
 								message: error});
@@ -11,8 +11,8 @@ exports.patientAppointments = function(patientID, callback){
 	});
 };
 
-exports.doctorAppointments = function(doctorID, callback){
-	db.Appointment.find({"doctorID": doctorID}, function(error, appointments) {
+exports.doctorAppointments = function(doctorId, callback){
+	db.Appointment.find({"doctorID": doctorId}, function(error, appointments) {
 		if(error) {
 			callback({error: 'Não foi possivel retornar as consultas do médico',
 								message: error});
@@ -48,19 +48,20 @@ exports.appointment = function(id, callback) {
 	});
 };
 
-exports.save = function(patientID, doctorID, clinicId, date, time,
+exports.register = function(patientId, doctorId, clinicId, date, time,
 										 callback){
 
-	var newAppointment = {
-		'patientID': patientID,
-		'doctorID': doctorID,
+	var newAppointment = db.Appointment({
+		'patientId': patientId,
+		'doctorId': doctorId,
 		'clinicId': clinicId,
 		'date': date,
 		'time': time
-	}
+	})
 
-	db.Appointment.save(newAppointment, function(error, appointment){
+	newAppointment.save(newAppointment, function(error, appointment){
 		if(error){
+			console.log("entrou aqui!!")
 			console.log(error);
 			callback({error : "Não foi possível cadastrar consulta",
 								message : error});
@@ -70,13 +71,13 @@ exports.save = function(patientID, doctorID, clinicId, date, time,
 	});
 };
 
-exports.update = function(apointmentID, doctorID, date, time, callback) {
+exports.update = function(apointmentId, doctorId, date, time, callback) {
 
-	db.Appointment.findById(appointmentID, function(error, appointment) {
+	db.Appointment.findById(appointmentId, function(error, appointment) {
 
-		if(doctorID) {
+		if(doctorId) {
 
-			appointment.doctorId = doctorID;
+			appointment.doctorId = doctorId;
 		}
 		
 		if(date) {
