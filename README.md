@@ -63,6 +63,17 @@ Antes de mais nada, precisamos adicionar o remote do heroku
 git remote add heroku https://git.heroku.com/medline.git
 ```
 
+Agora, devemos installar a ferramenta de linha de comando do heroku
+
+Tutorial - https://devcenter.heroku.com/articles/heroku-cli#download-and-install
+
+Fazemos login no heroku no terminal
+
+```
+heroku login
+```
+
+E por fim
 
 ```
 git add .
