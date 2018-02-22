@@ -175,7 +175,7 @@ app.put("/clinic/add-doctor", isLoggedIn, function(req, res){
   });
 })
 
-app.post("/clinic/agenda/add-appointment", function(req, res){
+app.post("/clinic/agenda/add-appointment", isLoggedIn , function(req, res){
   console.log("ENTROU");
   var clinicId = validator.trim(validator.escape(req.body.clinicId));
   var doctorId = validator.trim(validator.escape(req.body.doctorId));
@@ -198,7 +198,7 @@ app.post("/clinic/agenda/add-appointment", function(req, res){
   });
 })
 
-app.get("/clinic/agenda/:clinicId", function(req, res){
+app.get("/clinic/agenda/:clinicId", isLoggedIn ,function(req, res){
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
   console.log("LISTAR CONSULTAS");
   clinicController.listAppointments(clinicId, function(resp){
