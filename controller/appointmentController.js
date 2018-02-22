@@ -33,7 +33,6 @@ exports.clinicAppointments = function(clinicId, callback){
 	});
 };
 
-
 exports.list = function(callback){
 	db.Appointment.find({}, function(error, appointments) {
 		if(error) {
@@ -62,22 +61,37 @@ exports.appointment = function(id, callback) {
 exports.register = function(patientId, doctorId, clinicId, date, time,
 										 callback){
 
-	var newAppointment = db.Appointment({
+	var newAppointment = {
 		'patientId': patientId,
 		'doctorId': doctorId,
 		'clinicId': clinicId,
 		'date': date,
 		'time': time
-	})
+ 	};
 
-	newAppointment.save(newAppointment, function(error, appointment){
+	db.Appointment.find(newAppointment, function(error, appointments){
 		if(error){
-			console.log("entrou aqui!!")
-			console.log(error);
-			callback({error : "Não foi possível cadastrar consulta",
-								message : error});
+			return callback({error : "Não foi possível cadastrar consulta",
+											message : error});
 		}else{
-			callback(appointment);
+			console.log(appointments.length);
+			if(appointments.length === 0){
+				newAppointment = db.Appointment(newAppointment);
+
+				newAppointment.save(newAppointment, function(error, appointment){
+					if(error){
+						console.log("entrou aqui!!")
+						console.log(error);
+						return callback({error : "Não foi possível cadastrar consulta",
+											message : error});
+					}else{
+						return callback(appointment);
+					}
+				});
+			}else{
+				return callback({error: "Não foi possível cadastrar consulta",
+											message : "Uma consulta semelhante já está cadastrada"});
+			}
 		}
 	});
 };
@@ -90,9 +104,9 @@ exports.update = function(apointmentId, doctorId, date, time, callback) {
 
 			appointment.doctorId = doctorId;
 		}
-		
+
 		if(date) {
-			
+
 			appointment.date = date;
 		}
 
@@ -135,4 +149,3 @@ exports.delete = function(id, callback) {
 		}
 	});
 };
-

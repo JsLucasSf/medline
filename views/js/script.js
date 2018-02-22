@@ -1,6 +1,40 @@
 	// create the module and name it RoutingApp
 	var medlineApp = angular.module('medlineApp', []);
 
+	medlineApp.controller('appointmentController', ['$scope', '$http', '$window', function($scope, $http, $window){
+		$scope.addAppointment = function(){
+			var clinicId = document.getElementsByName("clinicId")[0].value;
+		  var doctorId = document.getElementsByName('doctorId')[0].value;
+		  var patientId = document.getElementsByName('patientId')[0].value;
+		  var date = document.getElementsByName('date')[0].value;
+		  var time = document.getElementsByName('time')[0].value;
+
+			// action="/clinic/agenda/add-appointment" method="post"
+
+			var postData =
+				{
+					"clinicId": clinicId,
+					"doctorId": doctorId,
+					"patientId": patientId,
+					"date": date,
+					"time": time
+				};
+
+			$http({
+				"url": '/clinic/agenda/add-appointment',
+				"method": "POST",
+				"data": postData
+			})
+			.then(function(response){
+				//TODO: Tratar erro e mostrar mensagens
+				if(response.data.error){
+					console.log(response.data.message);
+				}
+				$window.location.href = "/agenda";
+			});
+		}
+	}])
+
 	medlineApp.controller('loginController', ['$scope', '$http', '$window', function($scope, $http, $window){
 		$scope.submitLogin = function(){
 			var username = document.getElementsByName("username")[0].value;
@@ -49,11 +83,11 @@
 				}
 	    });
 		}
-		
-	
+
+
 
 		$scope.submitCadastroPaciente = function(){
-			
+
 			var username = document.getElementsByName("username")[1].value;
 			var fullname = document.getElementsByName("fullname")[0].value;
 			var age = document.getElementsByName("age")[0].value;
@@ -78,7 +112,7 @@
 				}
 	    });
 		}
-		
+
 		$scope.submitNewAppointment = function(){
 			var clinicId = document.getElementsByName("clinicId")[0].value;
 			var patientID = document.getElementsByName("patientId")[0].value;
@@ -128,4 +162,3 @@
 	medlineApp.controller('configController', function($scope) {
 		$scope.message = 'Corpo da página de configurações aqui ';
 	});
-

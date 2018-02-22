@@ -94,7 +94,12 @@ app.get("/notificacoes", isLoggedIn, function(req, res){
 app.get("/pacientes", isLoggedIn , function(req, res){
    if(req.user.category === 'c' || req.user.category === 'd'){
       patientController.list(function(resp){
-      res.render("pages/pacientes.ejs", {"user": req.user, "page": "/pacientes", "pacientes": resp});
+      res.render("pages/pacientes.ejs",
+        {
+          "user": req.user,
+          "page": "/pacientes",
+          "pacientes": resp
+        });
      });
   }else{
       res.redirect("/home");
@@ -102,15 +107,65 @@ app.get("/pacientes", isLoggedIn , function(req, res){
  });
 
 app.get("/agenda", isLoggedIn, function(req, res){
-  if(req.user.category === 'c'){
+  doctorController.list(function(resp){
+    var doctors = resp;
+    patientController.list(function(resp){
+      var patients = resp;
+      appointmentController.list(function(resp){
+        var consultas = [];
 
-    doctorController.list(function(resp){
-      var doctors = resp;
-      patientController.list(function(resp){
-        res.render("pages/agenda.ejs", {"user": req.user, "page": "/agenda", "medicos": doctors, "pacientes": resp});
-      });
+        for(var i = 0; i < resp.length; i++){
+          var appointment = resp[i];
+
+          for(var j = 0; j < doctors.length; j++){
+            if(String(doctors[j]._id) === appointment.doctorId){
+              var aptDoctor = doctors[j];
+              break;
+            }
+          }
+
+          for(var k = 0; k < patients.length; k++){
+            if(String(patients[k]._id) === appointment.patientId){
+              var aptPatient = patients[k];
+              break;
+            }
+          }
+
+          consultas.push({
+            "consulta": appointment,
+            "medico": aptDoctor,
+            "paciente": aptPatient
+          });
+
+        }
+
+        const myId = req.user._id;
+        const myType = req.user.category;
+        if(myType === 'c'){
+          consultas = consultas.filter(function(consulta){
+            return (consulta.consulta.clinicId === String(myId));
+          });
+        }else if(myType === 'd'){
+          consultas = consultas.filter(function(consulta){
+            return (consulta.consulta.doctorId === String(myId));
+          });
+        }else if(myType === 'p'){
+          consultas = consultas.filter(function(consulta){
+            return (consulta.consulta.patientId === String(myId));
+          });
+        }
+
+        res.render("pages/agenda.ejs",
+         {
+           "user": req.user,
+           "page": "/agenda",
+           "medicos": doctors,
+           "pacientes": patients,
+           "consultas": consultas
+         });
+     });
     });
-  }
+  });
   });
 
 app.get("/config", isLoggedIn ,function(req, res){
@@ -176,27 +231,29 @@ app.put("/clinic/add-doctor", isLoggedIn, function(req, res){
 })
 
 app.post("/clinic/agenda/add-appointment", isLoggedIn , function(req, res){
-  console.log("ENTROU");
-  var clinicId = validator.trim(validator.escape(req.body.clinicId));
-  var doctorId = validator.trim(validator.escape(req.body.doctorId));
-  var patientId = validator.trim(validator.escape(req.body.patientId));
-  var date = validator.trim(validator.escape(req.body.date));
-  var time = validator.trim(validator.escape(req.body.time));
- 
-  console.log("agendamento");
+  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
+  var doctorId = validator.trim(validator.escape(req.param('doctorId')));
+  var patientId = validator.trim(validator.escape(req.param('patientId')));
+  var date = validator.trim(validator.escape(req.param('date')));
+  var time = validator.trim(validator.escape(req.param('time')));
 
   appointmentController.register(patientId, doctorId, clinicId, date, time, function(resp){
     if(resp['error']){
-        console.log("erro de agendamento");
-        //res.redirect("/clinic/agenda");
+      // TODO: Tratar esse erro
+      console.log("erro de agendamento");
+      return res.send(resp);
     }else{
-        clinicController.addAppointment(clinicId, resp._id, function(resp){
-        console.log("adicionar");
-        res.json(resp);
-      });
+      //clinicController.addAppointment(clinicId, resp._id, function(resp){
+      //  console.log(resp);
+      // TODO: Mostrar mensagem de sucesso
+      console.log('Cadastrado');
+      return res.send(resp);
+      // CATARINA: Acho que não precisamos adicionar as listas na clínica
+
+    //});
     }
   });
-})
+});
 
 app.get("/clinic/agenda/:clinicId", isLoggedIn ,function(req, res){
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
