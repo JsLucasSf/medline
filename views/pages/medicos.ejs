@@ -1,5 +1,5 @@
 <% include partials/header.ejs %>
-<body id="main" ng-app="medlineApp">
+<body id="main" ng-controller="medicosController">
   <div class="container" id="container-sidebar">
     <div class="row">
       <div class="wrapper">
@@ -17,19 +17,18 @@
                       </div>
                       <div class="panel-body">
                         <ul class="list-group">
-                          <% for(var i = 0; i < medicos.length; i++){ %>
-                            <% if(!medicosAssociados.includes(medicos[i].medico)){ %>
-                              <a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#">
-                                <li class="list-group-item">
-                                 <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= medicos[i].medico.fullname %>
-                                 <% if(!medicos[i].exists){ %>
-                                  <a type="button" class="btn btn-primary" href="/clinic/associateDoctor/<%= medicos[i].medico._id %>" >Associar</a>
-                                 <% } %>
-                                </li>
-                              </a>
-                            <% } %>
-                          <% } %>
+                          <li class="list-group-item">
+                            <div ng-repeat="medico in medicos">
+                              <div ng-if="usuarioLogado.associatedDoctors.includes(medico._id) == false">
+                                <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> {{medico.fullname}}
+                                <div ng-if="notificacaoExiste(medico._id) == false">
+                                  <a type="button" class="btn btn-primary" ng-click="associarMedico(medico._id)">Associar</a>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
                         </ul>
+
                       </div>
 
                       <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastrar">Cadastrar Médicos</a>
@@ -90,14 +89,15 @@
                          </div>
                       <div class="panel-body">
                         <ul class="list-group">
-                                             <% for(var i = 0; i < medicosAssociados.length; i++){ %>
-                                               <a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#">
-                                                 <li class="list-group-item">
-                                                      <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= medicosAssociados[i].username %>
-                                                 </li>
-                                               </a>
-                                             <% } %>
-                                         </ul>
+                          <div ng-repeat="medico in medicosAssociados">
+                            <li class="list-group-item">
+                              <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> {{medico.fullname}} %>
+                              <a type="button" class="btn btn-danger" ng-click="cancelarAssociacao(usuarioLogado._id, medico._id)">X</a>
+                            </li>
+                          </div>
+
+
+                        </ul>
                       </div>
                     </div>
                   </div>

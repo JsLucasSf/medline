@@ -118,7 +118,6 @@ exports.addDoctor = function(clinicId, doctorId, callback){
                   message: "Médico já associado"});
       }
       if(!errors){
-        clinic.associatedDoctors = clinic.associatedDoctors.concat([doctorId]);
         clinic.associatedDoctors.push(doctorId);
         clinic.save(function(error, updatedClinic){
           if(error){
@@ -210,4 +209,23 @@ exports.listAppointments = function(clinicId, callback){
       }
     }
   });
+}
+
+exports.cancelarAssociacao = function(clinicId, doctorId, callback){
+  db.User.find({"_id": clinicId}, function(error, user){
+    if(!error){
+      var index = user[0].associatedDoctors.indexOf(doctorId);
+      user[0].associatedDoctors.splice(index ,1);
+      user[0].save(function(error, clinic){
+				if(error){
+					return callback({error: 'Não foi possível cancelar a associação',
+													message: error});
+				}else{
+					return callback(clinic);
+				}
+			});
+    }else{
+      console.log(error);
+    }
+  })
 }

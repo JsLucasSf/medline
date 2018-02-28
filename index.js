@@ -67,14 +67,62 @@ app.get("/medicos", isLoggedIn , function(req, res){
         {
           "user": req.user,
           "page": "/medicos",
-          "medicos": medicos,
-          "medicosAssociados": respAssociated
+          "medicos": medicos
         });
       });
     });
   }else{
     res.redirect("/home");
   }
+});
+
+app.get("/clinica/get-dados", isLoggedIn, function(req, res){
+  doctorController.list(function(resp){
+    if(!resp.error){
+      var associatedDoctors = [];
+      for(var i = 0; i < resp.length; i++){
+        if(req.user.associatedDoctors.includes(String(resp[i]._id))){
+          associatedDoctors.push(resp[i]);
+        }
+      }
+      res.send({
+        "user": req.user,
+        "doctors": resp,
+        "associatedDoctors": associatedDoctors
+      });
+    }
+  });
+});
+
+app.get("/get-dados-notificacoes", isLoggedIn, function(req, res){
+  var idClinica = req.user._id;
+  var minhasNotificacoes = [];
+
+  notificationController.list(function(resp){
+    for(var i = 0; i < resp.length; i++){
+      if(resp[i].sourceUser === String(idClinica)){
+        minhasNotificacoes.push(resp[i]);
+      }
+    }
+
+    return res.send(minhasNotificacoes);
+  })
+});
+
+app.put("/clinica/cancelarAssociacao", isLoggedIn, function(req, res){
+  var clinic = validator.trim(validator.escape(req.body.clinica));
+  var doctor = validator.trim(validator.escape(req.body.medico));
+
+  clinicController.cancelarAssociacao(clinic, doctor, function(resp){
+    if(!resp.error){
+      doctorController.cancelarAssociacao(doctor, clinic, function(resp){
+        if(!resp.error){
+          return res.send("success");
+        }
+      });
+    }
+  });
+
 });
 
 app.get("/notificacoes", isLoggedIn, function(req, res){
@@ -113,6 +161,13 @@ app.get("/agenda", isLoggedIn, function(req, res){
       var patients = resp;
       appointmentController.list(function(resp){
         var consultas = [];
+        var associatedDoctors = [];
+
+        for(var w = 0; w < doctors.length; w++){
+          if(req.user.associatedDoctors.includes(String(doctors[w]._id))){
+            associatedDoctors.push(doctors[w]);
+          }
+        }
 
         for(var i = 0; i < resp.length; i++){
           var appointment = resp[i];
@@ -130,6 +185,7 @@ app.get("/agenda", isLoggedIn, function(req, res){
               break;
             }
           }
+
 
           consultas.push({
             "consulta": appointment,
@@ -159,7 +215,7 @@ app.get("/agenda", isLoggedIn, function(req, res){
          {
            "user": req.user,
            "page": "/agenda",
-           "medicos": doctors,
+           "medicos": associatedDoctors,
            "pacientes": patients,
            "consultas": consultas
          });
@@ -270,7 +326,7 @@ app.get("/clinic/associateDoctor/:doctorId", isLoggedIn, function(req, res){
     var doctorId = validator.trim(validator.escape(req.param('doctorId')));
 
     clinicController.requestDoctor(clinicId, doctorId, function(resp){
-      res.redirect("/medicos");
+      return res.send("success");
     });
   }
 });

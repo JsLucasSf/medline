@@ -59,9 +59,9 @@ exports.update = function(id, username, fullname, password, callback) {
 
 			doctor.username = username;
 		}
-		
+
 		if(fullname) {
-			
+
 			doctor.fullname = fullname;
 		}
 
@@ -166,4 +166,23 @@ exports.addClinic = function(doctorId, clinicId, callback){
       };
     }
   });
+}
+
+exports.cancelarAssociacao = function(doctorId, clinicId, callback){
+  db.User.find({"_id": doctorId}, function(error, user){
+    if(!error){
+      var index = user[0].associatedClinics.indexOf(clinicId);
+      user[0].associatedClinics.splice(index ,1);
+			user[0].save(function(error, doctor){
+				if(error){
+					return callback({error: 'Não foi possível cancelar a associação',
+													message: error});
+				}else{
+					return callback(doctor);
+				}
+			});
+    }else{
+      console.log(error);
+    }
+  })
 }
