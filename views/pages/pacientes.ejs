@@ -14,7 +14,7 @@
                                                            
                                 <div class="col-md-6">     
                                 <ul class="list-group" style="overflow:auto;height:400px;">
-                                        <% for(var i = 0; i < pacientes.length/2; i++){ %>
+                                        <% for(var i = 0; i < pacientes.length; i++){ %>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <!-- verificar se tá correto!!! lista de pacientes -->
                                             
@@ -26,21 +26,6 @@
 
                                 
                                 </div> 
-
-                                <div class="col-md-6">   
-                                      <ul class="list-group" style="overflow:auto;height:400px;">
-                                              <% if(pacientes.lenght != 0) {%>
-                                              <%for(var i =  pacientes.length/2; i < pacientes.length; i++){ %>
-                                          <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <!-- verificar se tá correto!!! lista de pacientes -->
-                                                  
-                                                      <img src="../images/default_user_avatar.jpg" style="border-radius: 50%; width: 60px;height: auto;"> <%= pacientes[i].fullname %>, <%= pacientes[i].age %> anos. Telefone: <%= pacientes[i].telephone %>
-                                                   
-                                          </li>
-                                          <% } %>
-                                          <% } %>
-                                        </ul>
-                                      </div> 
                                       <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#cadastrar">Cadastrar Paciente</a> 
 
 
