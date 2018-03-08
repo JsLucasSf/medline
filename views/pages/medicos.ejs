@@ -37,12 +37,10 @@
     <ul class="list-group">
         <div ng-repeat="medico in medicos">
             <div ng-if="usuarioLogado.associatedDoctors.includes(medico._id) == true">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
                 <!-- verificar se tá correto!!! desassociação do medico -->
                     <img src="../images/doctor_avatar.png" style="border-radius: 50%; width: 15%;height: auto;"> {{medico.fullname}}, {{medico.specialty}}
-                  <span ng-if="notificacaoExiste(medico._id) == true">
-                      <button class="btn btn-danger btn-xs pull-right" ng-click="cancelarAssociacao(clinic._id, medico._id)" data-toggle="tooltip" title="Desassociar médico"><span class="glyphicon glyphicon-trash"></span></button>
-                  </span>
+                      <button class="btn btn-danger btn-xs pull-right" ng-click="cancelarAssociacao(usuarioLogado._id, medico._id)" data-toggle="tooltip" title="Desassociar médico"><span class="glyphicon glyphicon-trash"></span></button>
                 </div>
         </li>
         </div>
