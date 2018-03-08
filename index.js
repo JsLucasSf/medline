@@ -296,7 +296,7 @@ app.post("/clinic/agenda/add-appointment", isLoggedIn , function(req, res){
   appointmentController.register(patientId, doctorId, clinicId, date, time, function(resp){
     if(resp['error']){
       // TODO: Tratar esse erro
-      console.log("erro de agendamento");
+      console.log(resp);
       return res.send(resp);
     }else{
       //clinicController.addAppointment(clinicId, resp._id, function(resp){

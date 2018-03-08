@@ -44,6 +44,7 @@
                       <div class="modal-body">
                       <div id="consulta">
                         <form ng-submit="addAppointment()"><br>
+                            <div class="alert alert-danger" id="error-message-appointment" style="display:none"></div>
                             <div class="panel panel-primary">
                               <div class="panel-heading">Selecione um paciente</div>
                               <select name="patientId" class="form-control" ng-model="selectedPatient">

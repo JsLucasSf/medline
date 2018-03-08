@@ -26,11 +26,19 @@ medlineApp.controller('appointmentController', ['$scope', '$http', '$window', fu
 			"data": postData
 		})
 		.then(function(response){
-			//TODO: Tratar erro e mostrar mensagens
 			if(response.data.error){
-				console.log(response.data.message);
+				var message =	document.getElementById("error-message-appointment");
+				console.log(message);
+				message.setAttribute("style", "display:block");
+				message.innerText = response.data.message;
+
+				setTimeout(function(){
+					message.innerText = "";
+					message.setAttribute("style", "display:none")
+				}, 5000);
+			}else{
+				$window.location.href = "/agenda";
 			}
-			$window.location.href = "/agenda";
 		});
 	}
 }])

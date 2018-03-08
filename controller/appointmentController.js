@@ -74,13 +74,11 @@ exports.register = function(patientId, doctorId, clinicId, date, time,
 			return callback({error : "Não foi possível cadastrar consulta",
 											message : error});
 		}else{
-			console.log(appointments.length);
 			if(appointments.length === 0){
 				newAppointment = db.Appointment(newAppointment);
 
 				newAppointment.save(newAppointment, function(error, appointment){
 					if(error){
-						console.log("entrou aqui!!")
 						console.log(error);
 						return callback({error : "Não foi possível cadastrar consulta",
 											message : error});
