@@ -16,12 +16,12 @@
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <!-- verificar se tá correto!!! associação do medico -->
 
-                <img src="../images/doctor_avatar.png" style="border-radius: 50%; width: 15%;height: auto;"> {{medico.fullname}}  
+                <img src="../images/doctor_avatar.png" style="border-radius: 50%; width: 15%;height: auto;"> {{medico.fullname}}, {{medico.specialty}}
               <span ng-if="notificacaoExiste(medico._id) == false">
                   <button class="btn btn-success btn-xs pull-right" ng-click="associarMedico(medico._id)" data-toggle="tooltip" title="Associar médico"><span class="glyphicon glyphicon-plus"></span></button>
               </span>
               <span ng-if="notificacaoExiste(medico._id) == true">
-                  <button class="btn btn-warning btn-xs pull-right" data-toggle="tooltip" title="Aguardando resposta do médico"><span class="glyphicon glyphicon-warning-sign"></span></button>
+                  <button class="btn btn-warning btn-xs pull-right" ng-click="cancelarAssociacao(clinic._id, medico._id)" data-toggle="tooltip" title="Pendente, clique para cancelar pedido de associação"><span class="glyphicon glyphicon-warning-sign"></span></button>
               </span>
             </div>
     </li>
@@ -39,9 +39,9 @@
             <div ng-if="usuarioLogado.associatedDoctors.includes(medico._id) == true">
         <li class="list-group-item d-flex justify-content-between align-items-center">
                 <!-- verificar se tá correto!!! desassociação do medico -->
-                    <img src="../images/doctor_avatar.png" style="border-radius: 50%; width: 15%;height: auto;"> {{medico.fullname}}
+                    <img src="../images/doctor_avatar.png" style="border-radius: 50%; width: 15%;height: auto;"> {{medico.fullname}}, {{medico.specialty}}
                   <span ng-if="notificacaoExiste(medico._id) == true">
-                      <button class="btn btn-danger btn-xs pull-right" ng-click="cancelarAssociacao(clinica._id, medico._id)" data-toggle="tooltip" title="Desassociar médico"><span class="glyphicon glyphicon-trash"></span></button>
+                      <button class="btn btn-danger btn-xs pull-right" ng-click="cancelarAssociacao(clinic._id, medico._id)" data-toggle="tooltip" title="Desassociar médico"><span class="glyphicon glyphicon-trash"></span></button>
                   </span>
                 </div>
         </li>

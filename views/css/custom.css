@@ -276,19 +276,6 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
     transition: padding-left 0.5s;
 }
 
-#main-content h1 {
-    color: #CEF0D4; 
-    font-family: 'Rouge Script', cursive; 
-    font-size: 22px; 
-    font-weight: normal; 
-    line-height: 48px; 
-    margin: 0 0 50px; 
-    text-align: right; 
-    text-shadow: 1px 1px 2px #082b34; 
-    border-bottom: 2px  #D9853B; 
-    text-transform: uppercase;
-    
-}
 
 #main-content h1:hover {
     letter-spacing: 2px;
@@ -329,11 +316,23 @@ overflow: auto;
     font-size: 22px; 
     font-weight: normal; 
     text-align: left; 
-    text-shadow: 1px 1px 2px #082b34; 
-    border-bottom: 2px solid #D9853B; 
-    text-transform: capitalize;
+    background: #D9853B;
+    text-transform: uppercase;
+    text-align: center;
+    border:2px solid #D9853B;
 }
 
+#main .btn-md {
+    background:#2E3E4E;
+    color: white;
+    border: none;
+}
+
+#main .btn-md:hover {
+    background:#D9853B;
+    color: white-space: nowrap;
+    border: none;
+}
 
 #myVideo {
     opacity: 0.5;
