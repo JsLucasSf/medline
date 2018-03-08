@@ -10,7 +10,7 @@
    <div>  
 <div class="col-md-6"> 
   <h1>Médicos</h1>      
-<ul class="list-group">
+<ul class="list-group"  style="overflow:auto;height:400px;">
     <div ng-repeat="medico in medicos">
         <div ng-if="usuarioLogado.associatedDoctors.includes(medico._id) == false">
     <li class="list-group-item d-flex justify-content-between align-items-center">
