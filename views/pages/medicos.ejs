@@ -6,7 +6,50 @@
         <% include partials/sidebar.ejs %>
 
         <div class="content" id="main-content">
-          <div class="row">
+
+   <div>  
+<div class="col-md-6">   
+  <h1>Médicos</h1>      
+<ul class="list-group">
+    <div ng-repeat="medico in medicos">
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <!-- verificar se tá correto!!! associação do medico -->
+            <div ng-if="usuarioLogado.associatedDoctors.includes(medico._id) == false">
+                <img src="../images/doctor_avatar.png" style="border-radius: 50%; width: 15%;height: auto;"> {{medico.fullname}}
+              <div ng-if="notificacaoExiste(medico._id) == false">
+                  <button class="btn btn-success btn-xs pull-right" ng-click="associarMedico(medico._id)" data-toggle="tooltip" title="Associar médico"><span class="glyphicon glyphicon-plus"></span></button> 
+              </div>
+            </div>
+    </li>
+  </div>   
+  </ul>
+  <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#cadastrar">Cadastrar Médico</a>
+</div>
+                </div>
+
+    <div>
+<div class="col-md-6">     
+  <h1>Médicos Associados</h1>  
+    <ul class="list-group">
+        <div ng-repeat="medico in medicos">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+                <!-- verificar se tá correto!!! desassociação do medico -->
+                <div ng-if="usuarioLogado.associatedDoctors.includes(medico._id) == false">
+                    <img src="../images/doctor_avatar.png" style="border-radius: 50%; width: 15%;height: auto;"> {{medico.fullname}}
+                  <div ng-if="notificacaoExiste(medico._id) == false">
+                      <button class="btn btn-danger btn-xs pull-right" ng-click="cancelarAssociacao(clinica._id, medico._id)" data-toggle="tooltip" title="Desassociar médico"><span class="glyphicon glyphicon-trash"></span></button> 
+                  </div>
+                </div>
+        </li>
+        </div>
+      </ul>
+    </div>
+    </div>
+
+
+           
+
+          <!-- <div class="row">
             <div class="col-md-6">
               <div class="acordion-group">
                 <div class="container" id="container-medicos">
@@ -33,10 +76,10 @@
 
                       <a type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#cadastrar">Cadastrar Médicos</a>
                      
-                     
+                      -->´
+
                      <!-- modal de cadastrar medico -->
-                  
-                     <div id="cadastrar" class="modal fade">
+                      <div id="cadastrar" class="modal fade">
                       <div class="modal-dialog modal-login">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -78,13 +121,13 @@
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> <!-- Fim modal cadastro   -->
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
               <div class="acordion-group">
                 <div class="container" id="container-medicos">
                   <div class="col-md-4">
@@ -109,7 +152,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div> <!-- fim da div main content-->
       </div>
     </div>

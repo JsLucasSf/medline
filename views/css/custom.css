@@ -319,35 +319,8 @@ p {
 /*---------------------------------------teste --------------------------------------*/
 
 #container-medicos {
-    padding-top: 14px; 
-    height: 100%;
-   
-}
-
-#container-medicos .panel-primary {
-    border: none;
-}
-
-#container-medicos .panel-primary .panel-heading, #container-medicos .panel-primary .panel-heading a{
-    color: white;
-    background:#73B7C0;
-    font-size: 14pt;
-}
-
-#container-medicos .panel-primary .panel-heading a:hover {
-    color: white;
-    letter-spacing: 3px;
-    text-decoration: none;
-}
-
-#container-medicos .panel-primary .panel-heading a:visited, #container-medicos .panel-primary .panel-heading a:focus  {
-    color: white;
-    text-decoration: none;
-}
-
-#container-medicos .panel-body {
-    max-height: 520px;
-   overflow: auto; 
+max-height: 520px;
+overflow: auto; 
 }
 
 #main h1 {
@@ -359,37 +332,6 @@ p {
     text-shadow: 1px 1px 2px #082b34; 
     border-bottom: 2px solid #D9853B; 
     text-transform: capitalize;
-}
-
-#avatar_lista_medico {
-    border-radius: 50%;
-    width: 15%;
-    height: auto;
-}
-
-#container-info-medicos .panel-collapse .collapse{
-    background: #73B7C0;
-    color: white;
-}
-
-#container-medicos li a{
-    color: #2E3E4E;
-    text-decoration: none;
-}
-
-#container-medicos li:hover, #container-medicos a:hover, #container-medicos a:active, #container-medicos li:focus{
-    background: #D9853B;
-    text-decoration: none;
-    color: white;
-}
-
-#container-info-medicos .panel-collapse {
-    width: 130%;
-    height: auto;
-}
-
-#container-info-medicos .panel {
-    background: #ECECEA;
 }
 
 

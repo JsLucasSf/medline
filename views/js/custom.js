@@ -24,3 +24,7 @@ $(document).ready(function(){
         $('#modal-avatar').attr('src', '../images/hospital_avatar.png');
     });
 })
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
