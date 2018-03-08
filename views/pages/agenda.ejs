@@ -33,14 +33,16 @@
             <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#cadastrar">Agendar consultas</a>
           <% } %>
           <div class="modal fade" id="cadastrar">
-                  <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                      <h4 class="modal-title">Cadastrar consulta</h4>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                      </div>
+              <div id="cadastrar" class="modal fade">
+                  <div class="modal-dialog modal-login">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <div class="avatar-cadastro">
+                              <img src="../images/agenda_avatar.png" id="modal-avatar">
+                                          </div><br>
+                                          <h4>Agendar Consulta</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
                       <div class="modal-body">
                       <div id="consulta">
                         <form ng-submit="addAppointment()"><br>
