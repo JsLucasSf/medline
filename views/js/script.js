@@ -226,3 +226,16 @@ medlineApp.controller('medicosController', ['$scope', '$http', '$window', functi
 medlineApp.controller('configController', function($scope) {
 	$scope.message = 'Corpo da página de configurações aqui ';
 });
+
+medlineApp.controller('sidebarController',['$scope', '$http', '$window', function($scope, $http, $window){
+	(function(){
+
+		$http({
+			url: '/logged-user/info',
+			method: "GET"
+		})
+		.then(function(response){
+			$scope.usuarioLogado = response.data;
+		});
+	})();
+}]);

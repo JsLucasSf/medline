@@ -1,4 +1,4 @@
-<div class="side-bar">
+<div class="side-bar" ng-controller="sidebarController">
         <ul>
             <li class="menu-head">
                 <img src="../images/logo_onlyName.png" style="width: 175px; height: auto; padding-top: 10px"><a href="#" class="push_menu"><img src="../images/logo_noName.png" class="pull-right"></a>
@@ -32,9 +32,14 @@
                     <li>
                       <a href="/config" <% if(page === "/config"){ %> class="active" <% } %>>Configurações <span class="glyphicon glyphicon-cog pull-right"></span></a>
                     </li>
-                <li>
-                    <a data-toggle="modal" data-target="#sair" href="#">Sair <span class="glyphicon glyphicon-log-out pull-right"></span></a>
-                </li>
+                    <li>
+                      <a data-toggle="modal" data-target="#sair" href="#">Sair <span class="glyphicon glyphicon-log-out pull-right"></span></a>
+                    </li>
+                    <li style="position: absolute; bottom: 0;">
+                      <span class="navbar-text" style="font-size: large; text-align: center">
+                        Boas Vindas <br>{{usuarioLogado.fullname}}!
+                      </span>
+                    </li>
             </div>
 
         </ul>

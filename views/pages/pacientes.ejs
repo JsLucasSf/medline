@@ -7,26 +7,24 @@
                   <% include partials/sidebar.ejs %>
 
                   <div class="content" id="main-content">
-                       
+                        <div>
+                                <h1>Pacientes  </h1>
 
-                        <div>  
-                                <h1>Pacientes  </h1>  
-                                                           
-                                <div class="col-md-6">     
+                                <div class="col-md-6">
                                 <ul class="list-group" style="overflow:auto;height:400px;">
                                         <% for(var i = 0; i < pacientes.length; i++){ %>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <!-- verificar se tá correto!!! lista de pacientes -->
-                                            
+
                                                 <img src="../images/default_user_avatar.jpg" style="border-radius: 50%; width: 60px;height: auto;"> <%= pacientes[i].fullname %>, <%= pacientes[i].age %> anos. Telefone: <%= pacientes[i].telephone %>
-                                             
+
                                     </li>
                                     <% } %>
                                   </ul>
 
-                                
-                                </div> 
-                                      <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#cadastrar">Cadastrar Paciente</a> 
+
+                                </div>
+                                      <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#cadastrar">Cadastrar Paciente</a>
 
 
 </div>
@@ -100,7 +98,7 @@
 
                                   </div>
 
-                              </div> 
+                              </div>
                               </div> <!-- fim da div main content-->
 
                    <div id="sair" class="modal fade">
