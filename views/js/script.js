@@ -142,6 +142,33 @@ medlineApp.controller('loginController', ['$scope', '$http', '$window', function
 					}
 			});
 	}
+	$scope.submitMedicalReport = function(){
+		var clinicId = document.getElementsByName("clinicId")[0].value;
+		var patientID = document.getElementsByName("patientId")[0].value;
+		var doctorID = document.getElementsByName("doctorId")[0].value;
+		var height = document.getElementsByName("height")[0].value;
+		var weight = document.getElementsByName("weight")[0].value;
+		var symptoms = document.getElementsByName("symptoms")[0].value;
+		var prescription = document.getElementsByName("prescription")[0].value;
+
+		var postData = {"clinicId": clinicId, "patientId": patientID, "doctorId": doctorID,
+		 								"height": height, "weight": weight, "symptoms": symptoms, "prescription":prescription};
+
+		$http({
+			url: '/doctor/agenda/add/medicalReport',
+			method: "POST",
+			data: postData
+			})
+			.then(function(response) {
+					if(response.data.message && response.data.message.name === "ExistsError"){
+					var message =	document.getElementById("error-message-medicalReport");
+					message.setAttribute("style", "display:block");
+					message.innerText = "Não foi possível criar prontuário";
+					}else{
+						$window.location.href = "/agenda";
+					}
+			});
+	}
 }]);
 
 // create the controller and inject Angular's $scope
@@ -158,6 +185,19 @@ medlineApp.controller('agendaController', function($scope) {
 medlineApp.controller('pacientesController', function($scope) {
 	$scope.message = 'Corpo da página de pacientes aqui ';
 });
+
+medlineApp.controller('prontuarioController', ['$scope', '$http', '$window', function($scope, $http, $window){
+	$scope.exibirProntuario = function(idPaciente){
+		$http({
+			url: '/doctor/medicalReport/' + idPaciente,
+			method: "GET",
+			data: {"patientId": idPaciente}
+		})
+		.then(function(response) {
+			$scope.prontuario = response.data.medicalReport;
+		});
+	}
+}]);
 
 medlineApp.controller('medicosController', ['$scope', '$http', '$window', function($scope, $http, $window) {
 	(function(){
