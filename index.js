@@ -494,6 +494,14 @@ app.post("/doctor/agenda/add/medicalReport",function(req, res){
   });
 });
 
+app.get("/doctor/agenda/:patientId",function(req, res){
+  var patientId = validator.trim(validator.escape(req.param('patientId')));
+  console.log("exibir prontuario");
+  medicalReportController.userMedicalReport(patientId, function(resp){
+    res.render("pages/agenda.ejs", {"medicalReport": resp, "page": "/agenda"});
+  });
+});
+
 /* Patient's Routes */
 app.get("/patients", function(req, res){
   patientController.list(function(resp){
