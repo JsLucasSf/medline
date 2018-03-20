@@ -59,9 +59,20 @@ var medicalReport = mongoose.Schema({
 	"prescricao": String
 })
 
+var historySchema = mongoose.Schema({
+	"idPaciente": String,
+	"consultas": [{
+		"idConsulta": String,
+		"dataConsulta": Date,
+		"diagnostico": String,
+		"prescricao": String
+	}]
+});
+
 userSchema.plugin(passportLocalMongoose);
 
 exports.User = mongoose.model("User", userSchema);
 exports.Notification = mongoose.model("Notification", notificationSchema);
 exports.Appointment = mongoose.model("Appointment", appointmentSchema);
 exports.MedicalReport = mongoose.model("MedicalReport", medicalReport);
+exports.PatientHistory = mongoose.model("PatientHistory", historySchema);

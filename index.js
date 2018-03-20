@@ -9,6 +9,7 @@ var patientController = require('./controller/patientController.js');
 var notificationController = require('./controller/notificationController.js');
 var appointmentController = require('./controller/appointmentController.js');
 var medicalReportController = require('./controller/medicalReportController.js');
+var historyController = require('./controller/historyController.js');
 
 var passport = require("passport");
 var localStrategy = require("passport-local");
@@ -607,6 +608,28 @@ app.post("/patient/new", function(req, res){
                               res.json(resp);
                             }
                         });
+});
+
+app.post("/adicionar-ao-historico", isLoggedIn, function(req, res){
+  var idPaciente = validator.trim(validator.escape(req.body.idPaciente));
+  var idConsulta = validator.trim(validator.escape(req.body.idConsulta));
+  var diagnostico = validator.trim(validator.escape(req.body.diagnostico));
+  var prescricao = validator.trim(validator.escape(req.body.prescricao));
+  var dataConsulta;
+
+  appointmentController.appointment(idConsulta, function(resp){
+    if(!resp['error']){
+      dataConsulta = resp.date;
+
+      historyController.newAppointment(idPaciente, idConsulta, dataConsulta,
+        diagnostico, prescricao, function(resp){
+
+        });
+    }else{
+      res.send(resp);
+    }
+  });
+
 });
 
 /* User's general routes */

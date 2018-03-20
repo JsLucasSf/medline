@@ -1,5 +1,7 @@
 var db = require('../db_config.js');
 
+var historyController = require('./historyController.js');
+
 exports.list = function(callback){
   db.User.find({"category": 'p'}, function(error, patients) {
 		if(error) {
@@ -26,7 +28,13 @@ exports.save = function(username, fullname, age, password, phone, callback){
       callback({error: "Não foi possível salvar o paciente",
                 message: error});
     }else{
-      callback(patient);
+      historyController.register(patient._id, function(resp){
+        if(resp['error']){
+          return callback(resp);
+        }else{
+          return callback(patient);
+        }
+      });
     }
   });
 }
