@@ -1,6 +1,6 @@
 <% include partials/header.ejs %>
 
-<body id="main" ng-controller="appointmentController">
+<body id="main" ng-controller="agendaController">
 <div class="container" id="container-sidebar">
   <div class="row">
     <div class="wrapper">
@@ -38,6 +38,22 @@
                 </div>
                 <h6>Data: {{consulta.consulta.date}}</h6>
                 <h6>Horário: {{consulta.consulta.time}} </h6>
+
+                <div ng-if="usuarioLogado.category === 'd'">
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <a type="button" class="btn btn-info btn-md"
+                       data-toggle="modal" data-target="#criar-prontuario"
+                       data-id="{{consulta.consulta._id}}">
+                        Criar Prontuário</a>
+                    </div>
+                    <div class="col-md-6">
+                      <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#listar-prontuarios">
+                        Ver Prontuários</a>
+                    </div>
+                  </div>
+                </div>
       				</div>
       				<!-- /.caption -->
       			</div>
@@ -105,9 +121,75 @@
 
 
           </div>
-      </div>
 
-      <div id="sair" class="modal fade">
+        <div class="modal fade" id="criar-prontuario">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+              <h4 class="modal-title">Criar Prontuário</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <script>
+            $('#criar-prontuario').on('show.bs.modal', function(e) {
+              var idConsulta = e.relatedTarget.dataset.id;
+              $('#id-consulta').val(idConsulta);
+              // Do some stuff w/ it.
+            });
+            </script>
+
+              <div class="modal-body">
+              <div id="consulta">
+                <form ng-submit="addMedicalReport()"><br>
+                    <input type="text" id="id-consulta" hidden="true">
+
+                    <div class="alert alert-danger" id="error-message-medicalReport" style="display:none"></div>
+
+                    <div class="form-group">
+                      <input class="form-control" placeholder="Altura" type="number" step="0.01" name="altura" required>
+                    </div>
+
+                    <div class="form-group">
+                      <input class="form-control" placeholder="Peso" type="number" step="0.01" name="peso" required>
+                    </div>
+
+                    <div class="form-group">
+                      <input class="form-control" placeholder="Sintoma 1" type="text" name="sintoma1" required>
+                    </div>
+
+                    <div class="form-group">
+                      <input class="form-control" placeholder="Sintoma 2" type="text" name="sintoma2">
+                    </div>
+
+                    <div class="form-group">
+                      <input class="form-control" placeholder="Sintoma 3" type="text" name="sintoma3">
+                    </div>
+
+                    <div class="form-group">
+                      <input class="form-control" placeholder="Diagnóstico" type="text" name="diagnostico" required>
+                    </div>
+
+                    <div class="form-group">
+                      <input class="form-control" placeholder="Médicação Prescrita" type="text" name="prescricao">
+                    </div>
+
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary btn-lg btn-block">Agendar</button>
+                    </div>
+                </form>
+              </div>
+              </div>
+          </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div id="sair" class="modal fade">
               <div class="modal-dialog modal-confirm">
                   <div class="modal-content">
                           <div class="modal-header">

@@ -49,13 +49,14 @@ var appointmentSchema = mongoose.Schema({
 })
 
 var medicalReport = mongoose.Schema({
-	clinicId: String,
-	doctorId: String,
-	patientId: String,
-	height: String,
-	weight: String,
-	symptoms: String,
-	prescription: String
+	"idConsulta": String,
+	"altura": Number,
+	"peso": Number,
+	"sintoma1": String,
+	"sintoma2": String,
+	"sintoma3": String,
+	"diagnostico": String,
+	"prescricao": String
 })
 
 userSchema.plugin(passportLocalMongoose);

@@ -13,7 +13,7 @@ medlineApp.controller('headerController',['$scope', '$http', '$window', function
 	})();
 }]);
 
-medlineApp.controller('appointmentController', ['$scope', '$http', '$window', function($scope, $http, $window){
+medlineApp.controller('agendaController', ['$scope', '$http', '$window', function($scope, $http, $window){
 	(function(){
 		$http({
 			url: '/logged-user/info',
@@ -72,6 +72,51 @@ medlineApp.controller('appointmentController', ['$scope', '$http', '$window', fu
 				$window.location.href = "/agenda";
 			}
 		});
+	}
+
+	$scope.addMedicalReport = function(id){
+		var idConsulta = document.getElementById("id-consulta").value;
+		var altura = document.getElementsByName("altura")[0].value;
+	  var peso = document.getElementsByName('peso')[0].value;
+	  var sintoma1 = document.getElementsByName('sintoma1')[0].value;
+	  var sintoma2 = document.getElementsByName('sintoma2')[0].value;
+	  var sintoma3 = document.getElementsByName('sintoma3')[0].value;
+		var diagnostico = document.getElementsByName('diagnostico')[0].value;
+	  var prescricao = document.getElementsByName('prescricao')[0].value;
+
+		var postData =
+			{
+				"idConsulta": idConsulta,
+				"altura": altura,
+				"peso": peso,
+				"sintoma1": sintoma1,
+				"sintoma2": sintoma2,
+				"sintoma3": sintoma3,
+				"diagnostico": diagnostico,
+				"prescricao": prescricao
+			};
+
+			$http({
+				"url": '/doctor/agenda/add/medicalReport',
+				"method": "POST",
+				"data": postData
+			})
+			.then(function(response){
+				if(response.data.error){
+					var message =	document.getElementById("error-message-medicalReport");
+					console.log(message);
+					message.setAttribute("style", "display:block");
+					message.innerText = response.data.message;
+
+					setTimeout(function(){
+						message.innerText = "";
+						message.setAttribute("style", "display:none")
+					}, 5000);
+				}else{
+					$window.location.href = "/agenda";
+					console.log(response.data);
+				}
+			});
 	}
 }])
 

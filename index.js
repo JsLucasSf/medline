@@ -552,15 +552,17 @@ app.get('/doctor/rejectAssociation/:id', isLoggedIn, function(req, res){
 });
 
 app.post("/doctor/agenda/add/medicalReport", isLoggedIn, function(req, res){
-  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
-  var doctorId = validator.trim(validator.escape(req.param('doctorId')));
-  var patientId = validator.trim(validator.escape(req.param('patientId')));
-  var height = validator.trim(validator.escape(req.param('height')));
-  var weight = validator.trim(validator.escape(req.param('weight')));
-  var symptoms = validator.trim(validator.escape(req.param('symptoms')));
-  var prescription = validator.trim(validator.escape(req.param('prescription')));
+  var idConsulta = validator.trim(validator.escape(req.param('idConsulta')));
+  var altura = validator.trim(validator.escape(req.param('altura')));
+  var peso = validator.trim(validator.escape(req.param('peso')));
+  var sintoma1 = validator.trim(validator.escape(req.param('sintoma1')));
+  var sintoma2 = validator.trim(validator.escape(req.param('sintoma2')));
+  var sintoma3 = validator.trim(validator.escape(req.param('sintoma3')));
+  var diagnostico = validator.trim(validator.escape(req.param('diagnostico')));
+  var prescricao = validator.trim(validator.escape(req.param('prescricao')));
 
-  medicalReportController.register(clinicId, doctorId, patientId, height, weight, symptoms, prescription, function(resp){
+  medicalReportController.register(idConsulta, altura, peso, sintoma1, sintoma2,
+     sintoma3, diagnostico, prescricao, function(resp){
     if(resp['error']){
       // TODO: Tratar esse erro
       console.log(resp);

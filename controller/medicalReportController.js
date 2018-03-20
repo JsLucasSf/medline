@@ -36,25 +36,26 @@ exports.clinicMedicalReports = function(clinicId, callback){
 	});
 };
 
-exports.register = function(clinicId, doctorId, patientId, height, weight, symptoms, prescription,
-										 callback){
+exports.register = function(idConsulta, altura, peso, sintoma1, sintoma2,
+	 sintoma3, diagnostico, prescricao, callback){
 
 	var newMedicalReport = {
-		'clinicId' : clinicId,
-		'doctorId' : doctorId,
-		'patientId': patientId,
-		'height': height,
-		'weight': weight,
-		'symptoms': symptoms,
-		'prescription': prescription
- 	};
+		"idConsulta": idConsulta,
+		"altura": altura,
+		"peso": peso,
+		"sintoma1": sintoma1,
+		"sintoma2": sintoma2,
+		"sintoma3": sintoma3,
+		"diagnostico": diagnostico,
+		"prescricao": prescricao
+	};
 
 	db.MedicalReport.find(newMedicalReport, function(error, medicalReport){
 		if(error){
 			return callback({error : "Não foi possível cadastrar prontuário",
 											message : error});
 		}else{
-			
+
 			newMedicalReport = db.MedicalReport(newMedicalReport);
 
 			newMedicalReport.save(newMedicalReport, function(error, medicalReport){
@@ -74,7 +75,7 @@ exports.update = function(medicalReportId, height, weight, symptoms, prescriptio
 
 	db.MedicalReport.findById(medicalReportId, function(error, medicalReport) {
 
-		
+
 		if(height) {
 
 			medicalReport.height = height;
@@ -90,7 +91,7 @@ exports.update = function(medicalReportId, height, weight, symptoms, prescriptio
 			medicalReport.symptoms = symptoms;
 		}
 
-		
+
 		if(prescription) {
 
 			medicalReport.prescription = prescription;
