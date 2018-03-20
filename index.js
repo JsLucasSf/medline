@@ -8,6 +8,7 @@ var doctorController = require('./controller/doctorController.js');
 var patientController = require('./controller/patientController.js');
 var notificationController = require('./controller/notificationController.js');
 var appointmentController = require('./controller/appointmentController.js');
+var medicalReportController = require('./controller/medicalReportController.js');
 
 var passport = require("passport");
 var localStrategy = require("passport-local");
@@ -267,14 +268,14 @@ app.post("/clinic/new", function(req, res){
 
   clinicController.save(clinicLogin, clinicName, clinicAddress,
                         clinicPhone, clinicPassword, function(resp){
-                          if(!resp['error']){
-                            passport.authenticate("local")(req, res, function(){
-                              res.redirect("/home");
-                            });
-                          }else{
-                            res.json(resp);
-                          }
-                        });
+      if(!resp['error']){
+        passport.authenticate("local")(req, res, function(){
+          res.redirect("/home");
+        });
+      }else{
+        res.json(resp);
+      }
+    });
 })
 
 app.put("/clinic/add-doctor", isLoggedIn, function(req, res){
@@ -307,6 +308,27 @@ app.post("/clinic/agenda/add-appointment", isLoggedIn , function(req, res){
       // CATARINA: Acho que não precisamos adicionar as listas na clínica
 
     //});
+    }
+  });
+});
+
+app.post("/clinic/agenda/add/medicalReport", function(req, res){
+  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
+  var patientId = validator.trim(validator.escape(req.param('patientId')));
+  var height = validator.trim(validator.escape(req.param('height')));
+  var weight = validator.trim(validator.escape(req.param('weight')));
+  var symptoms = validator.trim(validator.escape(req.param('symptoms')));
+  var prescription = validator.trim(validator.escape(req.param('prescription')));
+
+  medicalReportController.register(clinicId, patientId, height, weight, symptoms, prescription, function(resp){
+    if(resp['error']){
+      // TODO: Tratar esse erro
+      console.log(resp);
+      return res.send(resp);
+    }else{
+      // TODO: Mostrar mensagem de sucesso
+      console.log('Prontuário cadastrado');
+      return res.send(resp);
     }
   });
 });

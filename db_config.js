@@ -48,9 +48,18 @@ var appointmentSchema = mongoose.Schema({
 	time: String
 })
 
+var medicalReport = mongoose.Schema({
+	clinicId: String,
+	patientId: String,
+	height: String,
+	weight: String,
+	symptoms: String,
+	prescription: String
+})
+
 userSchema.plugin(passportLocalMongoose);
 
 exports.User = mongoose.model("User", userSchema);
 exports.Notification = mongoose.model("Notification", notificationSchema);
 exports.Appointment = mongoose.model("Appointment", appointmentSchema);
-
+exports.MedicalReport = mongoose.model("MedicalReport", medicalReport);
