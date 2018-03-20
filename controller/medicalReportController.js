@@ -25,11 +25,23 @@ exports.userMedicalReport = function(patientId, callback){
 	});
 };
 
-exports.register = function(clinicId, patientId, height, weight, symptoms, prescription,
+exports.clinicMedicalReports = function(clinicId, callback){
+	db.MedicalReport.find({"clinicId": clinicId}, function(error, medicalReports) {
+		if(error) {
+			callback({error: 'Não foi possivel retornar os prontuários da clínica',
+								message: error});
+		} else {
+			callback(medicalReports);
+		}
+	});
+};
+
+exports.register = function(clinicId, doctorId, patientId, height, weight, symptoms, prescription,
 										 callback){
 
 	var newMedicalReport = {
 		'clinicId' : clinicId,
+		'doctorId' : doctorId,
 		'patientId': patientId,
 		'height': height,
 		'weight': weight,

@@ -300,34 +300,8 @@ app.post("/clinic/agenda/add-appointment", isLoggedIn , function(req, res){
       console.log(resp);
       return res.send(resp);
     }else{
-      //clinicController.addAppointment(clinicId, resp._id, function(resp){
-      //  console.log(resp);
-      // TODO: Mostrar mensagem de sucesso
+       // TODO: Mostrar mensagem de sucesso
       console.log('Cadastrado');
-      return res.send(resp);
-      // CATARINA: Acho que não precisamos adicionar as listas na clínica
-
-    //});
-    }
-  });
-});
-
-app.post("/clinic/agenda/add/medicalReport", function(req, res){
-  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
-  var patientId = validator.trim(validator.escape(req.param('patientId')));
-  var height = validator.trim(validator.escape(req.param('height')));
-  var weight = validator.trim(validator.escape(req.param('weight')));
-  var symptoms = validator.trim(validator.escape(req.param('symptoms')));
-  var prescription = validator.trim(validator.escape(req.param('prescription')));
-
-  medicalReportController.register(clinicId, patientId, height, weight, symptoms, prescription, function(resp){
-    if(resp['error']){
-      // TODO: Tratar esse erro
-      console.log(resp);
-      return res.send(resp);
-    }else{
-      // TODO: Mostrar mensagem de sucesso
-      console.log('Prontuário cadastrado');
       return res.send(resp);
     }
   });
@@ -337,7 +311,6 @@ app.get("/clinic/agenda/:clinicId", isLoggedIn ,function(req, res){
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
   console.log("LISTAR CONSULTAS");
   clinicController.listAppointments(clinicId, function(resp){
-    //res.json(resp);
     res.render("pages/agenda.ejs", {"appointments": resp, "page": "/agenda"});
   });
 });
@@ -495,6 +468,28 @@ app.get('/doctor/rejectAssociation/:id', isLoggedIn, function(req, res){
         }
       });
       res.redirect('/home');
+    }
+  });
+});
+
+app.post("/doctor/agenda/add/medicalReport",function(req, res){
+  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
+  var doctorId = validator.trim(validator.escape(req.param('doctorId')));
+  var patientId = validator.trim(validator.escape(req.param('patientId')));
+  var height = validator.trim(validator.escape(req.param('height')));
+  var weight = validator.trim(validator.escape(req.param('weight')));
+  var symptoms = validator.trim(validator.escape(req.param('symptoms')));
+  var prescription = validator.trim(validator.escape(req.param('prescription')));
+
+  medicalReportController.register(clinicId, doctorId, patientId, height, weight, symptoms, prescription, function(resp){
+    if(resp['error']){
+      // TODO: Tratar esse erro
+      console.log(resp);
+      return res.send(resp);
+    }else{
+      // TODO: Mostrar mensagem de sucesso
+      console.log('Prontuário cadastrado');
+      return res.send(resp);
     }
   });
 });

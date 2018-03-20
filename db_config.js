@@ -50,6 +50,7 @@ var appointmentSchema = mongoose.Schema({
 
 var medicalReport = mongoose.Schema({
 	clinicId: String,
+	doctorId: String,
 	patientId: String,
 	height: String,
 	weight: String,
