@@ -1,12 +1,40 @@
 <% include partials/header.ejs %>
-<body id="main" ng-app="medlineApp">
+<body id="main" ng-controller="notificacoesController">
   <div class="container" id="container-sidebar">
     <div class="row">
       <div class="wrapper">
         <% include partials/sidebar.ejs %>
 
         <div class="content" id="main-content">
+
+          <h1>Notificações</h1>
+
           <div class="row">
+            <div ng-repeat="notificacao in notificacoes">
+              <div class="col-xs-6 col-sm-4 col-lg-3">
+        			<div class="thumbnail ">
+								<img src="../images/hospital_avatar.png" style="border-radius: 50%; width: 50%;height: auto;">
+        				<div class="caption">
+        					<h3 style="text-align: center">{{paciente.fullname}}</h2>
+                  <hr>
+                  <div style="text-align: center">
+                    {{notificacao.message}}
+                    <br>
+                    <a class="btn btn-success btn-xs" href="/doctor/acceptAssociation/{{notificacao._id}}">
+                      <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </a>
+                    <a class="btn btn-danger btn-xs" href="/doctor/rejectAssociation/{{notificacao._id}}">
+                      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </a>
+                  </div>
+        				</div>
+        				<!-- /.caption -->
+        			</div>
+        			<!-- /.thumbnail -->
+        		</div>
+          </div>
+
+          <!--
             <div class="col-md-6">
               <div class="acordion-group">
                 <div class="container" id="container-medicos">
@@ -32,6 +60,7 @@
                 </div>
               </div>
             </div>
+            -->
           </div>
         </div>
       </div> <!-- fim da div main content-->

@@ -1,7 +1,39 @@
 // create the module and name it RoutingApp
 var medlineApp = angular.module('medlineApp', []);
 
+medlineApp.controller('headerController',['$scope', '$http', '$window', function($scope, $http, $window){
+	(function(){
+		$http({
+			url: '/logged-user/info',
+			method: "GET"
+		})
+		.then(function(response){
+			$scope.usuarioLogado = response.data;
+		});
+	})();
+}]);
+
 medlineApp.controller('appointmentController', ['$scope', '$http', '$window', function($scope, $http, $window){
+	(function(){
+		$http({
+			url: '/logged-user/info',
+			method: "GET"
+		})
+		.then(function(response){
+			(function(){
+				$http({
+					url: '/agenda/appointments',
+					method: "GET"
+				})
+				.then(function(response){
+					$scope.pacientes = response.data.pacientes;
+					$scope.usuarioLogado = response.data.user;
+					$scope.consultas = response.data.consultas;
+				});
+			})();
+		});
+	})();
+
 	$scope.addAppointment = function(){
 		var clinicId = document.getElementsByName("clinicId")[0].value;
 	  var doctorId = document.getElementsByName('doctorId')[0].value;
@@ -269,6 +301,18 @@ medlineApp.controller('sidebarController',['$scope', '$http', '$window', functio
 		})
 		.then(function(response){
 			$scope.usuarioLogado = response.data;
+		});
+	})();
+}]);
+
+medlineApp.controller('notificacoesController',['$scope', '$http', '$window', function($scope, $http, $window){
+	(function(){
+		$http({
+			url: '/minhas-notificacoes',
+			method: "GET"
+		})
+		.then(function(response){
+			$scope.notificacoes = response.data;
 		});
 	})();
 }]);

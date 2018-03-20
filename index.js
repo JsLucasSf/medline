@@ -37,7 +37,7 @@ app.get("/logged-user/info", isLoggedIn, function(req, res){
 });
 
 app.get("/home", isLoggedIn, function(req, res){
-  res.render("pages/home.ejs", {"user" : req.user, "page": "/home"});
+  res.redirect("/agenda");
 });
 
 app.get("/medicos", isLoggedIn , function(req, res){
@@ -124,6 +124,15 @@ app.put("/clinica/cancelarAssociacao", isLoggedIn, function(req, res){
     }
   });
 
+});
+
+app.get("/minhas-notificacoes", isLoggedIn, function(req, res){
+  notificationController.list(function(resp){
+    var filteredResp = resp.filter(function(obj){
+      return obj.targetUser == req.user._id;
+    });
+    res.send(filteredResp);
+  });
 });
 
 app.get("/notificacoes", isLoggedIn, function(req, res){
@@ -304,6 +313,76 @@ app.post("/clinic/agenda/add-appointment", isLoggedIn , function(req, res){
       console.log('Cadastrado');
       return res.send(resp);
     }
+  });
+});
+
+app.get("/agenda/appointments", isLoggedIn, function(req, res){
+  doctorController.list(function(resp){
+    var doctors = resp;
+    patientController.list(function(resp){
+      var patients = resp;
+      appointmentController.list(function(resp){
+        var consultas = [];
+        var associatedDoctors = [];
+
+        for(var w = 0; w < doctors.length; w++){
+          if(req.user.associatedDoctors.includes(String(doctors[w]._id))){
+            associatedDoctors.push(doctors[w]);
+          }
+        }
+
+        for(var i = 0; i < resp.length; i++){
+          var appointment = resp[i];
+
+          for(var j = 0; j < doctors.length; j++){
+            if(String(doctors[j]._id) === appointment.doctorId){
+              var aptDoctor = doctors[j];
+              break;
+            }
+          }
+
+          for(var k = 0; k < patients.length; k++){
+            if(String(patients[k]._id) === appointment.patientId){
+              var aptPatient = patients[k];
+              break;
+            }
+          }
+
+
+          consultas.push({
+            "consulta": appointment,
+            "medico": aptDoctor,
+            "paciente": aptPatient
+          });
+
+        }
+
+        const myId = req.user._id;
+        const myType = req.user.category;
+        if(myType === 'c'){
+          consultas = consultas.filter(function(consulta){
+            return (consulta.consulta.clinicId === String(myId));
+          });
+        }else if(myType === 'd'){
+          consultas = consultas.filter(function(consulta){
+            return (consulta.consulta.doctorId === String(myId));
+          });
+        }else if(myType === 'p'){
+          consultas = consultas.filter(function(consulta){
+            return (consulta.consulta.patientId === String(myId));
+          });
+        }
+
+        res.send(
+         {
+           "user": req.user,
+           "page": "/agenda",
+           "medicos": associatedDoctors,
+           "pacientes": patients,
+           "consultas": consultas
+         });
+     });
+    });
   });
 });
 
