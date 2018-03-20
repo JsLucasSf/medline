@@ -171,20 +171,18 @@ medlineApp.controller('loginController', ['$scope', '$http', '$window', function
 	}
 }]);
 
-// create the controller and inject Angular's $scope
-medlineApp.controller('mainController', function($scope) {
-	// create a message to display in our view
-	$scope.message = 'Corpo da página principal aqui :) ';
-});
-
-medlineApp.controller('agendaController', function($scope) {
-	// create a message to display in our view
-	$scope.message = 'Corpo da página de agenda aqui ';
-});
-
-medlineApp.controller('pacientesController', function($scope) {
-	$scope.message = 'Corpo da página de pacientes aqui ';
-});
+medlineApp.controller('pacientesController', ['$scope', '$http', '$window', function($scope, $http, $window){
+	(function(){
+		$http({
+			url: '/patients',
+			method: "GET"
+		})
+		.then(function(response){
+			$scope.pacientes = response.data;
+			console.log($scope.pacientes);
+		});
+	})();
+}]);
 
 medlineApp.controller('prontuarioController', ['$scope', '$http', '$window', function($scope, $http, $window){
 	$scope.exibirProntuario = function(idPaciente){
@@ -263,13 +261,8 @@ medlineApp.controller('medicosController', ['$scope', '$http', '$window', functi
 	}
 }]);
 
-medlineApp.controller('configController', function($scope) {
-	$scope.message = 'Corpo da página de configurações aqui ';
-});
-
 medlineApp.controller('sidebarController',['$scope', '$http', '$window', function($scope, $http, $window){
 	(function(){
-
 		$http({
 			url: '/logged-user/info',
 			method: "GET"

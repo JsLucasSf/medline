@@ -1,125 +1,141 @@
 <% include partials/header.ejs %>
 
 <body id="main" ng-app="medlineApp">
-<div class="container" id="container-sidebar">
-        <div class="row">
-            <div class="wrapper">
-                  <% include partials/sidebar.ejs %>
+  <div class="container" id="container-sidebar">
+    <div class="row">
+      <div class="wrapper">
+        <% include partials/sidebar.ejs %>
 
-                  <div class="content" id="main-content">
-                        <div>
-                                <h1>Pacientes  </h1>
+        <div class="content" id="main-content" ng-controller="pacientesController">
+          <div>
+            <h1>Pacientes</h1>
 
-                                <div class="col-md-6">
-                                <ul class="list-group" style="overflow:auto;height:400px;">
-                                        <% for(var i = 0; i < pacientes.length; i++){ %>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      <!-- verificar se tá correto!!! lista de pacientes -->
+            <div class="row">
+              <div class="col-md-2"></div>
 
-                                                <img src="../images/default_user_avatar.jpg" style="border-radius: 50%; width: 60px;height: auto;"> <%= pacientes[i].fullname %>, <%= pacientes[i].age %> anos. Telefone: <%= pacientes[i].telephone %>
+              <div class="col-md-6">
+                <input class="form-control" placeholder="Filtre os pacientes pelo nome" ng-model="searchName">
+              </div>
 
-                                    </li>
-                                    <% } %>
-                                  </ul>
-
-
-                                </div>
-                                      <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#cadastrar">Cadastrar Paciente</a>
-
-
-</div>
-                      <!-- <div class="acordion-group">
-                          <div class="container" id="container-medicos">
-                              <div class="col-md-4">
-                                          <div class="panel panel-primary">
-                                              <div class="panel-heading">
-                                                     <span class="glyphicon glyphicon-briefcase"></span> Lista de Pacientes
-                                              </div>
-                                              <div class="panel-body">
-                                                  <ul class="list-group">
-                                                      <% for(var i = 0; i < pacientes.length; i++){ %>
-                                                        <a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#">
-                                                          <li class="list-group-item">
-                                                               <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= pacientes[i].fullname %>
-                                                          </li>
-                                                        </a>
-                                                      <% } %>
-                                                  </ul>
-                                              </div>-->
-                                              <div id="cadastrar" class="modal fade">
-                                                <div class="modal-dialog modal-login">
-                                                    <div class="modal-content">
-                                                      <div class="modal-header">
-                                                        <div class="avatar-cadastro">
-                                                            <img src="../images/default_user_avatar.jpg" id="modal-avatar">
-                                                                        </div><br>
-                                                                        <h4>Cadastro de Paciente</h4>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                      </div>
-                                                    <div class="modal-body">
-                                                      <div id="clinic">
-                                                              <form action="/clinic/patient/new" method="post"><br>
-                                                                      <div class="alert alert-danger" id="error-message-patient" style="display:none">
-                                                                      </div>
-                                                                      <div class="form-group">
-                                                                          <input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
-                                                                      </div>
-                                                                      <div class="form-group">
-                                                                        <input type="text" class="form-control" name="fullname" placeholder="Nome completo" required="required" autofocus>
-                                                                      </div>
-                                                                      <div class="form-group">
-                                                                          <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
-                                                                      </div>
-                                                                      <div class="form-group">
-                                                                          <input type="number" class="form-control" name="age" placeholder="Idade" required="required" autofocus>
-                                                                      </div>
-                                                                      <div class="form-group">
-                                                                          <input type="text" class="form-control" name="telephone" placeholder="Telefone" required="required" autofocus>
-                                                                      </div>
-
-                                                                      <div class="form-group">
-                                                                          <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
-                                                                      </div>
-                                                                  </form>
-                                                          </div>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
-
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                              </div>
-
-                                            </div>
-                                      </div>
-
-                                  </div>
-
-                              </div>
-                              </div> <!-- fim da div main content-->
-
-                   <div id="sair" class="modal fade">
-                        <div class="modal-dialog modal-confirm">
-                            <div class="modal-content">
-                                    <div class="modal-header">
-                                    <h4 class="modal-title">Logout</h4>
-                                    </div>
-                                <div class="modal-body">
-                                    <p>Você está prestes a sair do Medline.  Deseja realmente sair? </p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
-                                    <a class="btn btn-danger" href="/logout">Sair</a>
-                                </div>
-                            </div>
-                        </div>
+              <div class="col-md-3">
+                <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#cadastrar">Cadastrar Paciente</a>
+              </div>
+            </div>
+            <hr>
+            <div ng-repeat="paciente in pacientes | filter:searchName">
+              <div class="col-xs-6 col-sm-4 col-lg-3">
+        			<div class="thumbnail ">
+								<img src="../images/default_user_avatar.jpg" style="border-radius: 50%; width: 50%;height: auto;">
+        				<div class="caption">
+        					<h3 style="text-align: center">{{paciente.fullname}}</h2>
+                  <hr>
+                  <div style="text-align: center">
+                    Idade: {{paciente.age}}<br>
+                    Fone: {{paciente.phone}}
+                  </div>
+        				</div>
+        				<!-- /.caption -->
+        			</div>
+        			<!-- /.thumbnail -->
+        		</div>
+          </div>
+            <!--
+            <div class="col-md-6">
+              <ul class="list-group" style="overflow:auto;height:400px;">
+                <div ng-repeat="paciente in pacientes">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                      <div class="col-md-6">
+                      <img src="../images/default_user_avatar.jpg" style="border-radius: 50%; width: 60px;height: auto;">
                     </div>
-
+                    <div class="col-md-6">
+                      {{paciente.fullname}}, {{paciente.age}} anos.<br>Fone: {{paciente.telephone}}
+                    </div>
+                  </li>
+                </div>
+              </ul>
+            </div>
+            -->
+          </div>
+          <!-- <div class="acordion-group">
+          <div class="container" id="container-medicos">
+          <div class="col-md-4">
+          <div class="panel panel-primary">
+          <div class="panel-heading">
+          <span class="glyphicon glyphicon-briefcase"></span> Lista de Pacientes
+          </div>
+          <div class="panel-body">
+          <ul class="list-group">
+          <% for(var i = 0; i < pacientes.length; i++){ %>
+          <a data-toggle="collapse" data-target="#medico1" data-parent="#container-medicos" href="#">
+          <li class="list-group-item">
+          <img src="../images/default_user_avatar.jpg" id="avatar_lista_medico"> <%= pacientes[i].fullname %>
+          </li>
+          </a>
+          <% } %>
+          </ul>
+          </div>-->
+          <div id="cadastrar" class="modal fade">
+  <div class="modal-dialog modal-login">
+  <div class="modal-content">
+  <div class="modal-header">
+  <div class="avatar-cadastro">
+    <img src="../images/default_user_avatar.jpg" id="modal-avatar">
+  </div><br>
+  <h4>Cadastro de Paciente</h4>
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  </div>
+  <div class="modal-body">
+  <div id="clinic">
+        <form action="/clinic/patient/new" method="post"><br>
+                <div class="alert alert-danger" id="error-message-patient" style="display:none">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="fullname" placeholder="Nome completo" required="required" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
+                </div>
+                <div class="form-group">
+                    <input type="number" class="form-control" name="age" placeholder="Idade" required="required" autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="telephone" placeholder="Telefone" required="required" autofocus>
                 </div>
 
-               </body>
-               </head>
-               </html>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
+                </div>
+            </form>
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="sair" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+      <div class="modal-content">
+              <div class="modal-header">
+              <h4 class="modal-title">Logout</h4>
+              </div>
+          <div class="modal-body">
+              <p>Você está prestes a sair do Medline.  Deseja realmente sair? </p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+              <a class="btn btn-danger" href="/logout">Sair</a>
+          </div>
+      </div>
+  </div>
+</div>
+</body>
+</head>
+</html>
