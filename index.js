@@ -472,7 +472,7 @@ app.get('/doctor/rejectAssociation/:id', isLoggedIn, function(req, res){
   });
 });
 
-app.post("/doctor/agenda/add/medicalReport",function(req, res){
+app.post("/doctor/agenda/add/medicalReport", isLoggedIn, function(req, res){
   var clinicId = validator.trim(validator.escape(req.param('clinicId')));
   var doctorId = validator.trim(validator.escape(req.param('doctorId')));
   var patientId = validator.trim(validator.escape(req.param('patientId')));
@@ -494,7 +494,7 @@ app.post("/doctor/agenda/add/medicalReport",function(req, res){
   });
 });
 
-app.get("/doctor/agenda/:patientId",function(req, res){
+app.get("/doctor/medicalReport/:patientId", isLoggedIn, function(req, res){
   var patientId = validator.trim(validator.escape(req.param('patientId')));
   console.log("exibir prontuario");
   medicalReportController.userMedicalReport(patientId, function(resp){
