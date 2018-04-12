@@ -215,6 +215,7 @@ medlineApp.controller('loginController', ['$scope', '$http', '$window', function
 					message.setAttribute("style", "display:block");
 					message.innerText = "Não foi possível agendar consulta";
 					}else{
+						// ERRO!
 						$window.location.href = "/clinic";
 					}
 			});
