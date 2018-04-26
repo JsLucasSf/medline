@@ -34,7 +34,6 @@
                     Fone: {{paciente.phone}}
                   </div>
                 </div>
-                <center><a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#prontuario">Prontuário</a></center>
         				<!-- /.caption -->
         			</div>
         			<!-- /.thumbnail -->
@@ -82,54 +81,6 @@
   </div>
   </div>
   </div> <!--cadastrar modal fim-->
-
-
-  <div id="prontuario" class="modal fade">
-      <div class="modal-dialog modal-login">
-      <div class="modal-content">
-      <div class="modal-header">
-      <div class="avatar-cadastro">
-        <img src="../images/prancheta_avatar.png" id="modal-avatar">
-      </div><br>
-      <h4>Cadastro de Prontuário</h4>
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      </div>
-      <div class="modal-body">
-      <div id="clinic">
-            <form action="/clinic/patient/new" method="post"><br>
-                    <div class="alert alert-danger" id="error-message-patient" style="display:none">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
-                    </div>
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="fullname" placeholder="Nome completo" required="required" autofocus>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" class="form-control" name="age" placeholder="Idade" required="required" autofocus>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="telephone" placeholder="Telefone" required="required" autofocus>
-                    </div>
-    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
-                    </div>
-                </form>
-        </div>
-      </div>
-      </div>
-      </div>
-      </div>
-
-
-
-
-
-
 
         </div>
       </div>

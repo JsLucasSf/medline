@@ -40,6 +40,25 @@ var notificationSchema = mongoose.Schema({
 	type: String
 })
 
+var acompanhamentoSchema = mongoose.Schema({
+	"clinica": String,
+	"medico": String,
+	"nomeMedico": String,
+	"paciente": String,
+	"nomePaciente": String,
+	"consultas": [{
+		"data": Date,
+		"hora": String,
+		"prontuario": {
+			"altura": Number,
+			"peso": Number,
+			"sintomas": String,
+			"diagnostico": String,
+			"prescricao": String
+		}
+	}]
+})
+
 var appointmentSchema = mongoose.Schema({
 	patientId: String,
 	doctorId: String,
@@ -48,13 +67,11 @@ var appointmentSchema = mongoose.Schema({
 	time: String
 })
 
-var medicalReport = mongoose.Schema({
+var prontuarioSchema = mongoose.Schema({
 	"idConsulta": String,
 	"altura": Number,
 	"peso": Number,
-	"sintoma1": String,
-	"sintoma2": String,
-	"sintoma3": String,
+	"sintomas": String,
 	"diagnostico": String,
 	"prescricao": String
 })
@@ -74,5 +91,6 @@ userSchema.plugin(passportLocalMongoose);
 exports.User = mongoose.model("User", userSchema);
 exports.Notification = mongoose.model("Notification", notificationSchema);
 exports.Appointment = mongoose.model("Appointment", appointmentSchema);
-exports.MedicalReport = mongoose.model("MedicalReport", medicalReport);
+exports.Prontuario = mongoose.model("Prontuario", prontuarioSchema);
 exports.PatientHistory = mongoose.model("PatientHistory", historySchema);
+exports.Acompanhamento = mongoose.model("Acompanhamento", acompanhamentoSchema);

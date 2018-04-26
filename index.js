@@ -10,6 +10,7 @@ var notificationController = require('./controller/notificationController.js');
 var appointmentController = require('./controller/appointmentController.js');
 var medicalReportController = require('./controller/medicalReportController.js');
 var historyController = require('./controller/historyController.js');
+var acompanhamentoController = require('./controller/acompanhamentoController.js');
 
 var passport = require("passport");
 var localStrategy = require("passport-local");
@@ -29,22 +30,24 @@ function isLoggedIn(req, res, next){
 }
 
 /* Routes */
-// USEFUL
 app.get("/", function(req, res){
   res.render("./pages/index.ejs", {message: undefined});
 });
 
-// USEFUL
-app.get("/logged-user/info", isLoggedIn, function(req, res){
+app.get("/usuarios", isLoggedIn, function(req, res){
+  userController.list(function(resp){
+    res.send(resp);
+  });
+});
+
+app.get("/usuario-logado", isLoggedIn, function(req, res){
   res.json(req.user);
 });
 
-// USEFUL
 app.get("/home", isLoggedIn, function(req, res){
   res.redirect("/agenda");
 });
 
-// USEFUL
 app.get("/medicos", isLoggedIn , function(req, res){
   if(req.user.category === 'c'){
     doctorController.list(function(resp){
@@ -82,7 +85,6 @@ app.get("/medicos", isLoggedIn , function(req, res){
   }
 });
 
-// USEFUL
 app.get("/clinica/get-dados", isLoggedIn, function(req, res){
   doctorController.list(function(resp){
     if(!resp.error){
@@ -101,7 +103,6 @@ app.get("/clinica/get-dados", isLoggedIn, function(req, res){
   });
 });
 
-// USEFUL
 app.get("/get-dados-notificacoes", isLoggedIn, function(req, res){
   var idClinica = req.user._id;
   var minhasNotificacoes = [];
@@ -117,7 +118,6 @@ app.get("/get-dados-notificacoes", isLoggedIn, function(req, res){
   })
 });
 
-// USEFUL
 app.put("/clinica/cancelarAssociacao", isLoggedIn, function(req, res){
   var clinic = validator.trim(validator.escape(req.body.clinica));
   var doctor = validator.trim(validator.escape(req.body.medico));
@@ -134,7 +134,6 @@ app.put("/clinica/cancelarAssociacao", isLoggedIn, function(req, res){
 
 });
 
-// USEFUL
 app.get("/minhas-notificacoes", isLoggedIn, function(req, res){
   notificationController.list(function(resp){
     var filteredResp = resp.filter(function(obj){
@@ -144,7 +143,6 @@ app.get("/minhas-notificacoes", isLoggedIn, function(req, res){
   });
 });
 
-// USEFUL
 app.get("/notificacoes", isLoggedIn, function(req, res){
   notificationController.list(function(resp){
     var filteredResp = resp.filter(function(obj){
@@ -159,7 +157,6 @@ app.get("/notificacoes", isLoggedIn, function(req, res){
   });
 });
 
-// USEFUL
 app.get("/pacientes", isLoggedIn , function(req, res){
    if(req.user.category === 'c' || req.user.category === 'd'){
       patientController.list(function(resp){
@@ -175,7 +172,6 @@ app.get("/pacientes", isLoggedIn , function(req, res){
   }
  });
 
-// USEFUL
 app.get("/agenda", isLoggedIn, function(req, res){
   doctorController.list(function(resp){
     var doctors = resp;
@@ -244,9 +240,8 @@ app.get("/agenda", isLoggedIn, function(req, res){
      });
     });
   });
-  });
+});
 
-// USEFUL
 app.post("/login", function(req, res, next) {
   passport.authenticate("local", function(err, user, info){
     if(err) {
@@ -264,7 +259,6 @@ app.post("/login", function(req, res, next) {
 })(req, res, next);
 });
 
-// USEFUL
 app.get("/logout", isLoggedIn , function(req, res){
   req.logout();
   return res.redirect("/");
@@ -278,7 +272,6 @@ app.get("/clinics", function(req, res){
   });
 })
 
-// USEFUL
 app.post("/clinic/new", function(req, res){
   var clinicLogin = validator.trim(validator.escape(req.body.username));
   var clinicName = validator.trim(validator.escape(req.body.clinicName));
@@ -298,28 +291,67 @@ app.post("/clinic/new", function(req, res){
     });
 })
 
-// USEFUL
-app.post("/clinic/agenda/add-appointment", isLoggedIn , function(req, res){
-  var clinicId = validator.trim(validator.escape(req.param('clinicId')));
-  var doctorId = validator.trim(validator.escape(req.param('doctorId')));
-  var patientId = validator.trim(validator.escape(req.param('patientId')));
-  var date = validator.trim(validator.escape(req.param('date')));
-  var time = validator.trim(validator.escape(req.param('time')));
+app.post("/clinica/agenda/consulta", isLoggedIn , function(req, res){
+  var idClinica = validator.trim(validator.escape(req.param('idClinica')));
+  var idMedico = validator.trim(validator.escape(req.param('idMedico')));
+  var nomeMedico = validator.trim(validator.escape(req.param('nomeMedico')));
+  var idPaciente = validator.trim(validator.escape(req.param('idPaciente')));
+  var nomePaciente = validator.trim(validator.escape(req.param('nomePaciente')));
+  var data = validator.trim(validator.escape(req.param('data')));
+  var hora = validator.trim(validator.escape(req.param('hora')));
 
-  appointmentController.register(patientId, doctorId, clinicId, date, time, function(resp){
-    if(resp['error']){
-      // TODO: Tratar esse erro
-      console.log(resp);
-      return res.send(resp);
-    }else{
-       // TODO: Mostrar mensagem de sucesso
-      console.log('Cadastrado');
-      return res.send(resp);
+  acompanhamentoController.criar(
+    idClinica, idMedico, nomeMedico, idPaciente, nomePaciente, data, hora, function(resp){
+      if(resp.erro === "acompanhamento já existe"){
+        acompanhamentoController.criarConsulta(resp.acompanhamento, data, hora,
+          function(resp){return resp;}
+        );
+      }else{
+        return resp;
+      }
     }
+  );
+});
+
+app.get("/agenda/acompanhamentos", isLoggedIn, function(req, res){
+
+  acompanhamentoController.listar(function(resp){
+    if(resp.erro){
+      return callback(resp);
+    }else if(req.user.category === 'c'){
+      var acompanhamentos = resp.filter(function(acompanhamento){
+        return req.user._id == acompanhamento.clinica;
+      })
+    }else if(req.user.category === 'd'){
+      var acompanhamentos = resp.filter(function(acompanhamento){
+        return req.user._id == acompanhamento.medico;
+      })
+    }else{
+      var acompanhamentos = resp.filter(function(acompanhamento){
+        return req.user._id == acompanhamento.paciente;
+      })
+    }
+
+    res.send(acompanhamentos);
   });
 });
 
-// USEFUL
+app.post("/agenda/prontuario", isLoggedIn, function(req, res){
+  var idAcompanhamento = req.body.idAcompanhamento;
+  var idConsulta = req.body.idConsulta;
+  var altura = req.body.altura;
+  var peso = req.body.peso;
+  var sintomas = req.body.sintomas;
+  var diagnostico = req.body.diagnostico;
+  var prescricao = req.body.prescricao;
+
+  acompanhamentoController.criaProntuario(idAcompanhamento, idConsulta, altura, peso,
+                                          sintomas, diagnostico, prescricao,
+                                          function(resp){
+    res.send(resp);
+  });
+});
+
 app.get("/agenda/appointments", isLoggedIn, function(req, res){
   doctorController.list(function(resp){
     var doctors = resp;
@@ -390,7 +422,6 @@ app.get("/agenda/appointments", isLoggedIn, function(req, res){
   });
 });
 
-// USEFUL
 app.get("/clinic/associateDoctor/:doctorId", isLoggedIn, function(req, res){
   if(req.user.category === 'c'){
     var clinicId = String(req.user._id);
@@ -402,7 +433,6 @@ app.get("/clinic/associateDoctor/:doctorId", isLoggedIn, function(req, res){
   }
 });
 
-// USEFUL
 app.post("/clinic/patient/new", isLoggedIn, function(req, res){
   if(req.user.category !== 'c'){
     res.redirect("/home");
@@ -426,8 +456,6 @@ app.post("/clinic/patient/new", isLoggedIn, function(req, res){
 });
 
 /* Doctor's Routes */
-
-// USEFUL
 app.post('/doctor/new', isLoggedIn , function(req, res) {
 
   var username = validator.trim(validator.escape(req.body.username));
@@ -448,7 +476,6 @@ app.post('/doctor/new', isLoggedIn , function(req, res) {
                         });
 });
 
-// USEFUL
 app.get('/doctor/acceptAssociation/:id', isLoggedIn, function(req, res){
   var id = validator.trim(validator.escape(req.param('id')));
 
@@ -477,7 +504,6 @@ app.get('/doctor/acceptAssociation/:id', isLoggedIn, function(req, res){
   });
 });
 
-// USEFUL
 app.get('/doctor/rejectAssociation/:id', isLoggedIn, function(req, res){
   var id = validator.trim(validator.escape(req.param('id')));
 
@@ -498,7 +524,6 @@ app.get('/doctor/rejectAssociation/:id', isLoggedIn, function(req, res){
   });
 });
 
-// USEFUL
 app.post("/doctor/agenda/add/medicalReport", isLoggedIn, function(req, res){
   var idConsulta = validator.trim(validator.escape(req.param('idConsulta')));
   var altura = validator.trim(validator.escape(req.param('altura')));
@@ -523,7 +548,6 @@ app.post("/doctor/agenda/add/medicalReport", isLoggedIn, function(req, res){
   });
 });
 
-// USEFUL
 app.get("/doctor/medicalReport/:patientId", isLoggedIn, function(req, res){
   var patientId = validator.trim(validator.escape(req.param('patientId')));
   console.log("exibir prontuario");
@@ -533,14 +557,12 @@ app.get("/doctor/medicalReport/:patientId", isLoggedIn, function(req, res){
 });
 
 /* Patient's Routes */
-// USEFUL
 app.get("/patients", function(req, res){
   patientController.list(function(resp){
     res.json(resp);
   });
 });
 
-// USEFUL
 app.post("/patient/new", function(req, res){
   var username = validator.trim(validator.escape(req.body.username));
   var fullname = validator.trim(validator.escape(req.body.fullname));

@@ -4,7 +4,7 @@ var medlineApp = angular.module('medlineApp', []);
 medlineApp.controller('headerController',['$scope', '$http', '$window', function($scope, $http, $window){
 	(function(){
 		$http({
-			url: '/logged-user/info',
+			url: '/usuario-logado',
 			method: "GET"
 		})
 		.then(function(response){
@@ -16,97 +16,63 @@ medlineApp.controller('headerController',['$scope', '$http', '$window', function
 medlineApp.controller('agendaController', ['$scope', '$http', '$window', function($scope, $http, $window){
 	(function(){
 		$http({
-			url: '/logged-user/info',
+			url: '/usuario-logado',
 			method: "GET"
 		})
 		.then(function(response){
+			$scope.usuarioLogado = response.data;
 			(function(){
 				$http({
-					url: '/agenda/appointments',
+					url: '/agenda/acompanhamentos',
+					//url: '/agenda/appointments',
 					method: "GET"
 				})
 				.then(function(response){
-					$scope.pacientes = response.data.pacientes;
-					$scope.usuarioLogado = response.data.user;
-					$scope.consultas = response.data.consultas;
+					$scope.acompanhamentos = response.data;
+					//$scope.usuarioLogado = response.data.user;
+					//$scope.consultas = response.data.consultas;
+					//$scope.pacientes = response.data.pacientes;
 				});
 			})();
 		});
 	})();
 
-	$scope.addAppointment = function(){
-		var clinicId = document.getElementsByName("clinicId")[0].value;
-	  var doctorId = document.getElementsByName('doctorId')[0].value;
-	  var patientId = document.getElementsByName('patientId')[0].value;
-	  var date = document.getElementsByName('date')[0].value;
-	  var time = document.getElementsByName('time')[0].value;
-
-		// action="/clinic/agenda/add-appointment" method="post"
-
-		var postData =
-			{
-				"clinicId": clinicId,
-				"doctorId": doctorId,
-				"patientId": patientId,
-				"date": date,
-				"time": time
-			};
+	$scope.criarConsulta = function(){
+		var idClinica = String($scope.usuarioLogado._id);
+	  var idMedico = document.getElementsByName('idMedico')[0].value;
+	  var idPaciente = document.getElementsByName('idPaciente')[0].value;
+	  var data = document.getElementsByName('data')[0].value;
+	  var hora = document.getElementsByName('hora')[0].value;
 
 		$http({
-			"url": '/clinic/agenda/add-appointment',
-			"method": "POST",
-			"data": postData
-		})
-		.then(function(response){
-			if(response.data.error){
-				var message =	document.getElementById("error-message-appointment");
-				console.log(message);
-				message.setAttribute("style", "display:block");
-				message.innerText = response.data.message;
+			"url": '/usuarios',
+			"method": "GET",
+		}).then(function(response){
+			var nomePaciente = response.data.filter(function(usuario){return usuario._id === idPaciente})[0].fullname;
+			var nomeMedico = response.data.filter(function(usuario){return usuario._id === idMedico})[0].fullname;
 
-				setTimeout(function(){
-					message.innerText = "";
-					message.setAttribute("style", "display:none")
-				}, 5000);
-			}else{
-				$window.location.href = "/agenda";
-			}
-		});
-	}
-
-	$scope.addMedicalReport = function(id){
-		var idConsulta = document.getElementById("id-consulta").value;
-		var altura = document.getElementsByName("altura")[0].value;
-	  var peso = document.getElementsByName('peso')[0].value;
-	  var sintoma1 = document.getElementsByName('sintoma1')[0].value;
-	  var sintoma2 = document.getElementsByName('sintoma2')[0].value;
-	  var sintoma3 = document.getElementsByName('sintoma3')[0].value;
-		var diagnostico = document.getElementsByName('diagnostico')[0].value;
-	  var prescricao = document.getElementsByName('prescricao')[0].value;
-
-		var postData =
-			{
-				"idConsulta": idConsulta,
-				"altura": altura,
-				"peso": peso,
-				"sintoma1": sintoma1,
-				"sintoma2": sintoma2,
-				"sintoma3": sintoma3,
-				"diagnostico": diagnostico,
-				"prescricao": prescricao
-			};
+			var dados =
+				{
+					"idClinica": idClinica,
+					"idMedico": idMedico,
+					"nomeMedico": nomeMedico,
+					"idPaciente": idPaciente,
+					"nomePaciente": nomePaciente,
+					"data": data,
+					"hora": hora
+				};
 
 			$http({
-				"url": '/doctor/agenda/add/medicalReport',
+				"url": '/clinica/agenda/consulta',
 				"method": "POST",
-				"data": postData
+				"data": dados
 			})
 			.then(function(response){
-				if(response.data.error){
-					var message =	document.getElementById("error-message-medicalReport");
+				if(response.data.erro){
+					var message =	document.getElementById("mensagem-erro-acompanhamento");
 					console.log(message);
 					message.setAttribute("style", "display:block");
-					message.innerText = response.data.message;
+					message.innerText = response.data.mensagem;
 
 					setTimeout(function(){
 						message.innerText = "";
@@ -114,9 +80,49 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 					}, 5000);
 				}else{
 					$window.location.href = "/agenda";
-					console.log(response.data);
 				}
+
 			});
+		});
+
+
+
+	}
+
+	$scope.criaProntuario = function(msg){
+
+		var dadosConsulta = JSON.parse(document.getElementById("id-consulta").value);
+		var altura = document.getElementsByName("altura")[0].value;
+	  var peso = document.getElementsByName('peso')[0].value;
+	  var sintomas = document.getElementsByName('sintomas')[0].value;
+		var diagnostico = document.getElementsByName('diagnostico')[0].value;
+	  var prescricao = document.getElementsByName('prescricao')[0].value;
+
+		var prontuario = {
+			'idAcompanhamento': dadosConsulta.acompanhamento,
+			'idConsulta': dadosConsulta.consulta,
+			'altura': altura,
+			'peso': peso,
+			'sintomas': sintomas,
+			'diagnostico': diagnostico,
+			'prescricao': prescricao
+		}
+
+		console.log(prontuario);
+
+		$http({
+			'url': '/agenda/prontuario',
+			'method': "POST",
+			'data': prontuario
+		})
+		.then(function(response){
+			if(response.data.erro){
+				// TODO: Tratar o erro
+				console.log(response.data.erro);
+			}else{
+				$window.location.href = "/agenda";
+			}
+		});
 	}
 }])
 
@@ -342,7 +348,7 @@ medlineApp.controller('medicosController', ['$scope', '$http', '$window', functi
 medlineApp.controller('sidebarController',['$scope', '$http', '$window', function($scope, $http, $window){
 	(function(){
 		$http({
-			url: '/logged-user/info',
+			url: '/usuario-logado',
 			method: "GET"
 		})
 		.then(function(response){

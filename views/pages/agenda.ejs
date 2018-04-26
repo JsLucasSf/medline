@@ -8,7 +8,7 @@
 
       <div class="content" id="main-content">
 
-        <h1>Consultas</h1>
+        <h1>Acompanhamentos</h1>
 
         <div class="row">
           <div class="col-md-2"></div>
@@ -26,38 +26,68 @@
 
         <hr>
 
-        <div ng-repeat="consulta in consultas | filter: searchPatientName">
+
+        <div ng-repeat="acompanhamento in acompanhamentos | filter: searchPatientName">
           <div class="col-xs-6 col-sm-4 col-lg-3">
-      			<div class="thumbnail">
-      				<div class="caption">
+
+            <div class="panel panel-primary">
+              <!-- Default panel contents -->
+
+              <div class="panel-heading">
                 <div ng-if="usuarioLogado.category !== 'p'">
-                  <h5>Paciente: {{consulta.paciente.fullname}}</h5>
+                  <h5>Paciente: {{acompanhamento.nomePaciente}}</h5>
                 </div>
                 <div ng-if="usuarioLogado.category !== 'd'">
-                  <h6>Médico: {{consulta.medico.fullname}}</h6>
+                  <h5>Médico: {{acompanhamento.nomeMedico}}</h5>
                 </div>
-                <h6>Data: {{consulta.consulta.date}}</h6>
-                <h6>Horário: {{consulta.consulta.time}} </h6>
+              </div>
+              <div class="panel-body">
+                <h1>Consultas</h1>
+                <div ng-repeat="consulta in acompanhamento.consultas">
 
-                <div ng-if="usuarioLogado.category === 'd'">
-                  <hr>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <a type="button" class="btn btn-info btn-md"
-                       data-toggle="modal" data-target="#criar-prontuario"
-                       data-id="{{consulta.consulta._id}}">
-                        Encerrar Consulta</a>
+                  <div class="thumbnail">
+                    <div class="caption">
+                      <div ng-if="usuarioLogado.category === 'd'">
+
+                        <div ng-if="consulta.prontuario == null">
+                          <button class="btn btn-primary btn-xs pull-right", data-toggle="modal" data-target="#criar-prontuario"
+                            data-toggle="tooltip" title="Criar prontuário", data-id="{{ {acompanhamento: acompanhamento._id, consulta: consulta._id} }}">
+                            <span class="glyphicon glyphicon-list"></span>
+                          </button>
+                        </div>
+                        <div ng-if="consulta.prontuario">
+                          <button class="btn btn-success btn-xs pull-right",
+                            data-toggle="tooltip" title="Prontuário criado" disabled>
+                            <span class="glyphicon glyphicon-ok"></span>
+                          </button>
+                        </div>
+                        <button class="btn btn-primary btn-xs pull-right" disabled
+                          data-toggle="tooltip" title="Salvar resumo do prontuário no histórico do paciente">
+                          <span class="glyphicon glyphicon-cloud-upload"></span>
+                        </button>
+                      </div>
+
+                        <h6>Data: {{consulta.data}}</h6>
+                        <h6>Horário: {{consulta.hora}} </h6>
                     </div>
                   </div>
+
+
+
                 </div>
-      				</div>
-      				<!-- /.caption -->
-      			</div>
-      			<!-- /.thumbnail -->
+              </div>
+              <div ng-if="usuarioLogado.category === 'd'">
+                <div class="panel-footer">
+                  <button type="button" class="btn btn-primary btn-block">
+                    Encerrar Atendimento
+                  </button>
+                </div>
+              </div>
       		</div>
 
 
         </div>
+      </div>
 
         <br>
 
@@ -73,36 +103,31 @@
 
                       <div class="modal-body">
                       <div id="consulta">
-                        <form ng-submit="addAppointment()"><br>
-                            <div class="alert alert-danger" id="error-message-appointment" style="display:none"></div>
+                        <form ng-submit="criarConsulta()"><br>
+                            <div class="alert alert-danger" id="mensagem-erro-acompanhamento" style="display:none"></div>
                             <div class="panel panel-primary">
                               <div class="panel-heading">Selecione um paciente</div>
-                              <select name="patientId" class="form-control" ng-model="selectedPatient">
+                              <select name="idPaciente" class="form-control" ng-model="selectedPatient">
                                 <% for(var i = 0; i < pacientes.length; i++){ %>
                                  <option value="<%= pacientes[i]._id %>"><%= pacientes[i].fullname %></option>
                                 <% } %>
                               </select>
                             </div>
-
-                            <input type="text" name="clinicId" value="<%= user._id %>" hidden=true>
+                            <!--<input type="text" name="idClinica" value="<%= user._id %>" hidden=true>-->
 
                             <div class="panel panel-primary">
                               <div class="panel-heading">Selecione um médico</div>
-                              <select name="doctorId" class="form-control" ng-model="selectedDoctor">
+                              <select name="idMedico" class="form-control" ng-model="selectedDoctor">
                                 <% for(var i = 0; i < medicos.length; i++){ %>
                                   <option value="<%= medicos[i]._id %>"><%= medicos[i].fullname %></option>
                                 <% } %>
                               </select>
                             </div>
-                            <!--
-                            <h5 class="form-control">Paciente selecionado: {{selectedPatient}}</h5>
-                            <h5 class="form-control">Médico selecionado: {{selectedDoctor}}</h5>
-                            -->
                             <div class="form-group">
-                              <input type="date" class="form-control" name="date" placeholder="Data" required="required" autofocus>
+                              <input type="date" class="form-control" name="data" placeholder="Data" required="required" autofocus>
                             </div>
                             <div class="form-group">
-                              <input type="text" class="form-control" name="time" placeholder="Horário" required="required" autofocus>
+                              <input type="text" class="form-control" name="hora" placeholder="Horário" required="required" autofocus>
                             </div>
 
                             <div class="form-group">
@@ -138,7 +163,7 @@
 
               <div class="modal-body">
               <div id="consulta">
-                <form ng-submit="addMedicalReport()"><br>
+                <form ng-submit="criaProntuario()"><br>
                     <input type="text" id="id-consulta" hidden="true">
 
                     <div class="alert alert-danger" id="error-message-medicalReport" style="display:none"></div>
@@ -152,15 +177,7 @@
                     </div>
 
                     <div class="form-group">
-                      <input class="form-control" placeholder="Sintoma 1" type="text" name="sintoma1" required>
-                    </div>
-
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Sintoma 2" type="text" name="sintoma2">
-                    </div>
-
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Sintoma 3" type="text" name="sintoma3">
+                      <textarea class="form-control" placeholder="Sintomas" name="sintomas" required></textarea>
                     </div>
 
                     <div class="form-group">
@@ -168,7 +185,7 @@
                     </div>
 
                     <div class="form-group">
-                      <input class="form-control" placeholder="Médicação Prescrita" type="text" name="prescricao">
+                      <input class="form-control" placeholder="Medicamento Prescrito" type="text" name="prescricao">
                     </div>
 
                     <div class="form-group">
