@@ -335,15 +335,15 @@ overflow: auto;
 }
 
 
-#main .btn-md {
-    background:#2E3E4E;
+#main .btn-success .btn-md {
+    background:green;
     color: white;
     border: none;
 }
 
 #main .btn-md:hover {
     background:#D9853B;
-    color: white-space: nowrap;
+    color: white;
     border: none;
 }
 
