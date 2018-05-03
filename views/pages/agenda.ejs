@@ -30,7 +30,7 @@
         <div ng-repeat="acompanhamento in acompanhamentos | filter: searchPatientName">
           <div class="col-xs-6 col-sm-4 col-lg-3">
 
-            <div class="panel panel-primary" style=" height:400px; overflow: auto">
+            <div class="panel panel-primary">
               <!-- Default panel contents -->
 
               <div class="panel-heading">
@@ -41,8 +41,8 @@
                   <h5>Médico: {{acompanhamento.nomeMedico}}</h5>
                 </div>
               </div>
-              <div class="panel-body">
-                <h2>Consultas</h2>
+              <div class="panel-body" style="height:400px; overflow: auto">
+                <h4>Consultas</h4>
                 <div ng-repeat="consulta in acompanhamento.consultas">
 
                   <div class="thumbnail">
