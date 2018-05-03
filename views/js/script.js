@@ -89,14 +89,47 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 
 	}
 
+	$scope.salvaHistorico = function(msg){
+
+		var dadosConsulta = JSON.parse(document.getElementById("id-consulta").value);
+		var sintomas = document.getElementsByName('sintomas')[0].value;
+		var diagnostico = document.getElementsByName('diagnostico')[0].value;
+		var prescricao = document.getElementsByName('prescricao')[0].value;
+
+		var resumoProntuario = {
+			'idAcompanhamento': dadosConsulta.acompanhamento,
+			'idConsulta': dadosConsulta.consulta,
+			'sintomas': sintomas,
+			'diagnostico': diagnostico,
+			'prescricao': prescricao
+		}
+
+		console.log(resumoProntuario);
+
+		$http({
+			'url': '/agenda/historico',
+			'method': "POST",
+			'data': resumoProntuario
+		})
+		.then(function(response){
+			if(response.data.erro){
+				// TODO: Tratar o erro
+				console.log(response.data.erro);
+			}else{
+				$window.location.href = "/agenda";
+			}
+		});
+	}
+
+
 	$scope.criaProntuario = function(msg){
 
 		var dadosConsulta = JSON.parse(document.getElementById("id-consulta").value);
 		var altura = document.getElementsByName("altura")[0].value;
-	  var peso = document.getElementsByName('peso')[0].value;
-	  var sintomas = document.getElementsByName('sintomas')[0].value;
+		var peso = document.getElementsByName('peso')[0].value;
+		var sintomas = document.getElementsByName('sintomas')[0].value;
 		var diagnostico = document.getElementsByName('diagnostico')[0].value;
-	  var prescricao = document.getElementsByName('prescricao')[0].value;
+		var prescricao = document.getElementsByName('prescricao')[0].value;
 
 		var prontuario = {
 			'idAcompanhamento': dadosConsulta.acompanhamento,
@@ -124,6 +157,8 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 			}
 		});
 	}
+
+
 }])
 
 medlineApp.controller('loginController', ['$scope', '$http', '$window', function($scope, $http, $window){

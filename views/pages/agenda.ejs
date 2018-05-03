@@ -54,17 +54,22 @@
                             data-toggle="tooltip" title="Criar prontuário", data-id="{{ {acompanhamento: acompanhamento._id, consulta: consulta._id} }}">
                             <span class="glyphicon glyphicon-list"></span>
                           </button>
+                          <button class="btn btn-primary btn-xs pull-right" disabled
+                          data-toggle="tooltip" title="Salvar resumo do prontuário no histórico do paciente">
+                          <span class="glyphicon glyphicon-cloud-upload"></span>
+                        </button>
                         </div>
                         <div ng-if="consulta.prontuario">
                           <button class="btn btn-success btn-xs pull-right",
                             data-toggle="tooltip" title="Prontuário criado" disabled>
                             <span class="glyphicon glyphicon-ok"></span>
                           </button>
-                        </div>
-                        <button class="btn btn-primary btn-xs pull-right" disabled
+                          <button class="btn btn-primary btn-xs pull-right"
                           data-toggle="tooltip" title="Salvar resumo do prontuário no histórico do paciente">
                           <span class="glyphicon glyphicon-cloud-upload"></span>
                         </button>
+                        </div>
+                        
                       </div>
 
                         <h6>Data: {{consulta.data}}</h6>
