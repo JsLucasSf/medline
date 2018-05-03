@@ -270,7 +270,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 #main-content
 {
     background:#ECECEA;
-    padding-top: 40px;
+    padding-top: 30px;
     padding-left: 300px;
     padding-right: -20px;
     transition: padding-left 0.5s;
