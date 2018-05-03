@@ -18,37 +18,53 @@
               </div>
 
               <div class="col-md-3">
-                  <button class="btn btn-success btn-md pull-right" data-toggle="modal" title="Cadastrar Paciente" data-target="#cadastrar"><span class="glyphicon glyphicon-plus"></span> Cadastrar Paciente</button>
-              </div>
+                  <button class="btn btn-success btn-md" data-toggle="modal" title="Cadastrar Paciente" data-target="#cadastrar"><span class="glyphicon glyphicon-plus"></span> Cadastrar Paciente</button>
+                   </div>
             </div>
             <hr>
-            <div ng-repeat="paciente in pacientes | filter:searchName">
 
-              <div class="col-xs-6 col-sm-4 col-lg-2">
-        			<div class="thumbnail ">
-								<img src="../images/default_user_avatar.jpg" style="border-radius: 50%; width: 50%;height: auto;">
-        				<div class="caption">
-        					<h3 style="text-align: center">{{paciente.fullname}}</h2>
-                  <hr>
-                  <div style="text-align: center">
-                    Idade: {{paciente.age}}<br>
-                    Fone: {{paciente.phone}}
-                  </div>
-                </div>
-                <center><a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#prontuario">Prontuário</a></center>
-        				<!-- /.caption -->
-        			</div>
-        			<!-- /.thumbnail -->
-        		</div>
-          </div>
-          </div>
+
+
+            <div class="table-responsive" style="overflow:auto;height:400px;">
+                <table class="table user-list">
+                    <thead>
+                        <tr>
+                        <th><span>Paciente</span></th>
+                        <th><span>Usuário</span></th>
+                        <th><span>Telefone</span></th>
+                        <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>       
+                        <tr ng-repeat="paciente in pacientes | filter:searchName">
+                            <td>
+                        
+                                <img src="../images/default_user_avatar.png" alt="">
+                                <span class="user-link">{{paciente.fullname}}</span>
+                                <span class="user-subhead">{{paciente.age}} anos</span>
+                            </td>
+                            <td><span class="user-subhead1">{{paciente.username}}</span></td>
+                            <td>
+                                <span class="user-subhead1">{{paciente.phone}}</span>
+                            </td>
+                            <td style="width: 20%;">
+                                <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#prontuario">Prontuário</a>
+                            </td> 
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            
+
+
 
           <div id="cadastrar" class="modal fade">
   <div class="modal-dialog modal-login">
   <div class="modal-content">
   <div class="modal-header">
   <div class="avatar-cadastro">
-    <img src="../images/default_user_avatar.jpg" id="modal-avatar">
+    <img src="../images/default_user_avatar.png" id="modal-avatar">
   </div><br>
   <h4>Cadastro de Paciente</h4>
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
