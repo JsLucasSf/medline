@@ -278,13 +278,13 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 
 #main-content h1 {
     color: white;
-    border-left:3px solid #2E3E4E;
+    border-left:4px solid #f29646;
     padding-left: 20px;
-    background: #f29646;
+    background: #2E3E4E;
     font-family: 'Rouge Script', cursive; 
     font-size: 22px; 
     font-weight: normal; 
-    line-height: 35px; 
+    line-height: 30px; 
     margin: 0 0 20px; 
     
 }
