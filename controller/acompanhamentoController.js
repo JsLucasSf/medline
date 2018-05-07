@@ -84,7 +84,7 @@ exports.criaProntuario = function(idAcompanhamento, idConsulta, altura, peso,
       }else{
         return callback(acompanhamento);
       }
-    })
+    });
 }
 
 exports.listar = function(callback){
@@ -95,5 +95,15 @@ exports.listar = function(callback){
 		} else {
 			return callback(acompanhamentos);
 		}
-	});
+  });
+}
+  exports.encerrarAtendimento = function(idAcompanhamento, callback){
+    db.Acompanhamento.remove({'_id': idAcompanhamento}, function(erro) {
+      if(erro) {
+        return callback({'erro': erro,
+                  'mensagem': 'Não foi possivel remover acompanhamento'});
+      } else {
+        return callback({'mensagem': 'Acompanhamento removido com sucesso'});
+      }
+    });
 }

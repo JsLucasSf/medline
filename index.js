@@ -352,6 +352,16 @@ app.post("/agenda/prontuario", isLoggedIn, function(req, res){
   });
 });
 
+app.post("/agenda/encerraAtendimento", function(req, res){
+
+ 
+  var idAcompanhamento = req.body.idAcompanhamento;
+  console.log(req.body);
+  acompanhamentoController.encerrarAtendimento(idAcompanhamento, function(resp){
+    res.send(resp);
+  });
+});
+
 app.get("/agenda/appointments", isLoggedIn, function(req, res){
   doctorController.list(function(resp){
     var doctors = resp;

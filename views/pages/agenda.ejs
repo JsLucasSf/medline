@@ -76,8 +76,11 @@
                 </div>
               </div>
               <div ng-if="usuarioLogado.category === 'd'">
-                <div class="panel-footer">
-                  <button type="button" class="btn btn-primary btn-block">
+                <div ng-submit="encerraAtendimento()" class="panel-footer">
+                    <div class="alert alert-danger" id="success-message-encerraAtendimento" style="display:none">
+                   </div>
+                   
+                  <button type="submit" class="btn btn-primary btn-block">
                     Encerrar Atendimento
                   </button>
                 </div>

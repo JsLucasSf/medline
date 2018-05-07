@@ -39,10 +39,10 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 
 	$scope.criarConsulta = function(){
 		var idClinica = String($scope.usuarioLogado._id);
-	  var idMedico = document.getElementsByName('idMedico')[0].value;
-	  var idPaciente = document.getElementsByName('idPaciente')[0].value;
-	  var data = document.getElementsByName('data')[0].value;
-	  var hora = document.getElementsByName('hora')[0].value;
+	 	var idMedico = document.getElementsByName('idMedico')[0].value;
+	    var idPaciente = document.getElementsByName('idPaciente')[0].value;
+	    var data = document.getElementsByName('data')[0].value;
+	    var hora = document.getElementsByName('hora')[0].value;
 
 		$http({
 			"url": '/usuarios',
@@ -153,6 +153,33 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 				// TODO: Tratar o erro
 				console.log(response.data.erro);
 			}else{
+				$window.location.href = "/agenda";
+			}
+		});
+	}
+
+	$scope.encerraAtendimento = function(){
+
+		var dadosConsulta = JSON.parse(document.getElementById("id-consulta").value);
+	
+		var acompanhamento = {
+			'idAcompanhamento': dadosConsulta.acompanhamento,
+		}
+
+		console.log(acompanhamento);
+
+		$http({
+			'url': '/agenda/encerraAtendimento',
+			'method': "POST",
+			'data': acompanhamento
+		})
+		.then(function(response){
+			if(response.data.erro){
+				console.log(response.data.erro);
+			}else{	
+				var message =	document.getElementById("success-message-encerraAtendimento");
+				message.setAttribute("style", "display:block");
+				message.innerText = "Acompanhamento encerrado!";	
 				$window.location.href = "/agenda";
 			}
 		});
