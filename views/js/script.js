@@ -317,6 +317,10 @@ medlineApp.controller('pacientesController', ['$scope', '$http', '$window', func
 			console.log($scope.pacientes);
 		});
 	})();
+
+	$scope.mostraHistorico = function(paciente){
+		console.log(paciente);
+	}
 }]);
 
 medlineApp.controller('prontuarioController', ['$scope', '$http', '$window', function($scope, $http, $window){
