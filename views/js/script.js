@@ -14,7 +14,7 @@ medlineApp.controller('headerController',['$scope', '$http', '$window', function
 }]);
 
 medlineApp.controller('agendaController', ['$scope', '$http', '$window', function($scope, $http, $window){
-	(function(){
+	var carregaDados = function(){
 		$http({
 			url: '/usuario-logado',
 			method: "GET"
@@ -35,7 +35,9 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 				});
 			})();
 		});
-	})();
+	}
+	
+	carregaDados();
 
 	$scope.criarConsulta = function(){
 		var idClinica = String($scope.usuarioLogado._id);
@@ -123,31 +125,35 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 		});
 	}
 
-	$scope.encerraAtendimento = function(){
+	$scope.encerraAtendimento = function(acompanhamento){
+		if(confirm("Deseja realmente encerrar o atendimento?")){
+			var consultasFechadas = acompanhamento.consultas
+				.filter(function(consulta){return consulta.prontuarioSalvo === true})
 
-		var dadosConsulta = JSON.parse(document.getElementById("id-consulta").value);
-
-		var acompanhamento = {
-			'idAcompanhamento': dadosConsulta.acompanhamento,
-		}
-
-		console.log(acompanhamento);
-
-		$http({
-			'url': '/agenda/encerraAtendimento',
-			'method': "POST",
-			'data': acompanhamento
-		})
-		.then(function(response){
-			if(response.data.erro){
-				console.log(response.data.erro);
+			if(consultasFechadas.length === 0){
+				alert(`Este acompanhamento não possui nenhuma consulta com
+				prontuário salvo. Para encerrar um acompanhamento,
+				por favor providencie um prontuário para uma consulta.`);
 			}else{
-				var message =	document.getElementById("success-message-encerraAtendimento");
-				message.setAttribute("style", "display:block");
-				message.innerText = "Acompanhamento encerrado!";
-				$window.location.href = "/agenda";
+				$http({
+					'url': '/agenda/encerraAtendimento',
+					'method': "POST",
+					'data': {
+						"idAcompanhamento": acompanhamento._id
+					}
+				})
+				.then(function(response){
+					if(response.data.erro){
+						console.log(response.data.erro);
+					}else{
+						var message =	document.getElementById("success-message-encerraAtendimento");
+						message.setAttribute("style", "display:block");
+						message.innerText = "Acompanhamento encerrado!";
+						$window.location.href = "/agenda";
+					}
+				});
 			}
-		});
+		}
 	}
 
  	$scope.atualizaHistoricoPaciente = function(consulta){
@@ -170,6 +176,7 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 					// TODO: Tratar erro
 					console.log(response.data);
 				}else{
+					carregaDados();
 					document.getElementById("salva-prontuario-" + consulta._id).style.visibility = "hidden";
 				}
 			})

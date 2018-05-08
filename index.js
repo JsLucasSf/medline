@@ -172,7 +172,8 @@ app.get("/pacientes", isLoggedIn , function(req, res){
   }
  });
 
-app.post("/paciente/historico", isLoggedIn, function(req, res){
+
+ app.post("/paciente/historico", isLoggedIn, function(req, res){
   var resumo = {
     "data": req.body.data,
     "sintomas": req.body.sintomas,
@@ -371,10 +372,8 @@ app.post("/agenda/prontuario", isLoggedIn, function(req, res){
 });
 
 app.post("/agenda/encerraAtendimento", function(req, res){
-
-
   var idAcompanhamento = req.body.idAcompanhamento;
-  console.log(req.body);
+  
   acompanhamentoController.encerrarAtendimento(idAcompanhamento, function(resp){
     res.send(resp);
   });

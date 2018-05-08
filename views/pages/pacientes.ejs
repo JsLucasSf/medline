@@ -128,18 +128,26 @@
   $('#historico').on('show.bs.modal', function(e) {
     var paciente = JSON.parse(e.relatedTarget.dataset.id);
     $('#lista-historico').append("<h1><center>" + paciente.fullname + "</center></h1>");
-    for (var i = 0; i < paciente.history.length; i++) {
+    
+    if(paciente.history.length > 0){
+      for (var i = 0; i < paciente.history.length; i++) {
+        $('#lista-historico').append(
+          "<li class='list-group-item'>Em <strong>" +
+          paciente.history[i].data + "</strong> o paciente se queixou de <strong>" +
+          paciente.history[i].sintomas + "</strong> e foi diagnosticado com <strong>" +
+          paciente.history[i].diagnostico + "</strong>. <strong>" + paciente.history[i].prescricao +
+          "</strong> foi o medicamento receitado." +
+          "</li>"
+        );
+      }
+    }else{
       $('#lista-historico').append(
-        "<li class='list-group-item'>Em <strong>" +
-        paciente.history[i].data + "</strong> o paciente se queixou de <strong>" +
-        paciente.history[i].sintomas + "</strong> e foi diagnosticado com <strong>" +
-        paciente.history[i].diagnostico + "</strong>. <strong>" + paciente.history[i].prescricao +
-        "</strong> foi o medicamento receitado." +
-        "</li>"
+        "<li class='list-group-item'>Nenhum prontuário cadastrado no momento.</li>"
       );
-
     }
-    // Do some stuff w/ it.
+    
+    
+    
   });
 
   $('#historico').on('hidden.bs.modal', function(e) {
