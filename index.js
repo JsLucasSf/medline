@@ -172,6 +172,24 @@ app.get("/pacientes", isLoggedIn , function(req, res){
   }
  });
 
+app.post("/paciente/historico", isLoggedIn, function(req, res){
+  var resumo = {
+    "data": req.body.data,
+    "sintomas": req.body.sintomas,
+    "diagnostico": req.body.diagnostico,
+    "prescricao": req.body.prescricao,
+  }
+
+  var idConsulta = req.body.id_consulta;
+
+  console.log("entra")
+
+  acompanhamentoController.atualizaHistorico(idConsulta, resumo, function(resp){
+    console.log("sai")
+    res.json(resp);
+  })
+})
+
 app.get("/agenda", isLoggedIn, function(req, res){
   doctorController.list(function(resp){
     var doctors = resp;
@@ -354,7 +372,7 @@ app.post("/agenda/prontuario", isLoggedIn, function(req, res){
 
 app.post("/agenda/encerraAtendimento", function(req, res){
 
- 
+
   var idAcompanhamento = req.body.idAcompanhamento;
   console.log(req.body);
   acompanhamentoController.encerrarAtendimento(idAcompanhamento, function(resp){

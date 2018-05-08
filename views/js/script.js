@@ -89,39 +89,6 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 
 	}
 
-	$scope.salvaHistorico = function(msg){
-
-		var dadosConsulta = JSON.parse(document.getElementById("id-consulta").value);
-		var sintomas = document.getElementsByName('sintomas')[0].value;
-		var diagnostico = document.getElementsByName('diagnostico')[0].value;
-		var prescricao = document.getElementsByName('prescricao')[0].value;
-
-		var resumoProntuario = {
-			'idAcompanhamento': dadosConsulta.acompanhamento,
-			'idConsulta': dadosConsulta.consulta,
-			'sintomas': sintomas,
-			'diagnostico': diagnostico,
-			'prescricao': prescricao
-		}
-
-		console.log(resumoProntuario);
-
-		$http({
-			'url': '/agenda/historico',
-			'method': "POST",
-			'data': resumoProntuario
-		})
-		.then(function(response){
-			if(response.data.erro){
-				// TODO: Tratar o erro
-				console.log(response.data.erro);
-			}else{
-				$window.location.href = "/agenda";
-			}
-		});
-	}
-
-
 	$scope.criaProntuario = function(msg){
 
 		var dadosConsulta = JSON.parse(document.getElementById("id-consulta").value);
@@ -141,8 +108,6 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 			'prescricao': prescricao
 		}
 
-		console.log(prontuario);
-
 		$http({
 			'url': '/agenda/prontuario',
 			'method': "POST",
@@ -161,7 +126,7 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 	$scope.encerraAtendimento = function(){
 
 		var dadosConsulta = JSON.parse(document.getElementById("id-consulta").value);
-	
+
 		var acompanhamento = {
 			'idAcompanhamento': dadosConsulta.acompanhamento,
 		}
@@ -176,16 +141,40 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 		.then(function(response){
 			if(response.data.erro){
 				console.log(response.data.erro);
-			}else{	
+			}else{
 				var message =	document.getElementById("success-message-encerraAtendimento");
 				message.setAttribute("style", "display:block");
-				message.innerText = "Acompanhamento encerrado!";	
+				message.innerText = "Acompanhamento encerrado!";
 				$window.location.href = "/agenda";
 			}
 		});
 	}
 
+ 	$scope.atualizaHistoricoPaciente = function(consulta){
+		if(confirm("Deseja realmente salvar este prontuário no histórico do paciente?")){
+			var resumo = {
+				"id_consulta": consulta._id,
+				"data": consulta.data,
+				"sintomas": consulta.prontuario.sintomas,
+				"diagnostico": consulta.prontuario.diagnostico,
+				"prescricao": consulta.prontuario.prescricao
+			}
 
+			$http({
+				'url': '/paciente/historico',
+				'method': "POST",
+				'data': resumo
+			})
+			.then(function(response){
+				if(response.data.erro){
+					// TODO: Tratar erro
+					console.log(response.data);
+				}else{
+					document.getElementById("salva-prontuario-" + consulta._id).style.visibility = "hidden";
+				}
+			})
+		}
+	}
 }])
 
 medlineApp.controller('loginController', ['$scope', '$http', '$window', function($scope, $http, $window){

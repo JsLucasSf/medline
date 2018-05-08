@@ -35,10 +35,10 @@
                         <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    <tbody>       
+                    <tbody>
                         <tr ng-repeat="paciente in pacientes | filter:searchName">
                             <td>
-                        
+
                                 <img src="../images/default_user_avatar.png" alt="">
                                 <span class="user-link">{{paciente.fullname}}</span>
                                 <span class="user-subhead">{{paciente.age}} anos</span>
@@ -48,14 +48,14 @@
                                 <span class="user-subhead1">{{paciente.phone}}</span>
                             </td>
                             <td style="width: 20%;">
-                                <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#prontuario">Prontuário</a>
-                            </td> 
+                                <a type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#historico">Histórico</a>
+                            </td>
                         </tr>
 
                     </tbody>
                 </table>
             </div>
-            
+
 
 
 
@@ -101,14 +101,14 @@
   </div> <!--cadastrar modal fim-->
 
 
-  <div id="prontuario" class="modal fade">
+  <div id="historico" class="modal fade">
       <div class="modal-dialog modal-login">
       <div class="modal-content">
       <div class="modal-header">
       <div class="avatar-cadastro">
         <img src="../images/prancheta_avatar.png" id="modal-avatar">
       </div><br>
-      <h4>Resumo de Prontuário</h4>
+      <h4>Histórico de Paciente</h4>
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
       </div>
       <div class="modal-body">
@@ -131,7 +131,7 @@
                     <div class="form-group">
                         <input type="text" class="form-control" name="telephone" placeholder="Telefone" required="required" autofocus>
                     </div>
-    
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
                     </div>

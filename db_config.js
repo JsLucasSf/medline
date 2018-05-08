@@ -11,6 +11,14 @@ var Doctor;
 
 db.on('error', console.error.bind(console, 'Erro ao conectar no banco'));
 
+var notificationSchema = mongoose.Schema({
+	sourceUser: String,
+	targetUser: String,
+	message: String,
+	answered: Boolean,
+	type: String
+})
+
 var userSchema = mongoose.Schema({
 	username: String,
 	fullname: String,
@@ -27,18 +35,17 @@ var userSchema = mongoose.Schema({
 	associatedDoctors: Array,
 	appointments: Array,
 	// ALL USERS, IMPORTANT: c = clinic, p = patient, d = doctor
-	category: String
+	category: String,
+	// pacientes
+	history: [{
+		"data": Date,
+		"sintomas": String,
+		"diagnostico": String,
+		"prescricao": String
+	}]
 }, {
   usePushEach: true
 });
-
-var notificationSchema = mongoose.Schema({
-	sourceUser: String,
-	targetUser: String,
-	message: String,
-	answered: Boolean,
-	type: String
-})
 
 var acompanhamentoSchema = mongoose.Schema({
 	"clinica": String,
@@ -49,6 +56,7 @@ var acompanhamentoSchema = mongoose.Schema({
 	"consultas": [{
 		"data": Date,
 		"hora": String,
+		"prontuarioSalvo": Boolean,
 		"prontuario": {
 			"altura": Number,
 			"peso": Number,

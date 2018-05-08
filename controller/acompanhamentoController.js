@@ -97,7 +97,8 @@ exports.listar = function(callback){
 		}
   });
 }
-  exports.encerrarAtendimento = function(idAcompanhamento, callback){
+
+exports.encerrarAtendimento = function(idAcompanhamento, callback){
     db.Acompanhamento.remove({'_id': idAcompanhamento}, function(erro) {
       if(erro) {
         return callback({'erro': erro,
@@ -106,4 +107,38 @@ exports.listar = function(callback){
         return callback({'mensagem': 'Acompanhamento removido com sucesso'});
       }
     });
+}
+
+exports.atualizaHistorico = function(idConsulta, resumoProntuario, callback){
+  db.Acompanhamento.findOne(
+    {"consultas._id": idConsulta},
+    function(erro, acompanhamento){
+      acompanhamento.consultas
+        .filter(function(consulta){return consulta._id == idConsulta})
+        .map(function(consulta){consulta.prontuarioSalvo = true});
+
+      acompanhamento.save(function(erro, acompanhamentoAtt){
+        if(erro){
+          console.log("acompanhamentoAtt")
+
+          return callback({'erro': erro,
+                    'mensagem': "Não foi possível alterar a consulta"})
+        }else{
+          db.User.findOneAndUpdate(
+            {"_id": acompanhamentoAtt.paciente},
+            //{$set: {history: []}},
+            { $push: {history: resumoProntuario}},
+            function(erro, usuario){
+              if(erro){
+                console.log("usuario")
+                return callback(
+                  {'erro': erro,
+                  'mensagem': "Não foi possível criar entrada no histórico do paciente"})
+                }else{
+                  return callback(acompanhamentoAtt);
+                }
+            })
+        }
+      })
+  });
 }

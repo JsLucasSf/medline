@@ -39,13 +39,11 @@
                 </div>
               </div>
               <div class="panel-body" style="height:350px; overflow: auto">
-                <h4>Consultas</h4>
+                <h1>Consultas</h1>
                 <div ng-repeat="consulta in acompanhamento.consultas">
-
                   <div class="thumbnail">
                     <div class="caption">
                       <div ng-if="usuarioLogado.category === 'd'">
-
                         <div ng-if="consulta.prontuario == null">
                           <button class="btn btn-primary btn-xs pull-right", data-toggle="modal" data-target="#criar-prontuario"
                             data-toggle="tooltip" title="Criar prontuário", data-id="{{ {acompanhamento: acompanhamento._id, consulta: consulta._id} }}">
@@ -61,12 +59,14 @@
                             data-toggle="tooltip" title="Prontuário criado" disabled>
                             <span class="glyphicon glyphicon-ok"></span>
                           </button>
-                          <button class="btn btn-primary btn-xs pull-right"
-                          data-toggle="tooltip" title="Salvar resumo do prontuário no histórico do paciente">
-                          <span class="glyphicon glyphicon-cloud-upload"></span>
+                          <div ng-if="consulta.prontuarioSalvo != true">
+                            <button id="salva-prontuario-{{consulta._id}}" class="btn btn-primary btn-xs pull-right" ng-click="atualizaHistoricoPaciente(consulta)"
+                            data-toggle="tooltip" title="Salvar resumo do prontuário no histórico do paciente">
+                            <span class="glyphicon glyphicon-cloud-upload"></span>
+                          </div>
                         </button>
                         </div>
-                        
+
                       </div>
 
                         <h6>Data: {{consulta.data}}</h6>
@@ -79,7 +79,7 @@
                 <div ng-submit="encerraAtendimento()" class="panel-footer">
                     <div class="alert alert-danger" id="success-message-encerraAtendimento" style="display:none">
                    </div>
-                   
+
                   <button type="submit" class="btn btn-primary btn-block">
                     Encerrar Atendimento
                   </button>
@@ -126,16 +126,16 @@
                                 <% } %>
                               </select>
                             </div>
-                           
+
                               <input type="date" class="form-control" name="data" placeholder="Data" required="required" autofocus>
-                           
+
                             <br>
                               <input type="text" class="form-control" name="hora" placeholder="Horário (hh:mm)" required="required" autofocus>
                            <br>
 
-                            
+
                               <button type="submit" class="btn btn-primary btn-lg btn-block">Agendar</button>
-                            
+
                         </form>
                       </div>
                       </div>
@@ -177,7 +177,7 @@
                           <div class="form-group">
                               <input type="text" class="form-control" name="telephone" placeholder="Telefone" required="required" autofocus>
                           </div>
-          
+
                           <div class="form-group">
                               <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
                           </div>
