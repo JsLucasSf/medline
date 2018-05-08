@@ -146,10 +146,14 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 					if(response.data.erro){
 						console.log(response.data.erro);
 					}else{
-						var message =	document.getElementById("success-message-encerraAtendimento");
+						carregaDados();
+						var message = document.getElementById("success-message-encerraAtendimento");
 						message.setAttribute("style", "display:block");
 						message.innerText = "Acompanhamento encerrado!";
-						$window.location.href = "/agenda";
+						setTimeout(function(){
+							message.setAttribute("style", "display:none");
+							message.innerText = "";
+						}, 5000);
 					}
 				});
 			}
