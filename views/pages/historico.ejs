@@ -1,0 +1,64 @@
+<% include partials/header.ejs %>
+<body id="main" ng-controller="pacientesController">
+  <div class="container" id="container-sidebar">
+    <div class="row">
+      <div class="wrapper">
+        <% include partials/sidebar.ejs %>
+
+        <div class="content" id="main-content">
+
+          <h1>Histórico médico</h1>
+          <div ng-if='usuarioLogado.history.length > 0'>
+
+                <div class="timeline-centered">
+                        <div ng-repeat="consulta in usuarioLogado.history">
+                            <article class="timeline-entry">
+                
+                            <div class="timeline-entry-inner">
+                
+                                <div class="timeline-icon bg-success">
+                                    <i class="entypo-feather"></i>
+                                </div>
+                                         
+                                <div class="timeline-label">
+                                        
+                                    <h2><strong>Sintomas:</strong> {{consulta.sintomas}}</h2>
+                                    <h2><strong>Prescrição: </strong> {{consulta.prescricao}}</h2>
+                                    <h5 style="color:#9e9e9e; font-weight:bold;"><span>Data: {{consulta.data | date: 'dd/MM/yyyy'}}</span></h5>
+                                </div>
+                            </div>
+                            </article>
+                        </div>     
+                </div>  
+        </div>
+        <div ng-if='usuarioLogado.history.length === 0'>
+                <div class="alert alert-info" role="alert">
+                    Você não possui registros em seu histórico médico
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+    <div id="sair" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                    <div class="modal-header">
+                    <h4 class="modal-title">Logout</h4>
+                    </div>
+                <div class="modal-body">
+                    <p>Você está prestes a sair do Medline.  Deseja realmente sair? </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-danger" href="/logout">Sair</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</head>
+</html>

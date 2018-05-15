@@ -189,7 +189,18 @@ app.get("/pacientes", isLoggedIn , function(req, res){
     console.log("sai")
     res.json(resp);
   })
-})
+});
+
+app.get("/historico", isLoggedIn , function(req, res){
+  if(req.user.category === 'p'){
+  
+     res.render("pages/historico.ejs",
+       {
+         "user": req.user,
+         "page": "/historico"
+       });
+ }
+});
 
 app.get("/agenda", isLoggedIn, function(req, res){
   doctorController.list(function(resp){

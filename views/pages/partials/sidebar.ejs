@@ -25,6 +25,11 @@
                         <a href="/pacientes" <% if(page === "/pacientes"){ %> class="active" <% } %>>Pacientes <span class="glyphicon glyphicon-user pull-right"></span></a>
                     </li>
                     <% } %>
+                    <% if(user.category === 'p'){ %>
+                        <li>
+                            <a href="/historico" <% if(page === "/historico"){ %> class="active" <% } %>>Histórico <span class="glyphicon glyphicon-book pull-right"></span></a>
+                        </li>
+                        <% } %>
                     <% if(user.category === 'c'){ %>
                     <li>
                         <a href="/medicos" <% if(page === "/medicos"){ %> class="active" <% } %>> Médicos <span class="glyphicon glyphicon-briefcase pull-right"></span></a>
