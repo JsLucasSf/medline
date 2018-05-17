@@ -329,6 +329,32 @@ medlineApp.controller('pacientesController', ['$scope', '$http', '$window', func
 		});
 	})();
 
+	$scope.cadastraPaciente = function(){
+
+		var username = document.getElementsByName("username")[0].value;
+		var fullname = document.getElementsByName("fullname")[0].value;
+		var age = document.getElementsByName("age")[0].value;
+		var password = document.getElementsByName("password")[0].value;
+		var telephone = document.getElementsByName("telephone")[0].value;
+
+		var postData = {"username": username, "fullname": fullname,
+		 								"age": age, "telephone": telephone, "password": password};
+
+		$http({
+			url: '/patient/new',
+			method: "POST",
+			data: postData
+    })
+    .then(function(response) {
+			if(response.data.message && response.data.message.name === "UserExistsError"){
+				var message =	document.getElementById("error-message-cadastroPaciente");
+				message.setAttribute("style", "display:block");
+				message.innerText = "Um paciente com o mesmo login já foi cadastrado";
+			}else{
+				$window.location.href = "/pacientes";
+			}
+    });
+	}
 	$scope.mostraHistorico = function(paciente){
 		console.log(paciente);
 	}

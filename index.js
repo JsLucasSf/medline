@@ -610,7 +610,7 @@ app.post("/patient/new", function(req, res){
 
   patientController.save(username, fullname, age, password, phone,
                         function(resp){
-                            if(!resp['error']){
+                            if(!resp['error'] && !req.user){
                               passport.authenticate("local")(req, res, function(){
                                 res.redirect("/home");
                               });

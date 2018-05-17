@@ -1,12 +1,12 @@
 <% include partials/header.ejs %>
 
-<body id="main" ng-app="medlineApp">
+<body id="main" ng-controller="pacientesController">
   <div class="container" id="container-sidebar">
     <div class="row">
       <div class="wrapper">
         <% include partials/sidebar.ejs %>
 
-        <div class="content" id="main-content" ng-controller="pacientesController">
+        <div class="content" id="main-content">
           <div>
             <h1>Pacientes</h1>
 
@@ -60,19 +60,19 @@
             </div>
 
           <div id="cadastrar" class="modal fade">
-  <div class="modal-dialog modal-login">
-  <div class="modal-content">
-  <div class="modal-header">
-  <div class="avatar-cadastro">
-    <img src="../images/default_user_avatar.png" id="modal-avatar">
-  </div><br>
-  <h4>Cadastro de Paciente</h4>
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-  </div>
-  <div class="modal-body">
-  <div id="clinic">
-        <form action="/clinic/patient/new" method="post"><br>
-                <div class="alert alert-danger" id="error-message-patient" style="display:none">
+          <div class="modal-dialog modal-login">
+          <div class="modal-content">
+          <div class="modal-header">
+          <div class="avatar-cadastro">
+            <img src="../images/default_user_avatar.png" id="modal-avatar">
+          </div><br>
+          <h4>Cadastro de Paciente</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body">
+          <div id="clinic">
+          <form ng-submit="cadastraPaciente()"><br>
+                <div class="alert alert-danger" id="error-message-cadastroPaciente" style="display:none">
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
