@@ -39,7 +39,10 @@
                       <a data-toggle="modal" data-target="#sair" href="#">Sair <span class="glyphicon glyphicon-log-out pull-right"></span></a>
                     </li>
                     <li style="position: absolute; bottom: 0;">
-                      <span class="navbar-text" style="font-size: large; text-align: center">
+                      <span ng-if="usuarioLogado.category === 'd'" class="navbar-text" style="font-size: large; text-align: center">
+                        Seja bem vindo, Dr. {{usuarioLogado.fullname}}!
+                      </span>
+                      <span ng-if="usuarioLogado.category !== 'd'" class="navbar-text" style="font-size: large; text-align: center">
                         Seja bem vindo, {{usuarioLogado.fullname}}!
                       </span>
                     </li>

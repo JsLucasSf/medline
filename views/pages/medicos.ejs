@@ -101,7 +101,9 @@
                             </div>
       <div class="modal-body">
                               <div id="medico">
-                                <form action="/doctor/new" method="post"><br>
+                                <form ng-submit="cadastraMedico()"><br>
+                                  <div class="alert alert-danger" id="error-message-cadastroMedico" style="display:none">
+                                  </div>
                                   <div class="form-group">
                                     <input type="text" class="form-control" name="fullname" placeholder="Nome" required="required" autofocus>
                                   </div>

@@ -395,6 +395,35 @@ medlineApp.controller('medicosController', ['$scope', '$http', '$window', functi
 		});
 	})();
 
+	$scope.cadastraMedico = function(){
+
+		var username = document.getElementsByName("username")[0].value;
+		var fullname = document.getElementsByName("fullname")[0].value;
+		var age = document.getElementsByName("age")[0].value;
+		var password = document.getElementsByName("password")[0].value;
+		var telephone = document.getElementsByName("cellphone")[0].value;
+		var crm = document.getElementsByName("crmNumber")[0].value;
+		var specialty = document.getElementsByName("specialty")[0].value;
+
+		var postData = {"username": username, "fullname": fullname,
+		 								"age": age, "cellphone": telephone, "password": password, "crmNumber":crm, "specialty":specialty};
+
+		$http({
+			url: '/doctor/new',
+			method: "POST",
+			data: postData
+    })
+    .then(function(response) {
+			if(response.data.message && response.data.message.name === "UserExistsError"){
+				var message =	document.getElementById("error-message-cadastroMedico");
+				message.setAttribute("style", "display:block");
+				message.innerText = "Um médico com o mesmo login já foi cadastrado";
+			}else{
+				$window.location.href = "/medicos";
+			}
+    });
+	}
+
 	$scope.notificacaoExiste = function(idMedico){
 		// TODO: No futuro, considerar tipo de notificação
 		console.log($scope.minhasNotificacoes);
