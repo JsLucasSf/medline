@@ -47,6 +47,18 @@
                   <div class="thumbnail">
                     <div class="caption">
                       <div ng-if="usuarioLogado.category === 'd'">
+                        <div ng-if="consulta.informacoes != null">
+                          <button class="btn btn-danger btn-xs pull-right", data-toggle="modal" data-target="#informacoes-consulta"
+                          data-toggle="tooltip" title="Informações fornecidas pelo paciente", data-id="{{ consulta.informacoes }}">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                          </button>
+                        </div>
+                        <div ng-if="consulta.informacoes == null">
+                          <button class="btn btn-danger btn-xs pull-right", disabled
+                          data-toggle="tooltip" title="Paciente ainda não forneceu informações">
+                            <span class="glyphicon glyphicon-info-sign"></span>
+                          </button>
+                        </div>
                         <div ng-if="consulta.prontuario == null">
                           <button class="btn btn-primary btn-xs pull-right", data-toggle="modal" data-target="#criar-prontuario"
                             data-toggle="tooltip" title="Criar prontuário", data-id="{{ {acompanhamento: acompanhamento._id, consulta: consulta._id} }}">
@@ -66,13 +78,18 @@
                             <button id="salva-prontuario-{{consulta._id}}" class="btn btn-primary btn-xs pull-right" ng-click="atualizaHistoricoPaciente(consulta)"
                             data-toggle="tooltip" title="Salvar resumo do prontuário no histórico do paciente">
                             <span class="glyphicon glyphicon-cloud-upload"></span>
+                          </button>
                           </div>
-                        </button>
                         </div>
-
+                      </div>
+                      <div ng-if="usuarioLogado.category === 'p' && consulta.informacoes == null">
+                        <button class="btn btn-danger btn-xs pull-right", data-toggle="modal" data-target="#inserir-informacoes"
+                        data-toggle="tooltip" title="Inserir Informações", data-id="{{ {acompanhamento: acompanhamento._id, consulta: consulta._id} }}">
+                          <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        </button>
                       </div>
 
-                        <h6>Data: {{consulta.data}}</h6>
+                        <h6>Data: {{consulta.data.slice(0,10)}}</h6>
                         <h6>Horário: {{consulta.hora}} </h6>
                     </div>
                   </div>
@@ -93,160 +110,223 @@
 
         <br>
 
+      </div>
 
-        <div id="cadastrar" class="modal fade">
-            <div class="modal-dialog modal-login">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <div class="avatar-cadastro">
-                        <img src="../images/agenda_avatar.png" id="modal-avatar">
-                                    </div><br>
-                                    <h4>Agendar Consulta</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  </div>
+      <div id="cadastrar" class="modal fade">
+          <div class="modal-dialog modal-login">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div class="avatar-cadastro">
+                      <img src="../images/agenda_avatar.png" id="modal-avatar">
+                                  </div><br>
+                                  <h4>Agendar Consulta</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
 <div class="modal-body">
-                      <div id="consulta">
-                        <form ng-submit="criarConsulta()" action="" method=""><br>
-                            <div class="alert alert-danger" id="mensagem-erro-acompanhamento" style="display:none"></div>
-                            <div class="panel panel-primary">
-                              <div class="panel-heading">Selecione um paciente</div>
-                              <select name="idPaciente" class="form-control" ng-model="selectedPatient" required="required">
-                                <% for(var i = 0; i < pacientes.length; i++){ %>
-                                 <option value="<%= pacientes[i]._id %>"><%= pacientes[i].fullname %></option>
-                                <% } %>
-                              </select>
-                            </div>
-                            <!--<input type="text" name="idClinica" value="<%= user._id %>" hidden=true>-->
+                    <div id="consulta">
+                      <form ng-submit="criarConsulta()" action="" method=""><br>
+                          <div class="alert alert-danger" id="mensagem-erro-acompanhamento" style="display:none"></div>
+                          <div class="panel panel-primary">
+                            <div class="panel-heading">Selecione um paciente</div>
+                            <select name="idPaciente" class="form-control" ng-model="selectedPatient" required="required">
+                              <% for(var i = 0; i < pacientes.length; i++){ %>
+                                <option value="<%= pacientes[i]._id %>"><%= pacientes[i].fullname %></option>
+                              <% } %>
+                            </select>
+                          </div>
+                          <!--<input type="text" name="idClinica" value="<%= user._id %>" hidden=true>-->
 
-                            <div class="panel panel-primary">
-                              <div class="panel-heading">Selecione um médico</div>
-                              <select name="idMedico" class="form-control" ng-model="selectedDoctor" required="required">
-                                <% for(var i = 0; i < medicos.length; i++){ %>
-                                  <option value="<%= medicos[i]._id %>"><%= medicos[i].fullname %></option>
-                                <% } %>
-                              </select>
-                            </div>
+                          <div class="panel panel-primary">
+                            <div class="panel-heading">Selecione um médico</div>
+                            <select name="idMedico" class="form-control" ng-model="selectedDoctor" required="required">
+                              <% for(var i = 0; i < medicos.length; i++){ %>
+                                <option value="<%= medicos[i]._id %>"><%= medicos[i].fullname %></option>
+                              <% } %>
+                            </select>
+                          </div>
 
-                              <input type="date" class="form-control" name="data" placeholder="Data" required="required" autofocus>
+                            <input type="date" class="form-control" name="data" placeholder="Data" required="required" autofocus>
 
-                            <br>
-                              <input type="text" class="form-control" name="hora" placeholder="Horário (hh:mm)" required="required" autofocus>
-                           <br>
+                          <br>
+                            <input type="text" class="form-control" name="hora" placeholder="Horário (hh:mm)" required="required" autofocus>
+                          <br>
 
 
-                              <button type="submit" class="btn btn-primary btn-lg btn-block">Agendar</button>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Agendar</button>
 
-                        </form>
+                      </form>
+                    </div>
+                    </div>
+                </div>
+                </div>
+      </div>
+      
+
+      <div id="prontuario" class="modal fade">
+        <div class="modal-dialog modal-login">
+        <div class="modal-content">
+        <div class="modal-header">
+        <div class="avatar-cadastro">
+          <img src="../images/prancheta_avatar.png" id="modal-avatar">
+        </div><br>
+        <h4>Cadastro de Prontuário</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+        <div id="clinic">
+              <form action="/clinic/patient/new" method="post"><br>
+                      <div class="alert alert-danger" id="error-message-patient" style="display:none">
                       </div>
+                      <div class="form-group">
+                          <input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
                       </div>
-                  </div>
-                  </div>
-              </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" name="fullname" placeholder="Nome completo" required="required" autofocus>
+                      </div>
+                      <div class="form-group">
+                          <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
+                      </div>
+                      <div class="form-group">
+                          <input type="number" class="form-control" name="age" placeholder="Idade" required="required" autofocus>
+                      </div>
+                      <div class="form-group">
+                          <input type="text" class="form-control" name="telephone" placeholder="Telefone" required="required" autofocus>
+                      </div>
 
-
+                      <div class="form-group">
+                          <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
+                      </div>
+                  </form>
           </div>
+        </div>
+        </div>
+        </div>
+      </div>
 
-
-          <div id="prontuario" class="modal fade">
+      <div id="criar-prontuario" class="modal fade">
             <div class="modal-dialog modal-login">
             <div class="modal-content">
             <div class="modal-header">
             <div class="avatar-cadastro">
               <img src="../images/prancheta_avatar.png" id="modal-avatar">
             </div><br>
-            <h4>Cadastro de Prontuário</h4>
+            <h4>Criar Prontuário</h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
+          <script>
+          $('#criar-prontuario').on('show.bs.modal', function(e) {
+            var idConsulta = e.relatedTarget.dataset.id;
+            $('#id-consulta').val(idConsulta);
+            // Do some stuff w/ it.
+          });
+          </script>
+
             <div class="modal-body">
-            <div id="clinic">
-                  <form action="/clinic/patient/new" method="post"><br>
-                          <div class="alert alert-danger" id="error-message-patient" style="display:none">
-                          </div>
-                          <div class="form-group">
-                              <input type="text" class="form-control" name="username" placeholder="Usuário" required="required" autofocus>
-                          </div>
-                          <div class="form-group">
-                            <input type="text" class="form-control" name="fullname" placeholder="Nome completo" required="required" autofocus>
-                          </div>
-                          <div class="form-group">
-                              <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
-                          </div>
-                          <div class="form-group">
-                              <input type="number" class="form-control" name="age" placeholder="Idade" required="required" autofocus>
-                          </div>
-                          <div class="form-group">
-                              <input type="text" class="form-control" name="telephone" placeholder="Telefone" required="required" autofocus>
-                          </div>
+            <div id="consulta">
+              <form ng-submit="criaProntuario()"><br>
+                  <input type="text" id="id-consulta" hidden="true">
 
-                          <div class="form-group">
-                              <button type="submit" class="btn btn-primary btn-lg btn-block">Cadastrar</button>
-                          </div>
-                      </form>
-              </div>
+                  <div class="alert alert-danger" id="error-message-medicalReport" style="display:none"></div>
+
+                  <div class="form-group">
+                    <input class="form-control" placeholder="Altura" type="number" step="0.01" name="altura" required>
+                  </div>
+
+                  <div class="form-group">
+                    <input class="form-control" placeholder="Peso" type="number" step="0.01" name="peso" required>
+                  </div>
+
+                  <div class="form-group">
+                    <textarea class="form-control" placeholder="Sintomas" name="sintomas" required></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <input class="form-control" placeholder="Diagnóstico" type="text" name="diagnostico" required>
+                  </div>
+
+                  <div class="form-group">
+                    <input class="form-control" placeholder="Medicamento Prescrito" type="text" name="prescricao">
+                  </div>
+
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Agendar</button>
+                  </div>
+              </form>
             </div>
             </div>
-            </div>
-            </div>
-
-
-
-
-            <div id="criar-prontuario" class="modal fade">
-              <div class="modal-dialog modal-login">
-              <div class="modal-content">
-              <div class="modal-header">
-              <div class="avatar-cadastro">
-                <img src="../images/prancheta_avatar.png" id="modal-avatar">
-              </div><br>
-              <h4>Criar de Prontuário</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              </div>
-            <script>
-            $('#criar-prontuario').on('show.bs.modal', function(e) {
-              var idConsulta = e.relatedTarget.dataset.id;
-              $('#id-consulta').val(idConsulta);
-              // Do some stuff w/ it.
-            });
-            </script>
-
-              <div class="modal-body">
-              <div id="consulta">
-                <form ng-submit="criaProntuario()"><br>
-                    <input type="text" id="id-consulta" hidden="true">
-
-                    <div class="alert alert-danger" id="error-message-medicalReport" style="display:none"></div>
-
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Altura" type="number" step="0.01" name="altura" required>
-                    </div>
-
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Peso" type="number" step="0.01" name="peso" required>
-                    </div>
-
-                    <div class="form-group">
-                      <textarea class="form-control" placeholder="Sintomas" name="sintomas" required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Diagnóstico" type="text" name="diagnostico" required>
-                    </div>
-
-                    <div class="form-group">
-                      <input class="form-control" placeholder="Medicamento Prescrito" type="text" name="prescricao">
-                    </div>
-
-                    <div class="form-group">
-                      <button type="submit" class="btn btn-primary btn-lg btn-block">Agendar</button>
-                    </div>
-                </form>
-              </div>
-              </div>
-          </div>
-          </div>
         </div>
+        </div>
+      </div>
 
+      <div id="inserir-informacoes" class="modal fade">
+        <div class="modal-dialog modal-login">
+        <div class="modal-content">
+        <div class="modal-header">
+        <div class="avatar-cadastro">
+          <img src="../images/prancheta_avatar.png" id="modal-avatar">
+        </div><br>
+        <h4>Informações para a consulta</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+      <script>
+      $('#inserir-informacoes').on('show.bs.modal', function(e) {
+        var idConsulta = e.relatedTarget.dataset.id;
+        $('#id-consulta-info').val(idConsulta);
+        // Do some stuff w/ it.
+      });
+      </script>
 
+        <div class="modal-body">
+        <div id="consulta">
+          <form ng-submit="insereInformacoesConsulta()"><br>
+              <input type="text" id="id-consulta-info" hidden="true">
+
+              <div class="alert alert-danger" id="error-message-medicalReport" style="display:none"></div>
+
+              <div class="form-group">
+                <label>Fornceça algumas informações que seriam úteis para o médico durante a consulta.</label>
+                <input class="form-control" placeholder="Ex: Sintomas, observações." type="text" name="informacoes">
+              </div>
+
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Enviar</button>
+              </div>
+          </form>
+        </div>
+        </div>
+    </div>
+    </div>
+  
+  
+  
+  
+      </div>
+
+      <div id="informacoes-consulta" class="modal fade">
+          <div class="modal-dialog modal-login">
+          <div class="modal-content">
+          <div class="modal-header">
+          <div class="avatar-cadastro">
+            <img src="../images/prancheta_avatar.png" id="modal-avatar">
+          </div><br>
+          <h4>Informações para a consulta</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+        <script>
+        $('#informacoes-consulta').on('show.bs.modal', function(e) {
+          var info = e.relatedTarget.dataset.id;
+          $('#consulta-info').text(info);
+          // Do some stuff w/ it.
+        });
+        </script>
+  
+        <div class="modal-body">
+            <ul class="list-group" id="consulta-info">
+            </ul>
+          </div>
+      </div>
+      </div>
+        </div>
       </div>
     </div>
 

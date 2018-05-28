@@ -272,6 +272,18 @@ app.get("/agenda", isLoggedIn, function(req, res){
   });
 });
 
+app.post("/consulta/info", isLoggedIn, function(req, res){
+  var acompanhamento = validator.trim(validator.escape(req.body.acompanhamento));
+  var consulta = validator.trim(validator.escape(req.body.consulta));
+  var informacoes = validator.trim(validator.escape(req.body.informacoes));
+
+  acompanhamentoController.adicionaInfo(acompanhamento, consulta, informacoes, function(resp){
+    console.log(resp);
+  });
+
+  res.send("");
+});
+
 app.post("/login", function(req, res, next) {
   passport.authenticate("local", function(err, user, info){
     if(err) {

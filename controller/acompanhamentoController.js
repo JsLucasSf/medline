@@ -142,3 +142,25 @@ exports.atualizaHistorico = function(idConsulta, resumoProntuario, callback){
       })
   });
 }
+
+exports.adicionaInfo = function(idAcompanhamento, idConsulta, informacoes, callback){
+  db.Acompanhamento.findOne(
+    {"consultas._id": idConsulta},
+    function(erro, acompanhamento){
+      acompanhamento.consultas
+        .filter(function(consulta){return consulta._id == idConsulta})
+        .map(function(consulta){consulta.informacoes = informacoes});
+
+      acompanhamento.save(function(erro, acompanhamentoAtt){
+        if(erro){
+          console.log("acompanhamentoAtt")
+
+          return callback({'erro': erro,
+                    'mensagem': "Não foi possível inserir informações"})
+        }else{
+          console.log("Salvou!");
+          return callback(acompanhamentoAtt);
+        }
+      })
+  });
+}

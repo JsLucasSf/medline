@@ -56,6 +56,7 @@ var acompanhamentoSchema = mongoose.Schema({
 	"consultas": [{
 		"data": Date,
 		"hora": String,
+		"informacoes": String,
 		"prontuarioSalvo": Boolean,
 		"prontuario": {
 			"altura": Number,

@@ -125,6 +125,23 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 		});
 	}
 
+	$scope.insereInformacoesConsulta = function(){
+		var dadosConsulta = JSON.parse(document.getElementById("id-consulta-info").value);
+		var informacoes = document.getElementsByName('informacoes')[0].value;
+		dadosConsulta.informacoes = informacoes;
+		
+		console.log(dadosConsulta);
+
+		$http({
+			'url': '/consulta/info',
+			'method': "POST",
+			'data': dadosConsulta
+		})
+		.then(function(response){
+			//
+		});
+	}
+
 	$scope.encerraAtendimento = function(acompanhamento){
 		if(confirm("Deseja realmente encerrar o atendimento?")){
 			var consultasFechadas = acompanhamento.consultas
