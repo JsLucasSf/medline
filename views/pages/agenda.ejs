@@ -83,7 +83,7 @@
                         </div>
                       </div>
                       <div ng-if="usuarioLogado.category === 'p' && consulta.informacoes == null">
-                        <button class="btn btn-danger btn-xs pull-right", data-toggle="modal" data-target="#inserir-informacoes"
+                        <button name="inserir-informacoes-{{consulta._id}}" class="btn btn-danger btn-xs pull-right", data-toggle="modal" data-target="#inserir-informacoes"
                         data-toggle="tooltip" title="Inserir Informações", data-id="{{ {acompanhamento: acompanhamento._id, consulta: consulta._id} }}">
                           <span class="glyphicon glyphicon-exclamation-sign"></span>
                         </button>

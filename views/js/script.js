@@ -129,8 +129,6 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 		var dadosConsulta = JSON.parse(document.getElementById("id-consulta-info").value);
 		var informacoes = document.getElementsByName('informacoes')[0].value;
 		dadosConsulta.informacoes = informacoes;
-		
-		console.log(dadosConsulta);
 
 		$http({
 			'url': '/consulta/info',
@@ -138,7 +136,9 @@ medlineApp.controller('agendaController', ['$scope', '$http', '$window', functio
 			'data': dadosConsulta
 		})
 		.then(function(response){
-			//
+			if(!response.data.erro){
+				$window.location.href = "/agenda";
+			}
 		});
 	}
 
