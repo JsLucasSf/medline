@@ -181,7 +181,7 @@ Aqui somente o CSS criado e editado exclusivamente para o Medline, indepedente d
 .side-bar
 {
     background:#2E3E4E;
-    position:absolute;
+    position:fixed;
     top:0px;
     height:100%;
     width:250px;
