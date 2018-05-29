@@ -7,11 +7,14 @@
                 <li>
                  <hr>
                 </li>
-                <li>
+                <li ng-controller="notificacoesController">
                     <a href="/notificacoes" <% if(page === "/notificacoes"){ %> class="active" <% } %>>
                        Notificações <span class="glyphicon glyphicon-globe pull-right"></span>
+                       <% if(user.notificacoes !== null){ %><span class="badge badge-notify" style="background:orange">{{notificacoes.length}}</span><% } %>
                      </a>
+                 
                 </li>
+
                 <li>
                   <hr>
                 </li>

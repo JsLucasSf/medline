@@ -702,3 +702,13 @@ img {
                         -ms-filter: alpha(opacity=60);
                         filter: alpha(opacity=60);
                     }
+
+/*--------------- Notificações -----------*/
+
+.badge-notify{
+    background:orange;
+    position:relative;
+    float: right;
+    top: -8px;
+    right: -30px;
+    }                   
