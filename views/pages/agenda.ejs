@@ -47,6 +47,7 @@
               <div ng-if="usuarioLogado.category !== 'p'">
                   <h2>Paciente: {{acompanhamento.nomePaciente}}</h2>
                   Consultas
+                  <div class="col-xs-6 col-sm-4 col-lg-3">
                   <div ng-repeat="consulta in acompanhamento.consultas">
                     <div class="thumbnail">
                       <div class="caption">
@@ -97,6 +98,7 @@
                           <h6>Horário: {{consulta.hora}} </h6>
                       </div>
                     </div>
+                  </div>
                   </div>
                 </div>
           </div>
