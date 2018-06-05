@@ -7,7 +7,6 @@
       <% include partials/sidebar.ejs %>
 
       <div class="content" id="main-content">
-
         <h1>Acompanhamentos</h1>
 
         <div class="alert alert-info" id="success-message-encerraAtendimento" style="display:none">
@@ -27,6 +26,85 @@
           </div>
         </div>
 <br>
+
+
+
+<div class="content">
+    <div ng-repeat="acompanhamento in acompanhamentos | filter: searchPatientName">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default" id="panel-default-collapse">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse" + {{acompanhamento.nomeMedico}}>
+                  <div ng-if="usuarioLogado.category !== 'd'">
+                    {{acompanhamento.nomeMedico}}
+                  </div>
+            </a>
+          </h4>
+        </div>
+        <div id="collapse" + {{acompanhamento.nomeMedico}} class="panel-collapse collapse in">
+          <div class="panel-body">
+              <div ng-if="usuarioLogado.category !== 'p'">
+                  <h2>Paciente: {{acompanhamento.nomePaciente}}</h2>
+                  Consultas
+                  <div ng-repeat="consulta in acompanhamento.consultas">
+                    <div class="thumbnail">
+                      <div class="caption">
+                        <div ng-if="usuarioLogado.category === 'd'">
+                          <div ng-if="consulta.informacoes != null">
+                            <button class="btn btn-danger btn-xs pull-right", data-toggle="modal" data-target="#informacoes-consulta"
+                            data-toggle="tooltip" title="Informações fornecidas pelo paciente", data-id="{{ consulta.informacoes }}">
+                              <span class="glyphicon glyphicon-info-sign"></span>
+                            </button>
+                          </div>
+                          <div ng-if="consulta.informacoes == null">
+                            <button class="btn btn-danger btn-xs pull-right", disabled
+                            data-toggle="tooltip" title="Paciente ainda não forneceu informações">
+                              <span class="glyphicon glyphicon-info-sign"></span>
+                            </button>
+                          </div>
+                          <div ng-if="consulta.prontuario == null">
+                            <button class="btn btn-primary btn-xs pull-right", data-toggle="modal" data-target="#criar-prontuario"
+                              data-toggle="tooltip" title="Criar prontuário", data-id="{{ {acompanhamento: acompanhamento._id, consulta: consulta._id} }}">
+                              <span class="glyphicon glyphicon-list"></span>
+                            </button>
+                            <button class="btn btn-primary btn-xs pull-right" disabled
+                            data-toggle="tooltip" title="Salvar resumo do prontuário no histórico do paciente">
+                            <span class="glyphicon glyphicon-cloud-upload"></span>
+                          </button>
+                          </div>
+                          <div ng-if="consulta.prontuario">
+                            <button class="btn btn-success btn-xs pull-right",
+                              data-toggle="tooltip" title="Prontuário criado" disabled>
+                              <span class="glyphicon glyphicon-ok"></span>
+                            </button>
+                            <div ng-if="consulta.prontuarioSalvo != true">
+                              <button id="salva-prontuario-{{consulta._id}}" class="btn btn-primary btn-xs pull-right" ng-click="atualizaHistoricoPaciente(consulta)"
+                              data-toggle="tooltip" title="Salvar resumo do prontuário no histórico do paciente">
+                              <span class="glyphicon glyphicon-cloud-upload"></span>
+                            </button>
+                            </div>
+                          </div>
+                        </div>
+                        <div ng-if="usuarioLogado.category === 'p' && consulta.informacoes == null">
+                          <button name="inserir-informacoes-{{consulta._id}}" class="btn btn-danger btn-xs pull-right", data-toggle="modal" data-target="#inserir-informacoes"
+                          data-toggle="tooltip" title="Inserir Informações", data-id="{{ {acompanhamento: acompanhamento._id, consulta: consulta._id} }}">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                          </button>
+                        </div>
+  
+                          <h6>Data: {{consulta.data.slice(0,10)}}</h6>
+                          <h6>Horário: {{consulta.hora}} </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
         <div ng-repeat="acompanhamento in acompanhamentos | filter: searchPatientName">
           <div class="col-xs-6 col-sm-4 col-lg-3">
 
@@ -42,7 +120,7 @@
                 </div>
               </div>
               <div class="panel-body" style="height:350px; overflow: auto">
-                <h1>Consultas</h1>
+                Consultas
                 <div ng-repeat="consulta in acompanhamento.consultas">
                   <div class="thumbnail">
                     <div class="caption">
