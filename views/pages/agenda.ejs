@@ -35,7 +35,7 @@
       <div class="panel panel-default" id="panel-default-collapse">
         <div class="panel-heading">
           <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse@{{acompanhamento.nomeMedico}}">
+            <a data-toggle="collapse" data-parent="#accordion">
                   <div ng-if="usuarioLogado.category !== 'd'">
                    Dr(a) {{acompanhamento.nomeMedico}}
                   </div>
@@ -46,7 +46,8 @@
           <div class="panel-body">
               <div ng-if="usuarioLogado.category !== 'p'">
                   <h2>Paciente: {{acompanhamento.nomePaciente}}</h2>
-                  <div class="col-xs-6 col-sm-4 col-lg-3" style="float:left;">
+                  <div style="display: inline-block;">
+                  <div class="col-xs-6 col-sm-4 col-lg-3">
                   <div ng-repeat="consulta in acompanhamento.consultas">
                     <div class="thumbnail">
                       <div class="caption">
@@ -97,6 +98,7 @@
                           <h6>Horário: {{consulta.hora}} </h6>
                       </div>
                     </div>
+                  </div>
                   </div>
                   </div>
                 </div>
